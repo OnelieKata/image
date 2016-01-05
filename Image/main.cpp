@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //test pull3
+    //test pull1
     QPushButton bouton("Salut les Zéros, la forme ?");
     bouton.show();
 
