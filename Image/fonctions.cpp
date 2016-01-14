@@ -7,10 +7,10 @@ using namespace std;
 
 QImage decoupage(QImage const& image,QPoint const& debut, QPoint const& fin)
 {
-    int debx(debut.x());
-    int finx(fin.x());
-    int deby(debut.y());
-    int finy(fin.y());
+    int debx(debut.x()<fin.x()?debut.x():fin.x());
+    int finx(debut.x()>fin.x()?debut.x():fin.x());
+    int deby(debut.y()<fin.y()?debut.y():fin.y());
+    int finy(debut.y()>fin.y()?debut.y():fin.y());
     int width=finx-debx+1;
     int height=finy-deby+1;
     QImage im(width,height,image.format());
