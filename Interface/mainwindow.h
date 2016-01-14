@@ -7,6 +7,7 @@
 #include <QAction>
 #include <iostream>
 #include <QDockWidget>
+#include <QList>
 
 namespace Ui{
     class QMainWindow;
@@ -18,12 +19,13 @@ class MainWindow  : public QMainWindow
 
     public:
         MainWindow();
+        QImage imageActive();
 
     protected:
         void closeEvent(QCloseEvent *e);
 
     private:
-        std::list<SousFenetre*>* listeSousFenetre;
+        QList<SousFenetre*>* listeSousFenetre;
 
         QMdiArea *zoneCentrale;
         QDockWidget *dockLeft;
@@ -34,6 +36,7 @@ class MainWindow  : public QMainWindow
         QAction *actionNouveauFichier;
         QAction *actionOuvrir;
         QAction *actionQuitter;
+        QAction *actionEnregistrer;
    /***********************************/
         QMenu *menuEdition;
 
@@ -54,6 +57,7 @@ class MainWindow  : public QMainWindow
         void slotAfficherPaletteOutils();
         void slotAfficherVoletInformations();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
+        void slotEnregistrer();
 };
 
 #endif // MAINWINDOW_H

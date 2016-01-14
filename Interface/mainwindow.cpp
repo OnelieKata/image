@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow()
 {
-    listeSousFenetre = new std::list<SousFenetre*>;
+    listeSousFenetre = new QList<SousFenetre*>;
 
     this->setWindowTitle("Titre");
     setMinimumSize(1200,800);
@@ -32,6 +32,11 @@ MainWindow::MainWindow()
     menuFichier->addAction(actionOuvrir);
     actionOuvrir->setShortcut(QKeySequence("Ctrl+O"));
     connect(actionOuvrir, SIGNAL(triggered()),this,SLOT(slotOuvrirImage()));
+
+    actionEnregistrer = new QAction("&Enregistrer",this);
+    menuFichier->addAction(actionEnregistrer);
+    actionEnregistrer->setShortcut(QKeySequence("Ctrl+S"));
+    connect(actionEnregistrer, SIGNAL(triggered()),this,SLOT(slotEnregistrer()));
 
     actionQuitter = new QAction("&Quitter",this);
     menuFichier->addAction(actionQuitter);
@@ -93,12 +98,10 @@ void MainWindow::slotOuvrirImage()
         myLabel->setPixmap(QPixmap::fromImage(myImage));
         sousFenetre->ajouterImage(myImage);
 
-       // sousFenetre->getsubWindow()->setWidget(myLabel);
         sousFenetre->setWidget(myLabel);
-        //zoneCentrale->addSubWindow(sousFenetre->getsubWindow());
         zoneCentrale->addSubWindow(sousFenetre);
-     //   sousFenetre->getsubWindow()->show();
         sousFenetre->show();
+
         std::cout<<"Taille :"<< listeSousFenetre->size() << std::endl;
     }
 }
@@ -136,5 +139,25 @@ void MainWindow::closeEvent(QCloseEvent *e){
 
 
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
-    listeSousFenetre->remove(sousFenetre);
+    listeSousFenetre->removeOne(sousFenetre);
+}
+
+QImage MainWindow::imageActive(){
+    QImage img ;
+    SousFenetre* sfActive = listeSousFenetre->first();
+    QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
+
+    for(unsigned int i=0;i<listeSousFenetre->size();i++){
+        if(listeSousFenetre->at(i)==swActive){
+            sfActive = listeSousFenetre->at(i);
+           // QMessageBox::information(this,"test","");
+           // std::cout<<"sous fenetre ouverte est :"<<i<<std::endl;
+        }
+    }
+    return sfActive->getlisteImage()->back();
+}
+
+void MainWindow::slotEnregistrer(){
+    QImage image = imageActive();
+    image.save("/home/tiretfa/Bureau/test1.png");
 }
