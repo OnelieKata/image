@@ -2,15 +2,19 @@
 #include <iostream>
 #include <string>
 #include <QRgb>
+#include <cmath>
+#include "Filtre.h"
+#include <QPainter>
+
 
 using namespace std;
 
 QImage decoupage(QImage const& image,QPoint const& debut, QPoint const& fin)
 {
-    int debx(debut.x());
-    int finx(fin.x());
-    int deby(debut.y());
-    int finy(fin.y());
+    int debx(debut.x()<fin.x()?debut.x():fin.x());
+    int finx(debut.x()>fin.x()?debut.x():fin.x());
+    int deby(debut.y()<fin.y()?debut.y():fin.y());
+    int finy(debut.y()>fin.y()?debut.y():fin.y());
     int width=finx-debx+1;
     int height=finy-deby+1;
     QImage im(width,height,image.format());
@@ -139,6 +143,7 @@ QImage redimentionner2(QImage const& image, int largeur2,int hauteur2)
     return im;
 }
 
+
 QImage convolution(QImage const& image, Filtre filtre)
 {
     int largeur = image.width();
@@ -146,16 +151,24 @@ QImage convolution(QImage const& image, Filtre filtre)
     QImage im(largeur,hauteur,image.format());
     int n = filtre.taille();
     float rouge,vert,bleu;
-    for(int x=n;x<largeur-n;x++){
-        for(int y=n;y<hauteur-n;y++){
+    for(int x=0;x<largeur;x++){
+        for(int y=0;y<hauteur;y++){
             rouge=0;
             vert=0;
             bleu=0;
             for(int i=-n;i<=n;i++){
                 for(int j=-n;j<=n;j++){
-                    rouge+= filtre(i,j)*qRed(image.pixel(x+i,y+i));
-                    vert+= filtre(i,j)*qGreen(image.pixel(x+i,y+i));
-                    bleu+= filtre(i,j)*qBlue(image.pixel(x+i,y+i));
+                    int xr = x+i;
+                    int yr = y+j;
+                    if (xr<0)  xr = 0;
+                    if (xr>=largeur) xr = largeur-1;
+                    if (yr<0)  yr = 0;
+                    if (yr>=hauteur) yr = hauteur-1;
+
+
+                    rouge+= filtre(i,j)*qRed(image.pixel(xr,yr));
+                    vert+= filtre(i,j)*qGreen(image.pixel(xr,yr));
+                    bleu+= filtre(i,j)*qBlue(image.pixel(xr,yr));
                 }
             }
             rouge = rouge<0 ? 0 : ( rouge>255 ? 255 : rouge);
@@ -164,36 +177,63 @@ QImage convolution(QImage const& image, Filtre filtre)
             im.setPixel(x,y,qRgb(rouge,vert,bleu));
         }
     }
-
-    //recuperation du contour
-    for (int i= 0 ;i<largeur;i++)
-    {
-        if(i<n || i>=(largeur-n))
-        {
-            for (int j= 0 ;j<hauteur;j++)
-            {
-                im.setPixel(i,j,image.pixel(i,j));
-            }
-        }
-        else
-        {
-            int j=0;
-            while( j<hauteur){
-                im.setPixel(i,j,image.pixel(i,j));
-                if(j==n-1){
-                    j=hauteur-n;
-                }
-                else{
-                    j++;
-                }
-            }
-        }
-    }
-
-
     return im;
 
 }
+
+QImage max(QImage &I1, QImage &I2)
+{
+        int L = I1.width();
+        int H = I1.height();
+        QImage Ires(L,H,I1.format());
+        for (int i=0; i<L; i++)
+        {
+            for (int j=0; j<H; j++)
+            {
+                int gris = I1.pixel(i,j)<I2.pixel(i,j) ? qRed(I2.pixel(i,j)) : qRed(I1.pixel(i,j)) ;
+                Ires.setPixel(i,j, qRgb(gris,gris,gris));
+            }
+        }
+        return Ires;
+}
+
+QImage sobel(QImage const& image)
+{
+    Filtre filtre1(1,Filtre::Sobel1);
+    Filtre filtre2(1,Filtre::Sobel2);
+    QImage gris = niveauDeGris(image);
+    QImage im1=convolution(gris,filtre1);
+    QImage im2=convolution(gris,filtre2);
+    QImage im3=max(im1,im2);
+    return im2;
+
+}
+
+QImage prewitt(QImage const& image)
+{
+    Filtre filtre1(1,Filtre::Prewitt1);
+    Filtre filtre2(1,Filtre::Prewitt2);
+    QImage gris = niveauDeGris(image);
+    QImage im1=convolution(gris,filtre1);
+    QImage im2=convolution(gris,filtre2);
+    QImage im3=max(im1,im2);
+    return im2;
+
+}
+
+QImage fusionBasic(QImage const& arrierePlan,QImage const& image)
+{
+    QImage im(arrierePlan);
+    QPainter painter(&im);
+    painter.setOpacity(0.8);
+    painter.drawImage(0,0,image);
+    painter.end();
+    return im;
+
+}
+
+
+
 
 
 
