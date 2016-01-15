@@ -12,6 +12,10 @@ QRgb pixelRVBaGris(QRgb const& pixel);
 QImage redimentionner1(QImage const& image, int largeur,int hauteur);
 QImage redimentionner2(QImage const& image, int largeur,int hauteur);
 QImage convolution(QImage const& image, Filtre filtre);
+QImage max(QImage &I1, QImage &I2);
+QImage sobel(QImage const& image);
+QImage prewitt(QImage const& image);
+QImage fusionBasic(QImage const& arrierePlan,QImage const& image);
 
 
 

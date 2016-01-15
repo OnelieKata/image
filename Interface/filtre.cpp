@@ -49,6 +49,135 @@ void Filtre::filtre_gaussien()
     }
 }
 
+// creer un filtre sobel etape1 de taille 1
+void Filtre::filtre_sobel1()
+{
+/*    float tab[] =
+        {  1,0,-1,
+           2,0,-2,
+           1,0,-1};*/
+
+    float tab[] =
+        {  1./4.,0,-1./4.,
+           2./4.,0,-2./4.,
+           1./4.,0,-1./4.};
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+// creer un filtre sobel etape2 de taille 1
+void Filtre::filtre_sobel2()
+{
+/*    float tab[] =
+        {  1,2,1,
+           0,0,0,
+           -1,-2,-1};*/
+    float tab[] =
+        {  1./4.,2./4.,1./4.,
+           0,0,0,
+           -1./4.,-2./4.,-1./4.};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+
+void Filtre::filre_augmenterContrast(){
+    float tab[] =
+        {  0,-1,0,
+           -1,5,-1,
+           0,-1,0};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+void Filtre::filtre_renforcementDesBords(){
+    float tab[] =
+        {  0,0,0,
+           -1,1,0,
+           0,0,0};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+void Filtre::filtre_laplacien(){
+    float tab[] =
+        {  0,1,0,
+           1,-4,1,
+           0,1,0};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+void Filtre::filtre_repoussage(){
+    float tab[] =
+        {  -2,-1,0,
+           -1,1,1,
+           0,1,2};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+void Filtre::filtre_prewitt1()
+{
+    float tab[] =
+        {  1,0,-1,
+           1,0,-1,
+           1,0,-1};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+void Filtre::filtre_prewitt2()
+{
+    float tab[] =
+        {  1,1,1,
+           0,0,0,
+           -1,-1,-1};
+
+    n = 1;
+    int surface = (2*n+1)*(2*n+1);
+    T = new float[9];
+    for(int i=0;i<surface;i++){
+        T[i]=tab[i];
+    }
+}
+
+
+
 
 // crée un filtre de taille 0
 Filtre::Filtre()
@@ -70,6 +199,14 @@ Filtre::Filtre(int n0, int type_filtre)
         case Moyenne  : filtre_moyenne();  break;
         case Chapeau  : filtre_chapeau();  break;
         case Gaussien : filtre_gaussien(); break;
+        case Sobel1 : filtre_sobel1(); break;
+        case Sobel2 : filtre_sobel2(); break;
+        case AugmenterContrast : filre_augmenterContrast(); break;
+        case RenforcementDesBords : filtre_renforcementDesBords(); break;
+        case Laplacien : filtre_laplacien(); break;
+        case Repoussage : filtre_repoussage(); break;
+        case Prewitt1 : filtre_prewitt1(); break;
+        case Prewitt2 : filtre_prewitt2(); break;
         default       : filtre_moyenne();  break;
     }
 }
