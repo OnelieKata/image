@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <sousfenetre.h>
+#include <filtre.h>
+#include <fonctions.h>
+#include <histo.h>
 #include <QtWidgets>
 #include <QMenu>
 #include <QAction>
@@ -58,6 +61,7 @@ class MainWindow  : public QMainWindow
         void slotAfficherVoletInformations();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
         void slotEnregistrer();
+        void slotNiveauDeGris();
 };
 
 #endif // MAINWINDOW_H

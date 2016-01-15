@@ -18,6 +18,25 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea,dockRight);
     dockRight->setMinimumWidth(200);
 
+    QWidget *contenuPalette=new QWidget;
+    dockLeft->setWidget(contenuPalette);
+    QPushButton *bouton = new QPushButton("Niveau de gris");
+    QPushButton *bouton2 = new QPushButton("Autre bouton");
+    QVBoxLayout *dockLeftLayout= new QVBoxLayout;
+    dockLeftLayout->addWidget(bouton);
+    dockLeftLayout->addWidget(bouton2);
+    contenuPalette->setLayout(dockLeftLayout);
+    connect(bouton,SIGNAL(clicked()),qApp,SLOT(slotNiveauDeGris()));
+    /*dockLeft->setLayout();
+    dockLeft->setWidget(bouton);
+    dockLeft->setWidget(bouton2);
+    /*
+    QHBoxLayout *layout=new QHBoxLayout;
+    layout->addWidget(bouton);
+    layout->addWidget(bouton2);
+    dockLeft->setLayout(layout);
+
+*/
     /*******************************************************************************************************
     *******************************************************************************************************/
 
@@ -147,7 +166,7 @@ QImage MainWindow::imageActive(){
     SousFenetre* sfActive = listeSousFenetre->first();
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
 
-    for(unsigned int i=0;i<listeSousFenetre->size();i++){
+    for(int i=0;i<listeSousFenetre->size();i++){
         if(listeSousFenetre->at(i)==swActive){
             sfActive = listeSousFenetre->at(i);
            // QMessageBox::information(this,"test","");
@@ -157,7 +176,26 @@ QImage MainWindow::imageActive(){
     return sfActive->getlisteImage()->back();
 }
 
+/*SousFenetre MainWindow::sousFenetreActive(){
+    SousFenetre* sfActive = listeSousFenetre->first();
+    QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
+
+    for(int i=0;i<listeSousFenetre->size();i++){
+        if(listeSousFenetre->at(i)==swActive){
+            sfActive = listeSousFenetre->at(i);
+            break;
+        }
+    }
+}*/
+
 void MainWindow::slotEnregistrer(){
     QImage image = imageActive();
     image.save("/home/tiretfa/Bureau/test1.png");
+
+
+}
+
+void MainWindow::slotNiveauDeGris(){
+    QImage image=fonctions::niveauDeGris(imageActive());
+    zoneCentrale->currentSubWindow()->
 }
