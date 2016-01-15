@@ -36,7 +36,7 @@ class MainWindow  : public QMainWindow
         QAction *actionNouveauFichier;
         QAction *actionOuvrir;
         QAction *actionQuitter;
-        QAction *actionEnregistrer;
+        QAction *actionEnregistrerSous;
    /***********************************/
         QMenu *menuEdition;
 
@@ -57,7 +57,7 @@ class MainWindow  : public QMainWindow
         void slotAfficherPaletteOutils();
         void slotAfficherVoletInformations();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
-        void slotEnregistrer();
+        void slotEnregistrerSous();
 };
 
 #endif // MAINWINDOW_H

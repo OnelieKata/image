@@ -33,10 +33,10 @@ MainWindow::MainWindow()
     actionOuvrir->setShortcut(QKeySequence("Ctrl+O"));
     connect(actionOuvrir, SIGNAL(triggered()),this,SLOT(slotOuvrirImage()));
 
-    actionEnregistrer = new QAction("&Enregistrer",this);
-    menuFichier->addAction(actionEnregistrer);
-    actionEnregistrer->setShortcut(QKeySequence("Ctrl+S"));
-    connect(actionEnregistrer, SIGNAL(triggered()),this,SLOT(slotEnregistrer()));
+    actionEnregistrerSous = new QAction("&Enregistrer sous",this);
+    menuFichier->addAction(actionEnregistrerSous);
+    actionEnregistrerSous->setShortcut(QKeySequence("Ctrl+S"));
+    connect(actionEnregistrerSous, SIGNAL(triggered()),this,SLOT(slotEnregistrerSous()));
 
     actionQuitter = new QAction("&Quitter",this);
     menuFichier->addAction(actionQuitter);
@@ -146,18 +146,23 @@ QImage MainWindow::imageActive(){
     QImage img ;
     SousFenetre* sfActive = listeSousFenetre->first();
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
-
+    if(swActive==NULL){
+        return img;
+    }
     for(unsigned int i=0;i<listeSousFenetre->size();i++){
         if(listeSousFenetre->at(i)==swActive){
             sfActive = listeSousFenetre->at(i);
-           // QMessageBox::information(this,"test","");
-           // std::cout<<"sous fenetre ouverte est :"<<i<<std::endl;
         }
     }
     return sfActive->getlisteImage()->back();
 }
 
-void MainWindow::slotEnregistrer(){
+void MainWindow::slotEnregistrerSous(){
     QImage image = imageActive();
-    image.save("/home/tiretfa/Bureau/test1.png");
+    QString fichier = QFileDialog::getSaveFileName(this, "EnregistrerSous un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    //QMessageBox::information(this,"test",fichier);
+    if(!image.isNull()){
+        image.save(fichier);
+    }
+
 }
