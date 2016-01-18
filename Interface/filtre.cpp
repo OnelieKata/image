@@ -1,4 +1,4 @@
-#include "Filtre.h"
+#include "filtre.h"
 #include <iostream>
 #include <string>
 

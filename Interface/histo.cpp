@@ -1,4 +1,4 @@
-#include "Histo.h"
+#include "histo.h"
 
 using namespace std;
 

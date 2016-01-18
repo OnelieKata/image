@@ -16,5 +16,3 @@ HEADERS += \
     filtre.h \
     fonctions.h \
     histo.h
-
-
