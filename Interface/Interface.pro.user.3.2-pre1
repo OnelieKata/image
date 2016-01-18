@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD:Interface/Interface.pro.user
 <!-- Written by QtCreator 3.0.1, 2016-01-18T12:32:23. -->
+=======
+<!-- Written by QtCreator 3.0.1, 2016-01-14T15:10:31. -->
+>>>>>>> 2a94b37e4aca37983fbe08808d60dc46bb406498:Interface/Interface.pro.user.3.2-pre1
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>

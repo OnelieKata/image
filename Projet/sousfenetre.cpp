@@ -36,20 +36,3 @@ void SousFenetre::chargerImage(){
     this->setWidget(myLabel);
 }
 
-void SousFenetre::annulerAction(){
-    if(indiceImageActive>0){
-        indiceImageActive--;
-        chargerImage();
-    }else{
-        QMessageBox::critical(this,"pb","pb");
-    }
-}
-
-void SousFenetre::retablirAction(){
-    if(indiceImageActive<listeImage->size()-1){
-        indiceImageActive++;
-        chargerImage();
-    }else{
-        QMessageBox::critical(this,"pb","pb");
-    }
-}

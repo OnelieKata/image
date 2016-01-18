@@ -1,9 +1,9 @@
-#include "fonctions.h"
+#include "Fonctions.h"
 #include <iostream>
 #include <string>
 #include <QRgb>
 #include <cmath>
-#include "filtre.h"
+#include "Filtre.h"
 #include <QPainter>
 
 

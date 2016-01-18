@@ -3,7 +3,7 @@
 #include <QImage>
 #include <QPoint>
 #include <cmath>
-#include "filtre.h"
+#include "Filtre.h"
 
 class Fonctions {
 

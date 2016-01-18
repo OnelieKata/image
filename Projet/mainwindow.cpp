@@ -31,7 +31,7 @@ MainWindow::MainWindow()
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
     dockLeft->setWidget(bouton2);
-
+    /*
     QHBoxLayout *layout=new QHBoxLayout;
     layout->addWidget(bouton);
     layout->addWidget(bouton2);
@@ -67,16 +67,6 @@ MainWindow::MainWindow()
     *******************************************************************************************************/
 
     menuEdition =menuBar()->addMenu("&Edition");
-
-    actionAnnuler = new QAction("&Annuler",this);
-    menuEdition->addAction(actionAnnuler);
-    actionAnnuler->setShortcut(QKeySequence("Ctrl+Z"));
-    connect(actionAnnuler, SIGNAL(triggered()),this,SLOT(slotAnnuler()));
-
-    actionRetablir = new QAction("&Retablir",this);
-    menuEdition->addAction(actionRetablir);
-    actionRetablir->setShortcut(QKeySequence("Ctrl+Y"));
-    connect(actionRetablir, SIGNAL(triggered()),this,SLOT(slotRetablir()));
 
     /*******************************************************************************************************
     *******************************************************************************************************/
@@ -118,7 +108,7 @@ void MainWindow::slotOuvrirImage()
 {
     QImage myImage;
 
-    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString("/home/tiretfa/Images"), "Images (*.png *.gif *.jpg *.jpeg)");
+    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
     if(!fichier.isEmpty()){
         myImage.load(fichier);
         SousFenetre *sousFenetre= new SousFenetre;
@@ -173,7 +163,6 @@ void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
 }
 
-
 QImage MainWindow::imageActive(){
     QImage img ;
     SousFenetre* sfActive = new SousFenetre;
@@ -181,7 +170,7 @@ QImage MainWindow::imageActive(){
     if(swActive==NULL){
         return img;
     }
-    for(int i=0;i<listeSousFenetre->size();i++){
+    for(unsigned int i=0;i<listeSousFenetre->size();i++){
         if(listeSousFenetre->at(i)==swActive){
             sfActive = listeSousFenetre->at(i);
             break;
@@ -211,17 +200,6 @@ SousFenetre* MainWindow::sousFenetreActive(){
     }
 }
 
-void MainWindow::slotAnnuler(){
-    SousFenetre* sfActive = sousFenetreActive();
-    sfActive->annulerAction();
-    sfActive->show();
-}
-
-void MainWindow::slotRetablir(){
-    SousFenetre* sfActive = sousFenetreActive();
-    sfActive->retablirAction();
-    sfActive->show();
-}
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
