@@ -9,7 +9,7 @@
 
 using namespace std;
 
-QImage decoupage(QImage const& image,QPoint const& debut, QPoint const& fin)
+QImage Fonctions::decoupage(QImage const& image,QPoint const& debut, QPoint const& fin)
 {
     int debx(debut.x()<fin.x()?debut.x():fin.x());
     int finx(debut.x()>fin.x()?debut.x():fin.x());
@@ -30,7 +30,7 @@ QImage decoupage(QImage const& image,QPoint const& debut, QPoint const& fin)
 }
 
 
-QImage negative(QImage const& image)
+QImage Fonctions::negative(QImage const& image)
 {
     int height=image.height();
     int width=image.width();
@@ -47,7 +47,7 @@ QImage negative(QImage const& image)
     return im;
 }
 
-QImage niveauDeGris(QImage const& image){
+QImage Fonctions::niveauDeGris(QImage const& image){
     int height=image.height();
     int width=image.width();
     QImage im(width,height,image.format());
@@ -56,14 +56,14 @@ QImage niveauDeGris(QImage const& image){
     {
         for(int i=0;i<width;i++)
         {
-            im.setPixel(i,j, pixelRVBaGris(image.pixel(i,j)) );
+            im.setPixel(i,j, Fonctions::pixelRVBaGris(image.pixel(i,j)) );
         }
 
     }
     return im;
 }
 
-QRgb pixelRVBaGris(QRgb const& pixel){
+QRgb Fonctions::pixelRVBaGris(QRgb const& pixel){
     int rouge(qRed(pixel));
     int vert(qGreen(pixel));
     int bleu(qBlue(pixel));
@@ -79,7 +79,7 @@ QRgb pixelRVBaGris(QRgb const& pixel){
     return qRgb(gris,gris,gris);
 }
 
-QImage redimentionner1(QImage const& image, int largeur2,int hauteur2)
+QImage Fonctions::redimensionner1(QImage const& image, int largeur2,int hauteur2)
 {
     int hauteur1=image.height();
     int largeur1=image.width();
@@ -100,7 +100,7 @@ QImage redimentionner1(QImage const& image, int largeur2,int hauteur2)
     return im;
 }
 
-QImage redimentionner2(QImage const& image, int largeur2,int hauteur2)
+QImage Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur2)
 {
     int hauteur1=image.height();
     int largeur1=image.width();
@@ -144,7 +144,7 @@ QImage redimentionner2(QImage const& image, int largeur2,int hauteur2)
 }
 
 
-QImage convolution(QImage const& image, Filtre filtre)
+QImage Fonctions::convolution(QImage const& image, Filtre filtre)
 {
     int largeur = image.width();
     int hauteur = image.height();
@@ -181,7 +181,7 @@ QImage convolution(QImage const& image, Filtre filtre)
 
 }
 
-QImage max(QImage &I1, QImage &I2)
+QImage Fonctions::max(QImage &I1, QImage &I2)
 {
         int L = I1.width();
         int H = I1.height();
@@ -197,7 +197,7 @@ QImage max(QImage &I1, QImage &I2)
         return Ires;
 }
 
-QImage sobel(QImage const& image)
+QImage Fonctions::sobel(QImage const& image)
 {
     Filtre filtre1(1,Filtre::Sobel1);
     Filtre filtre2(1,Filtre::Sobel2);
@@ -209,7 +209,7 @@ QImage sobel(QImage const& image)
 
 }
 
-QImage prewitt(QImage const& image)
+QImage Fonctions::prewitt(QImage const& image)
 {
     Filtre filtre1(1,Filtre::Prewitt1);
     Filtre filtre2(1,Filtre::Prewitt2);
@@ -221,7 +221,7 @@ QImage prewitt(QImage const& image)
 
 }
 
-QImage fusionBasic(QImage const& arrierePlan,QImage const& image)
+QImage Fonctions::fusionBasic(QImage const& arrierePlan,QImage const& image)
 {
     QImage im(arrierePlan);
     QPainter painter(&im);
@@ -232,7 +232,7 @@ QImage fusionBasic(QImage const& arrierePlan,QImage const& image)
 
 }
 
-bool estEnNiveauDeGris(QImage const& image)
+bool Fonctions::estEnNiveauDeGris(QImage const& image)
 {
     int largeur = image.width();
     int hauteur = image.height();
@@ -248,7 +248,7 @@ bool estEnNiveauDeGris(QImage const& image)
     return true;
 }
 
-QImage normalisation(QImage const& image,Histo histo)
+QImage Fonctions::normalisation(QImage const& image,Histo histo)
 {
     int largeur = image.width();
     int hauteur = image.height();
@@ -275,7 +275,7 @@ QImage normalisation(QImage const& image,Histo histo)
 
 
 
-QImage afficheHistogramme(Histo histo)
+QImage Fonctions::afficheHistogramme(Histo histo)
 {
     int largeur(256);
     int hauteur(200);
@@ -317,7 +317,7 @@ QImage afficheHistogramme(Histo histo)
 
 
 
-QImage egalisation(QImage const& image,Histo histo)
+QImage Fonctions::egalisation(QImage const& image,Histo histo)
 {
     int largeur = image.width();
     int hauteur = image.height();

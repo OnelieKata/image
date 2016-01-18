@@ -6,6 +6,10 @@
 #include "filtre.h"
 #include "histo.h"
 
+
+class Fonctions {
+public:
+
 static QImage decoupage(QImage const& image,QPoint const& debut, QPoint const& fin);
 static QImage negative(QImage const& image);
 static QImage niveauDeGris(QImage const& image);
@@ -22,6 +26,6 @@ static QImage normalisation(QImage const& image,Histo histo);
 static QImage afficheHistogramme(Histo histo);
 static QImage egalisation(QImage const& image,Histo histo);
 
-
+};
 
 #endif // FONCTIONS_H
