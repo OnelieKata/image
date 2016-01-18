@@ -12,10 +12,12 @@ std::vector<QImage>* SousFenetre::getlisteImage(){
 
 void SousFenetre::ajouterImage(QImage image){
     if(indiceImageActive<listeImage->size()-1){
-        listeImage->erase(listeImage->begin()+indiceImageActive+1,listeImage->end());
-    }else{
-        listeImage->push_back(image);
+        std::cout<<"indice de l'image active : "<<indiceImageActive<<std::endl<<"indice de fin : "<<listeImage->size()<<std::endl;
+        for(int i=indiceImageActive;i<listeImage->size()-1;i++){
+            listeImage->pop_back();
+        }
     }
+    listeImage->push_back(image);
     ++indiceImageActive;
 
 }

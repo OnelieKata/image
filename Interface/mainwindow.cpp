@@ -204,10 +204,11 @@ SousFenetre* MainWindow::sousFenetreActive(){
 
  void MainWindow::slotEnregistrerSous(){
     QImage image = imageActive();
-    QString fichier = QFileDialog::getSaveFileName(this, "EnregistrerSous un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-    //QMessageBox::information(this,"test",fichier);
+    QString fichier = QFileDialog::getSaveFileName(this, "EnregistrerSous un fichier", QString("/home/tiretfa/Images/sans_titre.png"), "Images (*.png *.gif *.jpg *.jpeg)");
     if(!image.isNull()){
         image.save(fichier);
+    }else{
+        QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
     }
 }
 
@@ -240,8 +241,4 @@ void MainWindow::slotRetablir(){
      sfActive->show();
  }
 
- void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event){
-     if(event->button() == Qt::LeftButton){
-         QMessageBox::critical(this,"ma bite","pb");
-     }
- }
+
