@@ -20,6 +20,7 @@ class MainWindow  : public QMainWindow
     public:
         MainWindow();
         QImage imageActive();
+        SousFenetre* fenetreActive();
 
     protected:
         void closeEvent(QCloseEvent *e);
@@ -40,6 +41,8 @@ class MainWindow  : public QMainWindow
    /***********************************/
         QMenu *menuEdition;
 
+        QAction *actionAnnuler;
+        QAction *actionRetablir;
 
    /***********************************/
         QMenu *menuAffichage;
@@ -58,6 +61,10 @@ class MainWindow  : public QMainWindow
         void slotAfficherVoletInformations();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
         void slotEnregistrerSous();
+        void slotAnnuler();
+        void slotRetablir();
+
+
 };
 
 #endif // MAINWINDOW_H

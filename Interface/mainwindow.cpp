@@ -48,6 +48,16 @@ MainWindow::MainWindow()
 
     menuEdition =menuBar()->addMenu("&Edition");
 
+    actionAnnuler = new QAction("&Annuler",this);
+    menuEdition->addAction(actionAnnuler);
+    actionAnnuler->setShortcut(QKeySequence("Ctrl+Z"));
+    connect(actionAnnuler, SIGNAL(triggered()),this,SLOT(slotAnnuler()));
+
+    actionRetablir = new QAction("&Retablir",this);
+    menuEdition->addAction(actionRetablir);
+    actionRetablir->setShortcut(QKeySequence("Ctrl+Y"));
+    connect(actionRetablir, SIGNAL(triggered()),this,SLOT(slotRetablir()));
+
     /*******************************************************************************************************
     *******************************************************************************************************/
 
@@ -86,7 +96,6 @@ MainWindow::MainWindow()
 
 void MainWindow::slotOuvrirImage()
 {
-    QLabel* myLabel = new QLabel;
     QImage myImage;
 
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
@@ -95,11 +104,13 @@ void MainWindow::slotOuvrirImage()
         SousFenetre *sousFenetre= new SousFenetre;
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
         listeSousFenetre->push_back(sousFenetre);
-        myLabel->setPixmap(QPixmap::fromImage(myImage));
-        sousFenetre->ajouterImage(myImage);
 
-        sousFenetre->setWidget(myLabel);
+        sousFenetre->ajouterImage(myImage);
+        sousFenetre->chargerImage();
+
+
         zoneCentrale->addSubWindow(sousFenetre);
+
         sousFenetre->show();
 
         std::cout<<"Taille :"<< listeSousFenetre->size() << std::endl;
@@ -142,16 +153,34 @@ void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
 }
 
+SousFenetre* MainWindow::fenetreActive(){
+    QImage img ;
+    SousFenetre* sfActive = new SousFenetre;
+    QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
+    if(swActive==NULL){
+        return sfActive;
+    }
+    for(int i=0;i<listeSousFenetre->size();i++){
+        if(listeSousFenetre->at(i)==swActive){
+            sfActive = listeSousFenetre->at(i);
+            break;
+        }
+    }
+    return sfActive;
+}
+
+
 QImage MainWindow::imageActive(){
     QImage img ;
-    SousFenetre* sfActive = listeSousFenetre->first();
+    SousFenetre* sfActive = new SousFenetre;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
     if(swActive==NULL){
         return img;
     }
-    for(unsigned int i=0;i<listeSousFenetre->size();i++){
+    for(int i=0;i<listeSousFenetre->size();i++){
         if(listeSousFenetre->at(i)==swActive){
             sfActive = listeSousFenetre->at(i);
+            break;
         }
     }
     return sfActive->getlisteImage()->back();
@@ -165,4 +194,16 @@ void MainWindow::slotEnregistrerSous(){
         image.save(fichier);
     }
 
+}
+
+void MainWindow::slotAnnuler(){
+    SousFenetre* sfActive = fenetreActive();
+    sfActive->annulerAction();
+    sfActive->show();
+}
+
+void MainWindow::slotRetablir(){
+    SousFenetre* sfActive = fenetreActive();
+    sfActive->retablirAction();
+    sfActive->show();
 }
