@@ -14,6 +14,10 @@ class SousFenetre : public QMdiSubWindow
        // QMdiSubWindow* getsubWindow();
         std::vector<QImage>* getlisteImage();
         void ajouterImage(QImage image);
+        QImage imageActive();
+        void chargerImage();
+        void annulerAction();
+        void retablirAction();
 
     protected:
         void closeEvent(QCloseEvent *event);
@@ -21,6 +25,7 @@ class SousFenetre : public QMdiSubWindow
     private:
       //  QMdiSubWindow *subWindow;
         std::vector<QImage> *listeImage;
+        int indiceImageActive;
 
     signals :
         void signalFermetureSousFenetre(SousFenetre *sousFenetre);

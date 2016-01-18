@@ -3,6 +3,7 @@
 SousFenetre::SousFenetre()
 {
     listeImage = new std::vector<QImage>;
+    indiceImageActive = -1;
 }
 
 std::vector<QImage>* SousFenetre::getlisteImage(){
@@ -10,7 +11,13 @@ std::vector<QImage>* SousFenetre::getlisteImage(){
 }
 
 void SousFenetre::ajouterImage(QImage image){
-    listeImage->push_back(image);
+    if(indiceImageActive<listeImage->size()-1){
+        listeImage->erase(listeImage->begin()+indiceImageActive+1,listeImage->end());
+    }else{
+        listeImage->push_back(image);
+    }
+    ++indiceImageActive;
+
 }
 
 void SousFenetre::closeEvent(QCloseEvent *event){
@@ -18,3 +25,32 @@ void SousFenetre::closeEvent(QCloseEvent *event){
     emit signalFermetureSousFenetre(this);
     event->accept();
 }
+
+QImage SousFenetre::imageActive(){
+    return listeImage->at(indiceImageActive);
+}
+
+void SousFenetre::chargerImage(){
+    QLabel* myLabel = new QLabel;
+    myLabel->setPixmap(QPixmap::fromImage(listeImage->at(indiceImageActive)));
+    this->setWidget(myLabel);
+}
+
+void SousFenetre::annulerAction(){
+    if(indiceImageActive>0){
+        indiceImageActive--;
+        chargerImage();
+    }else{
+        QMessageBox::critical(this,"pb","pb");
+    }
+}
+
+void SousFenetre::retablirAction(){
+    if(indiceImageActive<listeImage->size()){
+        indiceImageActive++;
+        chargerImage();
+    }else{
+        QMessageBox::critical(this,"pb","pb");
+    }
+}
+
