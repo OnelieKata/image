@@ -68,7 +68,5 @@ void SousFenetre::mouseMoveEvent(QMouseEvent *event){
 }
 
 void SousFenetre::mouseReleaseEvent(QMouseEvent *event){
-    if(event->button() == Qt::LeftButton){
-        QMessageBox::information(this,"ma bite","pb");
-    }
+    rubberBand->hide();
 }
