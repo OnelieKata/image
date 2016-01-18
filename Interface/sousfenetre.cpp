@@ -53,3 +53,22 @@ void SousFenetre::retablirAction(){
         QMessageBox::critical(this,"pb","pb");
     }
 }
+
+void SousFenetre::mousePressEvent(QMouseEvent *event){
+    origin=event->pos();
+    if(event->button() == Qt::LeftButton){
+        rubberBand = new QRubberBand(QRubberBand::Rectangle,this);
+        rubberBand->setGeometry(QRect(origin,QSize()));
+        rubberBand->show();
+    }
+}
+
+void SousFenetre::mouseMoveEvent(QMouseEvent *event){
+    rubberBand->setGeometry(QRect(origin,event->pos()).normalized());
+}
+
+void SousFenetre::mouseReleaseEvent(QMouseEvent *event){
+    if(event->button() == Qt::LeftButton){
+        QMessageBox::information(this,"ma bite","pb");
+    }
+}

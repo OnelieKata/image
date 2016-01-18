@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <iostream>
+#include <QRubberBand>
 
 class SousFenetre : public QMdiSubWindow
 {
@@ -11,7 +12,6 @@ class SousFenetre : public QMdiSubWindow
 
     public:
         SousFenetre();
-       // QMdiSubWindow* getsubWindow();
         std::vector<QImage>* getlisteImage();
         void ajouterImage(QImage image);
         QImage imageActive();
@@ -21,11 +21,15 @@ class SousFenetre : public QMdiSubWindow
 
     protected:
         void closeEvent(QCloseEvent *event);
+        void mousePressEvent(QMouseEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event);
 
     private:
-      //  QMdiSubWindow *subWindow;
         std::vector<QImage> *listeImage;
         int indiceImageActive;
+        QRubberBand *rubberBand;
+        QPoint origin;
 
     signals :
         void signalFermetureSousFenetre(SousFenetre *sousFenetre);

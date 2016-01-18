@@ -27,6 +27,7 @@ class MainWindow  : public QMainWindow
 
     protected:
         void closeEvent(QCloseEvent *e);
+        void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     private:
         QList<SousFenetre*>* listeSousFenetre;

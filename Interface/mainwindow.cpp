@@ -3,7 +3,7 @@
 MainWindow::MainWindow()
 {
     listeSousFenetre = new QList<SousFenetre*>;
-
+    setMouseTracking(true);
     this->setWindowTitle("Titre");
     setMinimumSize(1200,800);
 
@@ -238,4 +238,10 @@ void MainWindow::slotRetablir(){
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
+ }
+
+ void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event){
+     if(event->button() == Qt::LeftButton){
+         QMessageBox::critical(this,"ma bite","pb");
+     }
  }
