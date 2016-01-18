@@ -16,6 +16,8 @@ class SousFenetre : public QMdiSubWindow
         void ajouterImage(QImage image);
         QImage imageActive();
         void chargerImage();
+        void annulerAction();
+        void retablirAction();
 
     protected:
         void closeEvent(QCloseEvent *event);

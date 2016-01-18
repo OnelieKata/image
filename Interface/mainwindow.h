@@ -44,6 +44,8 @@ class MainWindow  : public QMainWindow
    /***********************************/
         QMenu *menuEdition;
 
+        QAction *actionAnnuler;
+        QAction *actionRetablir;
 
    /***********************************/
         QMenu *menuAffichage;
@@ -62,6 +64,11 @@ class MainWindow  : public QMainWindow
         void slotAfficherVoletInformations();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
         void slotEnregistrerSous();
+        void slotAnnuler();
+        void slotRetablir();
+
+
+
         void slotNiveauDeGris();
         void slotFlouter();
 };
