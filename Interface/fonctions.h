@@ -24,6 +24,9 @@ static QImage fusionBasic(QImage const& arrierePlan,QImage const& image);
 static bool estEnNiveauDeGris(QImage const& image);
 static QImage normalisation(QImage const& image,Histo histo);
 static QImage afficheHistogramme(Histo histo);
+static QImage afficheHistogramme(Histo histo,int numComposante);
+static QImage afficheHistogrammeCumulee(Histo histo);
+static QImage afficheHistogrammeCumulee(Histo histo,int numComposanteCumulee);
 static QImage egalisation(QImage const& image,Histo histo);
 
 };
