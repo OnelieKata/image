@@ -12,7 +12,6 @@ std::vector<QImage>* SousFenetre::getlisteImage(){
 
 void SousFenetre::ajouterImage(QImage image){
     if(indiceImageActive<listeImage->size()-1){
-        std::cout<<"indice de l'image active : "<<indiceImageActive<<std::endl<<"indice de fin : "<<listeImage->size()<<std::endl;
         for(int i=indiceImageActive;i<listeImage->size()-1;i++){
             listeImage->pop_back();
         }
@@ -57,11 +56,14 @@ void SousFenetre::retablirAction(){
 }
 
 void SousFenetre::mousePressEvent(QMouseEvent *event){
-    origin=event->pos();
-    if(event->button() == Qt::LeftButton){
-        rubberBand = new QRubberBand(QRubberBand::Rectangle,this);
-        rubberBand->setGeometry(QRect(origin,QSize()));
-        rubberBand->show();
+    QLabel* monLabel = this->findChild<QLabel*>();
+    if(monLabel->underMouse()){
+        origin=event->pos();
+        if(event->button() == Qt::LeftButton){
+            rubberBand = new QRubberBand(QRubberBand::Rectangle,this);
+            rubberBand->setGeometry(QRect(origin,QSize()));
+            rubberBand->show();
+        }
     }
 }
 
