@@ -15,7 +15,7 @@ static QImage negative(QImage const& image);
 static QImage niveauDeGris(QImage const& image);
 static QRgb pixelRVBaGris(QRgb const& pixel);
 static QImage redimensionner1(QImage const& image, int largeur,int hauteur);
-static QImage redimensionner2(QImage const& image, int largeur,int hauteur);
+static QImage* redimensionner2(QImage const &image, int largeur, int hauteur);
 static QImage convolution(QImage const& image, Filtre filtre);
 static QImage max(QImage &I1, QImage &I2);
 static int min(int a, int b);

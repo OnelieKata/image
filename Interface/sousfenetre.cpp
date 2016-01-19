@@ -4,13 +4,18 @@ SousFenetre::SousFenetre()
 {
     listeImage = new std::vector<QImage>;
     indiceImageActive = -1;
+    connect(myLabel,SIGNAL(signalRedimensionnement(QImage*)),this,SLOT(slotRedimensionnementImage()));
 }
 
 std::vector<QImage>* SousFenetre::getlisteImage(){
     return listeImage;
 }
 
-void SousFenetre::ajouterImage(QImage image){
+Label* SousFenetre::getLabel(){
+    return myLabel;
+}
+
+void SousFenetre::ajouterImage(QImage *image){
     if(indiceImageActive<listeImage->size()-1){
         std::cout<<"indice de l'image active : "<<indiceImageActive<<std::endl<<"indice de fin : "<<listeImage->size()<<std::endl;
         for(int i=indiceImageActive;i<listeImage->size()-1;i++){
@@ -23,7 +28,6 @@ void SousFenetre::ajouterImage(QImage image){
 }
 
 void SousFenetre::closeEvent(QCloseEvent *event){
-    std::cout<<"Sous fenetre ferme";
     emit signalFermetureSousFenetre(this);
     event->accept();
 }
@@ -33,7 +37,7 @@ QImage SousFenetre::imageActive(){
 }
 
 void SousFenetre::chargerImage(){
-    Label* myLabel = new Label;
+    myLabel = new Label;
     myLabel->setPixmap(QPixmap::fromImage(listeImage->at(indiceImageActive)));
     this->setWidget(myLabel);
 }
@@ -55,3 +59,12 @@ void SousFenetre::retablirAction(){
         QMessageBox::critical(this,"pb","pb");
     }
 }
+
+void SousFenetre::slotRedimensionnementImage(QImage *image){
+    ajouterImage(image);
+    chargerImage();
+}
+
+/*void SousFenetre::resizeEvent(QResizeEvent *event){
+    this->getLabel()->setScaledContents(true);
+}*/

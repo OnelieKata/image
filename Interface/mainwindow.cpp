@@ -22,12 +22,15 @@ MainWindow::MainWindow()
     dockLeft->setWidget(contenuPalette);
     QPushButton *bouton = new QPushButton("Niveau de gris");
     QPushButton *bouton2 = new QPushButton("Flouter");
+    QPushButton *bouton3 = new QPushButton("Crop");
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
     dockLeftLayout->addWidget(bouton2);
+    dockLeftLayout->addWidget(bouton3);
     contenuPalette->setLayout(dockLeftLayout);
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
     connect(bouton2,SIGNAL(clicked()),this,SLOT(slotFlouter()));
+    connect(bouton3,SIGNAL(clicked()),this,SLOT(slotCrop()));
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
     dockLeft->setWidget(bouton2);
@@ -237,4 +240,19 @@ void MainWindow::slotRetablir(){
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
+ }
+
+ void MainWindow::slotCrop(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage image = Fonctions::decoupage(sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
+     SousFenetre *sousFenetre= new SousFenetre;
+     connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+     listeSousFenetre->push_back(sousFenetre);
+     sousFenetre->ajouterImage(image);
+     sousFenetre->chargerImage();
+
+
+     zoneCentrale->addSubWindow(sousFenetre);
+
+     sousFenetre->show();
  }

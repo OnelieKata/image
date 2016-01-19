@@ -100,11 +100,11 @@ QImage Fonctions::redimensionner1(QImage const& image, int largeur2,int hauteur2
     return im;
 }
 
-QImage Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur2)
+QImage* Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur2)
 {
     int hauteur1=image.height();
     int largeur1=image.width();
-    QImage im(largeur2,hauteur2,image.format());
+    QImage* im=new QImage(largeur2,hauteur2,image.format());
     int xe,ye;
     float xf,yf,x1,y1;
     int rouge,vert,bleu;
@@ -127,19 +127,20 @@ QImage Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur2
                     rouge = rouge<0 ? 0 : ( rouge>255 ? 255 : rouge);
                     vert = vert<0 ? 0 : ( vert>255 ? 255 : vert);
                     bleu = bleu<0 ? 0 : ( bleu>255 ? 255 : bleu);
-                    im.setPixel(x2,y2,   qRgb(rouge,vert,bleu) );
+                    im->setPixel(x2,y2,   qRgb(rouge,vert,bleu) );
 
             }
     }
 
     for (int i= 0 ;i<largeur2-1;i++)
     {
-        im.setPixel(i,hauteur2-1,im.pixel(i,hauteur2-2));
+        im->setPixel(i,hauteur2-1,im->pixel(i,hauteur2-2));
     }
     for (int j= 0 ;j<hauteur2;j++)
     {
-        im.setPixel(largeur2-1,j,im.pixel(largeur2-2,j));
+        im->setPixel(largeur2-1,j,im->pixel(largeur2-2,j));
     }
+    std::cout<<"Redimensionnement";
     return im;
 }
 

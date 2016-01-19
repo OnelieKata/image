@@ -11,6 +11,7 @@
 #include <iostream>
 #include <QDockWidget>
 #include <QList>
+#include <label.h>
 
 namespace Ui{
     class QMainWindow;
@@ -71,6 +72,7 @@ class MainWindow  : public QMainWindow
 
         void slotNiveauDeGris();
         void slotFlouter();
+        void slotCrop();
 };
 
 #endif // MAINWINDOW_H
