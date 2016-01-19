@@ -32,7 +32,7 @@ QImage SousFenetre::imageActive(){
 }
 
 void SousFenetre::chargerImage(){
-    QLabel* myLabel = new QLabel;
+    Label* myLabel = new Label;
     myLabel->setPixmap(QPixmap::fromImage(listeImage->at(indiceImageActive)));
     this->setWidget(myLabel);
 }
@@ -53,24 +53,4 @@ void SousFenetre::retablirAction(){
     }else{
         QMessageBox::critical(this,"pb","pb");
     }
-}
-
-void SousFenetre::mousePressEvent(QMouseEvent *event){
-    QLabel* monLabel = this->findChild<QLabel*>();
-    if(monLabel->underMouse()){
-        origin=event->pos();
-        if(event->button() == Qt::LeftButton){
-            rubberBand = new QRubberBand(QRubberBand::Rectangle,this);
-            rubberBand->setGeometry(QRect(origin,QSize()));
-            rubberBand->show();
-        }
-    }
-}
-
-void SousFenetre::mouseMoveEvent(QMouseEvent *event){
-    rubberBand->setGeometry(QRect(origin,event->pos()).normalized());
-}
-
-void SousFenetre::mouseReleaseEvent(QMouseEvent *event){
-    rubberBand->hide();
 }

@@ -31,12 +31,10 @@ MainWindow::MainWindow()
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
     dockLeft->setWidget(bouton2);
-
     QHBoxLayout *layout=new QHBoxLayout;
     layout->addWidget(bouton);
     layout->addWidget(bouton2);
     dockLeft->setLayout(layout);
-
 */
     /*******************************************************************************************************
     *******************************************************************************************************/
@@ -240,5 +238,3 @@ void MainWindow::slotRetablir(){
      sfActive->chargerImage();
      sfActive->show();
  }
-
-
