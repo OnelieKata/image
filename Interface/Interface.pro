@@ -4,17 +4,18 @@ QT +=widgets
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    sousfenetre.cpp \
     filtre.cpp \
     fonctions.cpp \
     histo.cpp \
-    label.cpp
+    label.cpp \
+    mainwindow.cpp \
+    sousfenetre.cpp
 
 HEADERS += \
     mainwindow.h \
-    sousfenetre.h \
     filtre.h \
     fonctions.h \
     histo.h \
-    label.h
+    label.h \
+    mainwindow.h \
+    sousfenetre.h
