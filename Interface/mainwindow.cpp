@@ -240,8 +240,8 @@ void MainWindow::slotRetablir(){
      sfActive->show();
  }
 
- void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event){
+ void MainWindow::mousePressEvent(QMouseEvent *event){
      if(event->button() == Qt::LeftButton){
-         QMessageBox::critical(this,"ma bite","pb");
+         QMessageBox::critical(this,"test","pb");
      }
  }

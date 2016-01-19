@@ -8,11 +8,13 @@ SOURCES += \
     sousfenetre.cpp \
     filtre.cpp \
     fonctions.cpp \
-    histo.cpp
+    histo.cpp \
+    label.cpp
 
 HEADERS += \
     mainwindow.h \
     sousfenetre.h \
     filtre.h \
     fonctions.h \
-    histo.h
+    histo.h \
+    label.h
