@@ -197,6 +197,18 @@ QImage Fonctions::max(QImage &I1, QImage &I2)
         return Ires;
 }
 
+
+int Fonctions::min(int a, int b)
+{
+    return a<b?a:b;
+}
+
+int Fonctions::min(int a, int b, int c)
+{
+    return min(min(a,b),c);
+}
+
+
 QImage Fonctions::sobel(QImage const& image)
 {
     Filtre filtre1(1,Filtre::Sobel1);
@@ -456,9 +468,138 @@ QImage Fonctions::egalisation(QImage const& image,Histo histo)
 }
 
 
+QImage Fonctions::gradientH(QImage const& image)
+{
+    QRgb left, right;
+       int largeur = image.width();
+       int hauteur = image.height();
+       QImage im(largeur,hauteur,image.format());
+        int gris;
+       for (int x = 0; x < largeur; x++) {
+          for (int y = 0; y < hauteur; y++) {
+             left = x == 0 ? image.pixel(x,y) : image.pixel(x-1,y);
+             right = x == largeur-1 ? image.pixel(x,y) : image.pixel(x+1,y);
+            gris = sqrt( pow(qRed(left) - qRed(right),2) + pow(qGreen(left) - qGreen(right),2) +pow(qBlue(left) - qBlue(right),2)  );
+             im.setPixel(x,y,qRgb(gris,gris,gris) );
+          }
+       }
+       return im;
+}
 
+QImage Fonctions::gradientV(QImage const& image)
+{
+    QRgb left, right;
+       int largeur = image.width();
+       int hauteur = image.height();
+       QImage im(largeur,hauteur,image.format());
+        int gris;
+       for (int x = 0; x < largeur; x++) {
+          for (int y = 0; y < hauteur; y++) {
+             left = y == 0 ? image.pixel(x,y) : image.pixel(x,y-1);
+             right = y == hauteur-1 ? image.pixel(x,y) : image.pixel(x,y+1);
+            gris = sqrt( pow(qRed(left) - qRed(right),2) + pow(qGreen(left) - qGreen(right),2) +pow(qBlue(left) - qBlue(right),2)  );
+             im.setPixel(x,y,qRgb(gris,gris,gris) );
+          }
+       }
+       return im;
+}
 
+QImage Fonctions::gradient(QImage const& image)
+{
+    QImage gradientH=Fonctions::gradientH(image);
+    QImage gradientV=Fonctions::gradientV(image);
 
+    int largeur = image.width();
+    int hauteur = image.height();
+    QImage im(largeur,hauteur,image.format());
+    int somme;
+    for (int x = 0; x < largeur; x++) {
+        for (int y = 0; y < hauteur; y++) {
+            somme = qRed(gradientH.pixel(x,y)) + qRed(gradientV.pixel(x,y));
+            somme = somme>255 ? 255 : somme;
+            im.setPixel(x,y,qRgb(somme,somme,somme) );
+        }
+    }
+    return im;
+}
+
+QImage Fonctions::seamCarvingV(QImage const& image)
+{
+    int largeur = image.width();
+    int hauteur = image.height();
+    QImage gradient=Fonctions::gradient(image);
+    QImage im((largeur-1),hauteur,image.format());
+    // source : http://jeremykun.com/2013/03/04/seam-carving-for-content-aware-image-scaling/
+    int seamCarving[largeur][hauteur];
+    for (int i = 0; i < largeur; i++) {
+        seamCarving[i][0] = gradient.pixel(i,0);
+    }
+
+    for (int y = 1; y < hauteur; y++) {
+        for (int x = 0; x < largeur; x++) {
+            seamCarving[x][y] = gradient.pixel(x,y);
+
+            if (x == 0) {
+                seamCarving[x][y] += min(seamCarving[x][y-1] , seamCarving[x+1][y-1]);
+            } else if (x == largeur-1) {
+                seamCarving[x][y] += min(seamCarving[x][y-1], seamCarving[x-1][y-1]);
+            } else {
+                seamCarving[x][y] += min(seamCarving[x-1][y-1],seamCarving[x][y-1],seamCarving[x+1][y-1]);
+            }
+        }
+    }
+    //fin source
+
+    //recuperation du min
+    int cheminMin(seamCarving[0][hauteur-1]);
+    for (int i = 0; i < largeur; i++) {
+        if(cheminMin>seamCarving[i][hauteur-1]){
+            cheminMin=seamCarving[i][hauteur-1];
+        }
+    }
+    //colorier en rouge le chemin
+    int x=0;
+    while(cheminMin != seamCarving[x][hauteur-1]){x++;}
+    gradient.setPixel(x,hauteur-1,qRgb(255,0,0));
+    int minimum;
+    for (int y = hauteur-2; y >=0; y--) {
+        if (x == 0) {
+            minimum = min(seamCarving[x][y] , seamCarving[x+1][y]);
+            if( minimum == seamCarving[x+1][y]){
+                x++;
+            }
+        } else if (x == largeur-1) {
+             minimum = min(seamCarving[x][y], seamCarving[x-1][y]);
+             if( minimum == seamCarving[x-1][y]){
+                 x--;
+             }
+        } else {
+             minimum = min(seamCarving[x-1][y],seamCarving[x][y],seamCarving[x+1][y]);
+             if( minimum == seamCarving[x+1][y]){
+                 x++;
+             }else if( minimum == seamCarving[x-1][y]){
+                 x--;
+             }
+        }
+        gradient.setPixel(x,y,qRgb(255,0,0));
+    }
+    int newX(0);
+    for (int y = 0; y < hauteur; y++) {
+        newX=0;
+        for (int x = 0; x < largeur; x++) {
+            if(gradient.pixel(x,y)!= qRgb(255,0,0)){
+
+                im.setPixel(newX,y,image.pixel(x,y));
+                newX++;
+            }
+            else{
+            }
+        }
+    }
+
+    return im;
+
+}
 
 
 
