@@ -27,20 +27,22 @@ MainWindow::MainWindow()
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
     QPushButton *bouton = new QPushButton("Niveau de gris");
-    QPushButton *bouton2 = new QPushButton("Flouter");
+    QPushButton *bouton2 = new QPushButton("Crop");
+    QPushButton *bouton3 = new QPushButton("Filtres");
+    QPushButton *bouton4 = new QPushButton("Redimensionnement");
+    QPushButton *bouton5 = new QPushButton("Seam Carving");
 
-    QPushButton *bouton4 = new QPushButton("Filtres");
-    QPushButton *bouton3 = new QPushButton("Crop");
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
     dockLeftLayout->addWidget(bouton2);
     dockLeftLayout->addWidget(bouton3);
     dockLeftLayout->addWidget(bouton4);
+    dockLeftLayout->addWidget(bouton5);
     contenuPalette->setLayout(dockLeftLayout);
+
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
-    connect(bouton2,SIGNAL(clicked()),this,SLOT(slotFlouter()));
-    connect(bouton3,SIGNAL(clicked()),this,SLOT(slotCrop()));
-    connect(bouton4,SIGNAL(clicked()),this,SLOT(slotFiltres()));
+    connect(bouton2,SIGNAL(clicked()),this,SLOT(slotCrop()));
+    connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
 
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
@@ -54,11 +56,6 @@ MainWindow::MainWindow()
     *******************************************************************************************************/
 
     menuFichier =menuBar()->addMenu("&Fichier");
-
-    actionNouveauFichier = new QAction("&Nouveau fichier",this);
-    menuFichier->addAction(actionNouveauFichier);
-    actionNouveauFichier->setShortcut(QKeySequence("Ctrl+N"));
-    connect(actionNouveauFichier, SIGNAL(triggered()),this,SLOT(slotNouveauFichier()));
 
     actionOuvrir = new QAction("Ouvrir",this);
     menuFichier->addAction(actionOuvrir);
@@ -106,17 +103,17 @@ MainWindow::MainWindow()
     actionAfficherPaletteOutils->setChecked(true);
     connect(actionAfficherPaletteOutils, SIGNAL(triggered()),this,SLOT(slotAfficherPaletteOutils()));
 
-    actionAfficherVoletInformations = new QAction("&Afficher le volet d'information RGB",this);
-    menuOutils->addAction(actionAfficherVoletInformations);
-    actionAfficherVoletInformations->setCheckable(true);
-    actionAfficherVoletInformations->setChecked(true);
-    connect(actionAfficherVoletInformations, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformations()));
+    actionAfficherVoletInformationsRGB = new QAction("&Afficher le volet d'information RGB",this);
+    menuOutils->addAction(actionAfficherVoletInformationsRGB);
+    actionAfficherVoletInformationsRGB->setCheckable(true);
+    actionAfficherVoletInformationsRGB->setChecked(true);
+    connect(actionAfficherVoletInformationsRGB, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformationsRGB()));
 
-    actionAfficherVoletInformations = new QAction("&Afficher le volet d'information RGB",this);
-    menuOutils->addAction(actionAfficherVoletInformations);
-    actionAfficherVoletInformations->setCheckable(true);
-    actionAfficherVoletInformations->setChecked(true);
-    connect(actionAfficherVoletInformations, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformations()));
+    actionAfficherVoletInformationsYUV = new QAction("&Afficher le volet d'information YUV",this);
+    menuOutils->addAction(actionAfficherVoletInformationsYUV);
+    actionAfficherVoletInformationsYUV->setCheckable(true);
+    actionAfficherVoletInformationsYUV->setChecked(true);
+    connect(actionAfficherVoletInformationsYUV, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformationsYUV()));
 
     /*******************************************************************************************************
     *******************************************************************************************************/
@@ -150,12 +147,6 @@ void MainWindow::slotOuvrirImage()
 }
 
 
-void MainWindow::slotNouveauFichier()
-{
-    std::cout << "Nouveau fichier!";
-
-}
-
 void MainWindow::slotAfficherPaletteOutils(){
     if(actionAfficherPaletteOutils->isChecked()){
         dockLeft->setVisible(true);
@@ -165,9 +156,9 @@ void MainWindow::slotAfficherPaletteOutils(){
     }
 }
 
-void MainWindow::slotAfficherVoletInformations()
+void MainWindow::slotAfficherVoletInformationsRGB()
 {
-    if(actionAfficherVoletInformations->isChecked()){
+    if(actionAfficherVoletInformationsRGB->isChecked()){
         dockRight->setVisible(true);
     }
     else{
@@ -175,10 +166,14 @@ void MainWindow::slotAfficherVoletInformations()
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *e){
-    std::cout <<"Fenetre fermée";
-    e->accept();
-
+void MainWindow::slotAfficherVoletInformationsYUV()
+{
+    if(actionAfficherVoletInformationsYUV->isChecked()){
+        dockRight2->setVisible(true);
+    }
+    else{
+        dockRight2->setVisible(false);
+    }
 }
 
 
@@ -240,15 +235,6 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image = Fonctions::niveauDeGris(*sfActive->imageActive());
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
- }
-
- void MainWindow::slotFlouter(){
-     SousFenetre* sfActive=sousFenetreActive();
-     Filtre filtre(3,Filtre::Moyenne);
-     QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();

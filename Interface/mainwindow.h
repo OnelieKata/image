@@ -28,7 +28,6 @@ class MainWindow  : public QMainWindow
         SousFenetre *sousFenetreActive();
 
     protected:
-        void closeEvent(QCloseEvent *e);
 
     private:
         QList<SousFenetre*>* listeSousFenetre;
@@ -40,7 +39,6 @@ class MainWindow  : public QMainWindow
    /***********************************/
         QMenu *menuFichier;
 
-        QAction *actionNouveauFichier;
         QAction *actionOuvrir;
         QAction *actionQuitter;
         QAction *actionEnregistrerSous;
@@ -56,15 +54,16 @@ class MainWindow  : public QMainWindow
         QMenu *menuOutils;
 
         QAction *actionAfficherPaletteOutils;
-        QAction *actionAfficherVoletInformations;
+        QAction *actionAfficherVoletInformationsRGB;
+        QAction *actionAfficherVoletInformationsYUV;
    /***********************************/
         QMenu *menuAide;
 
     public slots:
         void slotOuvrirImage();
-        void slotNouveauFichier();
         void slotAfficherPaletteOutils();
-        void slotAfficherVoletInformations();
+        void slotAfficherVoletInformationsRGB();
+        void slotAfficherVoletInformationsYUV();
         void slotFermetureSousFenetre(SousFenetre *sousFenetre);
         void slotEnregistrerSous();
         void slotAnnuler();
@@ -72,7 +71,6 @@ class MainWindow  : public QMainWindow
 
         void slotFiltres();
         void slotNiveauDeGris();
-        void slotFlouter();
         void slotCrop();
         void slotApplicationFiltre(int type,int deg);
 };
