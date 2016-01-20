@@ -26,8 +26,8 @@ DialogFiltre::DialogFiltre(){
     layout2->addWidget(bouton2);
 
     QFormLayout *layout = new QFormLayout;
-    layout->addRow("degré de filtrage", degreFiltre);
-    layout->addRow("type de filtre", listeFiltres);
+    layout->addRow("Degré de filtrage", degreFiltre);
+    layout->addRow("Type de filtre", listeFiltres);
 
     QVBoxLayout *layoutPrincipal = new QVBoxLayout;
     layoutPrincipal->addLayout(layout);
