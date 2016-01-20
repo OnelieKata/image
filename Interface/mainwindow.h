@@ -66,9 +66,9 @@ class MainWindow  : public QMainWindow
         void slotEnregistrerSous();
         void slotAnnuler();
         void slotRetablir();
+       // void dialogFinish(int res);
 
-
-
+        void slotFiltres();
         void slotNiveauDeGris();
         void slotFlouter();
 };
