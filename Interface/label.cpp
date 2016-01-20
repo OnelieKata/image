@@ -2,7 +2,7 @@
 
 Label::Label()
 {
-
+    rubberBand=NULL;
 }
 
 QPoint Label::getOrigin(){

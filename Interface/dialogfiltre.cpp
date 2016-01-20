@@ -1,12 +1,13 @@
-#include "dialog.h"
+#include "dialogfiltre.h"
 
-Dialog::Dialog(int type){
+DialogFiltre::DialogFiltre(){
 
 
 
     listeFiltres = new QComboBox(this);
     listeFiltres->addItem("Moyenne");
     listeFiltres->addItem("Chapeau");
+    listeFiltres->addItem("Gaussien");
     listeFiltres->addItem("Sobel1");
     listeFiltres->addItem("Sobel2");
     listeFiltres->addItem("AugmenterContrast");
@@ -41,7 +42,7 @@ Dialog::Dialog(int type){
     //this->exec();
 }
 
-void Dialog::dialogFinish(int exec){
+void DialogFiltre::dialogFinish(int exec){
     if(exec==QDialog::Accepted){
         int type = listeFiltres->currentIndex()+1;
         int deg = degreFiltre->value();

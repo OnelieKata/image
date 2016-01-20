@@ -255,7 +255,7 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotFiltres(){
-     Dialog *d = new Dialog(1);
+     DialogFiltre *d = new DialogFiltre();
      connect(d,SIGNAL(signalApplicationFiltre(int,int)),this,SLOT(slotApplicationFiltre(int,int)));
      d->exec();
 }

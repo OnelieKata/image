@@ -10,7 +10,8 @@ SOURCES += \
     label.cpp \
     mainwindow.cpp \
     sousfenetre.cpp \
-    dialog.cpp
+    dialogfiltre.cpp \
+    dialogredimension.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -20,4 +21,5 @@ HEADERS += \
     label.h \
     mainwindow.h \
     sousfenetre.h \
-    dialog.h
+    dialogfiltre.h \
+    dialogredimension.h

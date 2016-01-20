@@ -12,7 +12,7 @@
 #include <QDockWidget>
 #include <QList>
 #include <label.h>
-#include <dialog.h>
+#include <dialogfiltre.h>
 
 namespace Ui{
     class QMainWindow;
