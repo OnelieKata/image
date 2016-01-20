@@ -14,9 +14,15 @@ MainWindow::MainWindow()
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
     dockLeft->setMinimumWidth(200);
 
-    dockRight= new QDockWidget("Informations",this);
+    dockRight= new QDockWidget("RGB",this);
     addDockWidget(Qt::RightDockWidgetArea,dockRight);
     dockRight->setMinimumWidth(200);
+
+    dockRight2= new QDockWidget("YUV",this);
+    addDockWidget(Qt::RightDockWidgetArea,dockRight2);
+    dockRight2->setMinimumWidth(200);
+
+    tabifyDockWidget(dockRight,dockRight2);
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
@@ -91,14 +97,18 @@ MainWindow::MainWindow()
 
     actionAfficherPaletteOutils = new QAction("&Afficher la palette d'outils",this);
     menuOutils->addAction(actionAfficherPaletteOutils);
-    //actionAfficherPaletteOutils->setShortcut(QKeySequence("Alt+F4"));
     actionAfficherPaletteOutils->setCheckable(true);
     actionAfficherPaletteOutils->setChecked(true);
     connect(actionAfficherPaletteOutils, SIGNAL(triggered()),this,SLOT(slotAfficherPaletteOutils()));
 
-    actionAfficherVoletInformations = new QAction("&Afficher le volet d'information",this);
+    actionAfficherVoletInformations = new QAction("&Afficher le volet d'information RGB",this);
     menuOutils->addAction(actionAfficherVoletInformations);
-    //actionAfficherPaletteOutils->setShortcut(QKeySequence("Alt+F4"));
+    actionAfficherVoletInformations->setCheckable(true);
+    actionAfficherVoletInformations->setChecked(true);
+    connect(actionAfficherVoletInformations, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformations()));
+
+    actionAfficherVoletInformations = new QAction("&Afficher le volet d'information RGB",this);
+    menuOutils->addAction(actionAfficherVoletInformations);
     actionAfficherVoletInformations->setCheckable(true);
     actionAfficherVoletInformations->setChecked(true);
     connect(actionAfficherVoletInformations, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformations()));
@@ -119,28 +129,17 @@ void MainWindow::slotOuvrirImage()
 {
     QImage *myImage=new QImage;
 
-    std::cout<<"test 0";
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString("/home/tiretfa/Images"), "Images (*.png *.gif *.jpg *.jpeg)");
-
-    std::cout<<"test 0.5";
     if(!fichier.isEmpty()){
-        std::cout<<"test 1";
         myImage->load(fichier);
-        std::cout<<"test 2";
         SousFenetre *sousFenetre= new SousFenetre;
-        std::cout<<"test 3";
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
-        std::cout<<"test 4";
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
-        std::cout<<"test 5";
         sousFenetre->chargerImage();
-        std::cout<<"test 6";
 
 
         zoneCentrale->addSubWindow(sousFenetre);
-
-        std::cout<<"test 7";
 
         sousFenetre->show();
 
@@ -261,6 +260,7 @@ void MainWindow::slotRetablir(){
      listeSousFenetre->push_back(sousFenetre);
      sousFenetre->ajouterImage(image);
      sousFenetre->chargerImage();
+     sfActive->getLabel()->getRubberBand()->hide();
 
 
      zoneCentrale->addSubWindow(sousFenetre);

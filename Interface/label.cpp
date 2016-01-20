@@ -13,7 +13,14 @@ QPoint Label::getPoint(){
     return point;
 }
 
+QRubberBand* Label::getRubberBand(){
+    return rubberBand;
+}
+
 void Label::mousePressEvent(QMouseEvent *event){
+    if(rubberBand!=NULL){
+        rubberBand->hide();
+    }
     origin=event->pos();
     if(event->button() == Qt::LeftButton){
         rubberBand = new QRubberBand(QRubberBand::Rectangle,this);
@@ -28,18 +35,25 @@ void Label::mouseMoveEvent(QMouseEvent *event){
 
 void Label::mouseReleaseEvent(QMouseEvent *event){
    point=event->pos();
-   if(point.x()>this->width())
-       point.setX(this->width());
+   if(point.x()>this->width()-1)
+       point.setX(this->width()-1);
    if(point.x()<0)
        point.setX(0);
-   if(point.y()>this->height())
-       point.setY(this->height());
+   if(point.y()>this->height()-1)
+       point.setY(this->height()-1);
    if(point.y()<0){
        point.setY(0);
    }
 }
 
+/*
 void Label::resizeEvent(QResizeEvent *event){
-    QImage *image=Fonctions::redimensionner2(this->pixmap()->toImage(),this->width(),this->height());
+    this->setScaledContents(true);
+    /*QImage *image=Fonctions::redimensionner2(this->pixmap()->toImage(),this->width(),this->height());
+    //this->setPixmap(QPixmap::fromImage(*image));
+    //this->show();
+    //std::cout<<this->width()<<" "<<this->height()<<std::endl;
     emit signalRedimensionnement(image);
+    event->accept();
 }
+*/

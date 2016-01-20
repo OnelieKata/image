@@ -35,6 +35,7 @@ class MainWindow  : public QMainWindow
         QMdiArea *zoneCentrale;
         QDockWidget *dockLeft;
         QDockWidget *dockRight;
+        QDockWidget *dockRight2;
    /***********************************/
         QMenu *menuFichier;
 

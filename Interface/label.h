@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <fonctions.h>
 #include <iostream>
+#include <QPixmap>
 
 class Label : public QLabel
 {
@@ -17,12 +18,13 @@ class Label : public QLabel
         Label();
         QPoint getOrigin();
         QPoint getPoint();
+        QRubberBand* getRubberBand();
 
     protected:
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mouseReleaseEvent(QMouseEvent *event);
-        void resizeEvent(QResizeEvent *event);
+        //void resizeEvent(QResizeEvent *event);
 
 
 
@@ -32,7 +34,7 @@ class Label : public QLabel
         QPoint point;
 
     signals:
-        void signalRedimensionnement(QImage *image);
+      //  void signalRedimensionnement(QImage *image);
 
 };
 

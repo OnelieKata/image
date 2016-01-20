@@ -31,7 +31,7 @@ class SousFenetre : public QMdiSubWindow
         Label *myLabel;
 
     public slots:
-        void slotRedimensionnementImage(QImage *image);
+        //void slotRedimensionnementImage(QImage *image);
 
     signals :
         void signalFermetureSousFenetre(SousFenetre *sousFenetre);
