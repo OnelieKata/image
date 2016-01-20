@@ -3,11 +3,11 @@
 #include <QtWidgets>
 #include <iostream>
 
-class Dialog: public QDialog
+class DialogFiltre: public QDialog
 {
     Q_OBJECT
 public:
-    Dialog(int type);
+    DialogFiltre();
 
 public slots :
     void dialogFinish(int exec);
