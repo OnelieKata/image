@@ -12,6 +12,7 @@
 #include <QDockWidget>
 #include <QList>
 #include <label.h>
+#include <dialog.h>
 
 namespace Ui{
     class QMainWindow;
@@ -69,11 +70,11 @@ class MainWindow  : public QMainWindow
         void slotAnnuler();
         void slotRetablir();
 
-
-
+        void slotFiltres();
         void slotNiveauDeGris();
         void slotFlouter();
         void slotCrop();
+        void slotApplicationFiltre(int type,int deg);
 };
 
 #endif // MAINWINDOW_H

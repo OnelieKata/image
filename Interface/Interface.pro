@@ -9,7 +9,8 @@ SOURCES += \
     histo.cpp \
     label.cpp \
     mainwindow.cpp \
-    sousfenetre.cpp
+    sousfenetre.cpp \
+    dialog.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -18,4 +19,5 @@ HEADERS += \
     histo.h \
     label.h \
     mainwindow.h \
-    sousfenetre.h
+    sousfenetre.h \
+    dialog.h

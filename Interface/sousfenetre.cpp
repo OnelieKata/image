@@ -18,7 +18,6 @@ Label* SousFenetre::getLabel(){
 
 void SousFenetre::ajouterImage(QImage *image){
     if(indiceImageActive<listeImage->size()-1){
-        std::cout<<"indice de l'image active : "<<indiceImageActive<<std::endl<<"indice de fin : "<<listeImage->size()<<std::endl;
         for(int i=indiceImageActive;i<listeImage->size()-1;i++){
             listeImage->pop_back();
         }

@@ -28,15 +28,20 @@ MainWindow::MainWindow()
     dockLeft->setWidget(contenuPalette);
     QPushButton *bouton = new QPushButton("Niveau de gris");
     QPushButton *bouton2 = new QPushButton("Flouter");
+
+    QPushButton *bouton4 = new QPushButton("Filtres");
     QPushButton *bouton3 = new QPushButton("Crop");
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
     dockLeftLayout->addWidget(bouton2);
     dockLeftLayout->addWidget(bouton3);
+    dockLeftLayout->addWidget(bouton4);
     contenuPalette->setLayout(dockLeftLayout);
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
     connect(bouton2,SIGNAL(clicked()),this,SLOT(slotFlouter()));
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotCrop()));
+    connect(bouton4,SIGNAL(clicked()),this,SLOT(slotFiltres()));
+
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
     dockLeft->setWidget(bouton2);
@@ -128,9 +133,10 @@ MainWindow::MainWindow()
 void MainWindow::slotOuvrirImage()
 {
     QImage *myImage=new QImage;
-
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString("/home/tiretfa/Images"), "Images (*.png *.gif *.jpg *.jpeg)");
+
     if(!fichier.isEmpty()){
+
         myImage->load(fichier);
         SousFenetre *sousFenetre= new SousFenetre;
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
@@ -138,12 +144,8 @@ void MainWindow::slotOuvrirImage()
         sousFenetre->ajouterImage(myImage);
         sousFenetre->chargerImage();
 
-
         zoneCentrale->addSubWindow(sousFenetre);
-
         sousFenetre->show();
-
-        std::cout<<"Taille :"<< listeSousFenetre->size() << std::endl;
     }
 }
 
@@ -246,6 +248,21 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotFlouter(){
      SousFenetre* sfActive=sousFenetreActive();
      Filtre filtre(3,Filtre::Moyenne);
+     QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotFiltres(){
+     Dialog *d = new Dialog(1);
+     connect(d,SIGNAL(signalApplicationFiltre(int,int)),this,SLOT(slotApplicationFiltre(int,int)));
+     d->exec();
+}
+
+ void MainWindow::slotApplicationFiltre(int type, int deg){
+     SousFenetre* sfActive=sousFenetreActive();
+     Filtre filtre(deg,type);
      QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
