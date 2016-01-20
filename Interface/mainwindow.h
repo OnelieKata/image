@@ -11,6 +11,8 @@
 #include <iostream>
 #include <QDockWidget>
 #include <QList>
+#include <label.h>
+#include <dialog.h>
 
 namespace Ui{
     class QMainWindow;
@@ -22,7 +24,7 @@ class MainWindow  : public QMainWindow
 
     public:
         MainWindow();
-        QImage imageActive();
+        QImage *imageActive();
         SousFenetre *sousFenetreActive();
 
     protected:
@@ -66,11 +68,12 @@ class MainWindow  : public QMainWindow
         void slotEnregistrerSous();
         void slotAnnuler();
         void slotRetablir();
-       // void dialogFinish(int res);
 
         void slotFiltres();
         void slotNiveauDeGris();
         void slotFlouter();
+        void slotCrop();
+        void slotApplicationFiltre(int type,int deg);
 };
 
 #endif // MAINWINDOW_H

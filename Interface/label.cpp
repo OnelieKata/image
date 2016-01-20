@@ -5,6 +5,14 @@ Label::Label()
 
 }
 
+QPoint Label::getOrigin(){
+    return origin;
+}
+
+QPoint Label::getPoint(){
+    return point;
+}
+
 void Label::mousePressEvent(QMouseEvent *event){
     origin=event->pos();
     if(event->button() == Qt::LeftButton){
@@ -19,5 +27,19 @@ void Label::mouseMoveEvent(QMouseEvent *event){
 }
 
 void Label::mouseReleaseEvent(QMouseEvent *event){
-   //rubberBand->hide();
+   point=event->pos();
+   if(point.x()>this->width())
+       point.setX(this->width());
+   if(point.x()<0)
+       point.setX(0);
+   if(point.y()>this->height())
+       point.setY(this->height());
+   if(point.y()<0){
+       point.setY(0);
+   }
+}
+
+void Label::resizeEvent(QResizeEvent *event){
+    QImage *image=Fonctions::redimensionner2(this->pixmap()->toImage(),this->width(),this->height());
+    emit signalRedimensionnement(image);
 }
