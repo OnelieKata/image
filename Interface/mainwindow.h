@@ -23,7 +23,7 @@ class MainWindow  : public QMainWindow
 
     public:
         MainWindow();
-        QImage imageActive();
+        QImage *imageActive();
         SousFenetre *sousFenetreActive();
 
     protected:

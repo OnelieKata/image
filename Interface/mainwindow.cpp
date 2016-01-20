@@ -117,19 +117,30 @@ MainWindow::MainWindow()
 
 void MainWindow::slotOuvrirImage()
 {
-    QImage myImage;
+    QImage *myImage=new QImage;
 
+    std::cout<<"test 0";
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString("/home/tiretfa/Images"), "Images (*.png *.gif *.jpg *.jpeg)");
+
+    std::cout<<"test 0.5";
     if(!fichier.isEmpty()){
-        myImage.load(fichier);
+        std::cout<<"test 1";
+        myImage->load(fichier);
+        std::cout<<"test 2";
         SousFenetre *sousFenetre= new SousFenetre;
+        std::cout<<"test 3";
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+        std::cout<<"test 4";
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
+        std::cout<<"test 5";
         sousFenetre->chargerImage();
+        std::cout<<"test 6";
 
 
         zoneCentrale->addSubWindow(sousFenetre);
+
+        std::cout<<"test 7";
 
         sousFenetre->show();
 
@@ -175,8 +186,8 @@ void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
 }
 
 
-QImage MainWindow::imageActive(){
-    QImage img ;
+QImage* MainWindow::imageActive(){
+    QImage *img=new QImage ;
     SousFenetre* sfActive = new SousFenetre;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
     if(swActive==NULL){
@@ -204,10 +215,10 @@ SousFenetre* MainWindow::sousFenetreActive(){
 }
 
  void MainWindow::slotEnregistrerSous(){
-    QImage image = imageActive();
+    QImage *image = imageActive();
     QString fichier = QFileDialog::getSaveFileName(this, "EnregistrerSous un fichier", QString("/home/tiretfa/Images/sans_titre.png"), "Images (*.png *.gif *.jpg *.jpeg)");
-    if(!image.isNull()){
-        image.save(fichier);
+    if(!image->isNull()){
+        image->save(fichier);
     }else{
         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
     }
@@ -227,7 +238,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage image = Fonctions::niveauDeGris(sfActive->imageActive());
+     QImage *image = Fonctions::niveauDeGris(*sfActive->imageActive());
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
@@ -236,7 +247,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotFlouter(){
      SousFenetre* sfActive=sousFenetreActive();
      Filtre filtre(3,Filtre::Moyenne);
-     QImage image = Fonctions::convolution(sfActive->imageActive(),filtre);
+     QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
@@ -244,7 +255,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotCrop(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage image = Fonctions::decoupage(sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
+     QImage *image = Fonctions::decoupage(*sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
      SousFenetre *sousFenetre= new SousFenetre;
      connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
      listeSousFenetre->push_back(sousFenetre);

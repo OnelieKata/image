@@ -2,12 +2,13 @@
 
 SousFenetre::SousFenetre()
 {
-    listeImage = new std::vector<QImage>;
+    listeImage = new std::vector<QImage*>;
     indiceImageActive = -1;
-    connect(myLabel,SIGNAL(signalRedimensionnement(QImage*)),this,SLOT(slotRedimensionnementImage()));
+    myLabel=new Label;
+    //connect(myLabel,SIGNAL(signalRedimensionnement(QImage*)),this,SLOT(slotRedimensionnementImage()));
 }
 
-std::vector<QImage>* SousFenetre::getlisteImage(){
+std::vector<QImage*>* SousFenetre::getlisteImage(){
     return listeImage;
 }
 
@@ -32,13 +33,13 @@ void SousFenetre::closeEvent(QCloseEvent *event){
     event->accept();
 }
 
-QImage SousFenetre::imageActive(){
+QImage* SousFenetre::imageActive(){
     return listeImage->at(indiceImageActive);
 }
 
 void SousFenetre::chargerImage(){
     myLabel = new Label;
-    myLabel->setPixmap(QPixmap::fromImage(listeImage->at(indiceImageActive)));
+    myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
     this->setWidget(myLabel);
 }
 
