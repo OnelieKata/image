@@ -13,6 +13,7 @@
 #include <QList>
 #include <label.h>
 #include <dialogfiltre.h>
+#include <dialogredimension.h>
 
 namespace Ui{
     class QMainWindow;
@@ -69,10 +70,13 @@ class MainWindow  : public QMainWindow
         void slotAnnuler();
         void slotRetablir();
 
-        void slotFiltres();
+
         void slotNiveauDeGris();
         void slotCrop();
+        void slotFiltres();
         void slotApplicationFiltre(int type,int deg);
+        void slotRedimension();
+        void slotApplicationRedimension(int,int);
 };
 
 #endif // MAINWINDOW_H

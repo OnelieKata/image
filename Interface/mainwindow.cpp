@@ -43,6 +43,8 @@ MainWindow::MainWindow()
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
     connect(bouton2,SIGNAL(clicked()),this,SLOT(slotCrop()));
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
+    connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
+
 
     /*dockLeft->setLayout();
     dockLeft->setWidget(bouton);
@@ -269,4 +271,18 @@ void MainWindow::slotRetablir(){
      zoneCentrale->addSubWindow(sousFenetre);
 
      sousFenetre->show();
+ }
+
+ void MainWindow::slotRedimension(){
+     dialogredimension* d = new dialogredimension();
+     connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationRedimension(int,int)));
+     d->exec();
+ }
+
+ void MainWindow::slotApplicationRedimension(int l, int h){
+    SousFenetre* sfActive=sousFenetreActive();
+    QImage *image=Fonctions::redimensionner2(*sfActive->imageActive(),l,h);
+    sfActive->ajouterImage(image);
+    sfActive->chargerImage();
+    sfActive->show();
  }

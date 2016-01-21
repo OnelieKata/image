@@ -1,14 +1,21 @@
 #ifndef DIALOGREDIMENSION_H
 #define DIALOGREDIMENSION_H
-
-class dialogredimension
+#include <QtWidgets>
+class dialogredimension: public QDialog
 {
     Q_OBJECT
 public:
     dialogredimension();
+
+public slots :
+    void dialogFinish(int exec);
+
+signals :
+    void signalApplicationRedimension(int l,int h);
+
 private:
-    QSpinBox *lagueur ;
-    QSpinBox *hauteur ;
+   QSpinBox *largeur ;
+   QSpinBox *hauteur ;
 };
 
 #endif // DIALOGREDIMENSION_H
