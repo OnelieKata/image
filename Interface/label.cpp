@@ -49,11 +49,12 @@ void Label::mouseReleaseEvent(QMouseEvent *event){
 /*
 void Label::resizeEvent(QResizeEvent *event){
     this->setScaledContents(true);
-    /*QImage *image=Fonctions::redimensionner2(this->pixmap()->toImage(),this->width(),this->height());
+    QImage *image=Fonctions::redimensionner2(this->pixmap()->toImage(),this->width(),this->height());
     //this->setPixmap(QPixmap::fromImage(*image));
     //this->show();
     //std::cout<<this->width()<<" "<<this->height()<<std::endl;
     emit signalRedimensionnement(image);
     event->accept();
+
 }
 */

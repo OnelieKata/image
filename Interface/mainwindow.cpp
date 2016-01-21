@@ -282,6 +282,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotApplicationRedimension(int l, int h){
     SousFenetre* sfActive=sousFenetreActive();
     QImage *image=Fonctions::redimensionner2(*sfActive->imageActive(),l,h);
+    sfActive->resize(l,h);
     sfActive->ajouterImage(image);
     sfActive->chargerImage();
     sfActive->show();

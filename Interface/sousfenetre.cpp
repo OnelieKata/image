@@ -37,8 +37,11 @@ QImage* SousFenetre::imageActive(){
 }
 
 void SousFenetre::chargerImage(){
+    QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
+    this->resize(image->width()+1,image->height());
     this->setWidget(myLabel);
+
 }
 
 void SousFenetre::annulerAction(){
