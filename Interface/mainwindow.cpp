@@ -44,6 +44,8 @@ MainWindow::MainWindow()
     connect(bouton2,SIGNAL(clicked()),this,SLOT(slotCrop()));
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
+    connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+
 
 
     /*dockLeft->setLayout();
@@ -286,4 +288,19 @@ void MainWindow::slotRetablir(){
     sfActive->ajouterImage(image);
     sfActive->chargerImage();
     sfActive->show();
+ }
+
+ void MainWindow::slotSeamCarving(){
+     dialogredimension* d = new dialogredimension();
+     connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationSeamCarving(int,int)));
+     d->exec();
+ }
+
+ void MainWindow::slotApplicationSeamCarving(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image=Fonctions::seamCarvingH(*sfActive->imageActive());
+     //sfActive->resize(l,h);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
  }

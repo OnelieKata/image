@@ -34,6 +34,7 @@ static QImage* gradientH(QImage const& image);
 static QImage* gradientV(QImage const& image);
 static QImage* gradient(QImage const& image);
 static QImage* seamCarvingV(QImage const& image);
+static QImage* seamCarvingH(QImage const& image);
 
 };
 
