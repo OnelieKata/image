@@ -14,15 +14,15 @@ MainWindow::MainWindow()
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
     dockLeft->setMinimumWidth(200);
 
-    dockRight= new QDockWidget("RGB",this);
-    addDockWidget(Qt::RightDockWidgetArea,dockRight);
-    dockRight->setMinimumWidth(200);
-
     dockRight2= new QDockWidget("YUV",this);
     addDockWidget(Qt::RightDockWidgetArea,dockRight2);
     dockRight2->setMinimumWidth(200);
 
-    tabifyDockWidget(dockRight,dockRight2);
+    dockRight= new QDockWidget("RGB",this);
+    addDockWidget(Qt::RightDockWidgetArea,dockRight);
+    dockRight->setMinimumWidth(200);
+
+    tabifyDockWidget(dockRight2,dockRight);
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
@@ -44,6 +44,22 @@ MainWindow::MainWindow()
     connect(bouton2,SIGNAL(clicked()),this,SLOT(slotCrop()));
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
+
+    QWidget *contenuRGB = new QWidget;
+    dockRight->setWidget(contenuRGB);
+    QGridLayout *dockRightGridLayout = new QGridLayout;
+    QGridLayout *dockRight2GridLayout = new QGridLayout;
+
+    QPushButton *bouton6 = new QPushButton("Redimensionnement");
+    QPushButton *bouton7 = new QPushButton("Seam Carving");
+    QLineEdit *texte1=new QLineEdit;
+    texte1->setText("188");
+    texte1->setReadOnly(true);
+    dockRightGridLayout->addWidget(bouton6,0,0);
+    dockRightGridLayout->addWidget(bouton7,0,1);
+    dockRightGridLayout->addWidget(texte1,0,2);
+
+    contenuRGB->setLayout(dockRightGridLayout);
 
 
     /*dockLeft->setLayout();

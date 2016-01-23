@@ -141,7 +141,6 @@ QImage* Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur
     {
         im->setPixel(largeur2-1,j,im->pixel(largeur2-2,j));
     }
-    std::cout<<"redimensionnement";
     return im;
 }
 
