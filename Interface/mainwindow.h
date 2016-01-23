@@ -77,6 +77,8 @@ class MainWindow  : public QMainWindow
         void slotApplicationFiltre(int type,int deg);
         void slotRedimension();
         void slotApplicationRedimension(int,int);
+        void slotSeamCarving();
+        void slotApplicationSeamCarving();
 };
 
 #endif // MAINWINDOW_H
