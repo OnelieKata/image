@@ -199,7 +199,7 @@ QImage* MainWindow::imageActive(){
             break;
         }
     }
-    return sfActive->getlisteImage()->back();
+    return sfActive->getImage();
 }
 
 SousFenetre* MainWindow::sousFenetreActive(){
@@ -238,10 +238,16 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::niveauDeGris(*sfActive->imageActive());
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         image = Fonctions::niveauDeGris(*image);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
+
  }
 
  void MainWindow::slotFiltres(){
@@ -252,27 +258,40 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationFiltre(int type, int deg){
      SousFenetre* sfActive=sousFenetreActive();
-     Filtre filtre(deg,type);
-     QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         Filtre filtre(deg,type);
+         image = Fonctions::convolution(*image,filtre);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
  }
 
  void MainWindow::slotCrop(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::decoupage(*sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
-     SousFenetre *sousFenetre= new SousFenetre;
-     connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
-     listeSousFenetre->push_back(sousFenetre);
-     sousFenetre->ajouterImage(image);
-     sousFenetre->chargerImage();
-     sfActive->getLabel()->getRubberBand()->hide();
-
-
-     zoneCentrale->addSubWindow(sousFenetre);
-
-     sousFenetre->show();
+     QImage *image = imageActive();
+     if(!image->isNull()){
+         QPoint origin = sfActive->getLabel()->getOrigin();
+         QPoint ext = sfActive->getLabel()->getPoint();
+         if(!(origin.isNull()||ext.isNull())){
+             image = Fonctions::decoupage(*image,origin,ext);
+             SousFenetre *sousFenetre= new SousFenetre;
+             connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+             listeSousFenetre->push_back(sousFenetre);
+             sousFenetre->ajouterImage(image);
+             sousFenetre->chargerImage();
+             sfActive->getLabel()->getRubberBand()->hide();
+             zoneCentrale->addSubWindow(sousFenetre);
+             sousFenetre->show();
+        }else{
+             QMessageBox::critical(this,"erreur","Veuillez sélectionner un rectangle dans l'image.");
+         }
+     }else{
+          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
  }
 
  void MainWindow::slotRedimension(){
@@ -283,11 +302,16 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationRedimension(int l, int h){
     SousFenetre* sfActive=sousFenetreActive();
-    QImage *image=Fonctions::redimensionner2(*sfActive->imageActive(),l,h);
-    sfActive->resize(l,h);
-    sfActive->ajouterImage(image);
-    sfActive->chargerImage();
-    sfActive->show();
+    QImage* image = imageActive();
+    if(!image->isNull()){
+        image=Fonctions::redimensionner2(*image,l,h);
+        sfActive->resize(l,h);
+        sfActive->ajouterImage(image);
+        sfActive->chargerImage();
+        sfActive->show();
+    }else{
+         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+    }
  }
 
  void MainWindow::slotSeamCarving(){

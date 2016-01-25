@@ -19,6 +19,7 @@ DialogFiltre::DialogFiltre(){
 
     degreFiltre = new QSpinBox(this);
 
+
     QPushButton *bouton1 = new QPushButton("Ok");
     QPushButton *bouton2 = new QPushButton("Annuler");
     QHBoxLayout *layout2 = new QHBoxLayout;

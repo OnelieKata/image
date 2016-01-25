@@ -13,7 +13,7 @@ class SousFenetre : public QMdiSubWindow
 
     public:
         SousFenetre();
-        std::vector<QImage*>* getlisteImage();
+        QImage* getImage();
         Label *getLabel();
         void ajouterImage(QImage *image);
         QImage *imageActive();

@@ -8,8 +8,8 @@ SousFenetre::SousFenetre()
     //connect(myLabel,SIGNAL(signalRedimensionnement(QImage*)),this,SLOT(slotRedimensionnementImage(QImage*)));
 }
 
-std::vector<QImage*>* SousFenetre::getlisteImage(){
-    return listeImage;
+QImage* SousFenetre::getImage(){
+    return listeImage->at(indiceImageActive);
 }
 
 Label* SousFenetre::getLabel(){
@@ -38,8 +38,8 @@ QImage* SousFenetre::imageActive(){
 
 void SousFenetre::chargerImage(){
     QImage* image = imageActive();
-    myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
-    this->resize(image->width()+1,image->height());
+    myLabel->setPixmap(QPixmap::fromImage(*image));
+    //this->resize(image->width()+1,image->height());
     this->setWidget(myLabel);
 
 }
@@ -61,16 +61,4 @@ void SousFenetre::retablirAction(){
         QMessageBox::critical(this,"pb","pb");
     }
 }
-/*
-void SousFenetre::slotRedimensionnementImage(QImage *image){
 
-    std::cout<<"Redimensionnement";
-    ajouterImage(image);
-    chargerImage();
-    std::cout<<"Redimensionnement";
-    this->show();
-}*/
-
-/*void SousFenetre::resizeEvent(QResizeEvent *event){
-    this->getLabel()->setScaledContents(true);
-}*/

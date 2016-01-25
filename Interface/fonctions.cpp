@@ -645,19 +645,19 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
         if (y == 0) {
             minimum = min(seamCarving[x][y] , seamCarving[x][y+1]);
             if( minimum == seamCarving[x][y+1]){
-                y--;
+                y++;
             }
         } else if (y == hauteur-1) {
              minimum = min(seamCarving[x][y], seamCarving[x][y-1]);
              if( minimum == seamCarving[x][y-1]){
-                 y++;
+                 y--;
              }
         } else {
              minimum = min(seamCarving[x][y-1],seamCarving[x][y],seamCarving[x][y+1]);
              if( minimum == seamCarving[x][y+1]){
-                 y--;
-             }else if( minimum == seamCarving[x][y-1]){
                  y++;
+             }else if( minimum == seamCarving[x][y-1]){
+                 y--;
              }
         }
         gradient->setPixel(x,y,qRgb(255,0,0));
@@ -674,7 +674,7 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
         }
     }
 
-    return gradient;
+    return im;
 
 }
 
