@@ -28,7 +28,6 @@ void SousFenetre::ajouterImage(QImage *image){
 }
 
 void SousFenetre::closeEvent(QCloseEvent *event){
-    delete this;
     emit signalFermetureSousFenetre(this);
     event->accept();
 }
