@@ -109,6 +109,10 @@ class MainWindow  : public QMainWindow
         void slotRedimension();
         void slotApplicationRedimension(int,int);
         void slotSeamCarving();
+        void slotNegatif();
+        void slotFusion();
+        void slotNormaliser();
+        void slotEgaliser();
         void slotApplicationSeamCarving();
         void slotAfficherRGB(int rouge,int vert,int bleu);
         void slotAfficherYUV(QRgb point);

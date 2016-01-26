@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 MainWindow::MainWindow()
 {
@@ -54,6 +58,10 @@ MainWindow::MainWindow()
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+    connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
+    connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
+    connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
+    connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
 
     QVBoxLayout *dockRightLayout=new QVBoxLayout;
     QWidget *contenuRGB = new QWidget;
@@ -316,7 +324,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::niveauDeGris(*sfActive->imageActive());
+     QImage *image = Fonctions::niveauDeGris(*imageActive());
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
@@ -374,6 +382,36 @@ void MainWindow::slotRetablir(){
      dialogredimension* d = new dialogredimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationSeamCarving(int,int)));
      d->exec();
+ }
+
+ void MainWindow::slotNegatif(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::negative(*sfActive->imageActive());
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+   //  sfActive->show();
+ }
+
+ void MainWindow::slotFusion(){
+
+ }
+
+ void MainWindow::slotNormaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::normalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotEgaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::egalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
  }
 
  void MainWindow::slotApplicationSeamCarving(){
