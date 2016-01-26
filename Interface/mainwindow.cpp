@@ -13,6 +13,7 @@ MainWindow::MainWindow()
 
     zoneCentrale= new QMdiArea;
     setCentralWidget(zoneCentrale);
+    connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
 
     dockLeft= new QDockWidget("Palette d'outils",this);
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
@@ -523,5 +524,8 @@ void MainWindow::slotRetablir(){
      histoU->show();
      histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
      histoV->show();
+ }
 
+ void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
+     slotAfficherHistogramme(imageActive());
  }
