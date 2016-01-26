@@ -50,7 +50,6 @@ MainWindow::MainWindow()
     QWidget *contenuRGB = new QWidget;
     dockRight->setWidget(contenuRGB);
     QGridLayout *dockRightGridLayout = new QGridLayout;
-    QGridLayout *dockRight2GridLayout = new QGridLayout;
 
     rouge= new QLabel("Rouge :");
     vert= new QLabel("Vert :");
@@ -79,6 +78,40 @@ MainWindow::MainWindow()
     dockRightLayout->addWidget(histoBleu);
 
     contenuRGB->setLayout(dockRightLayout);
+
+    QVBoxLayout *dockRight2Layout=new QVBoxLayout;
+    QWidget *contenuYUV = new QWidget;
+    dockRight2->setWidget(contenuYUV);
+    QGridLayout *dockRight2GridLayout = new QGridLayout;
+
+    y= new QLabel("Y :");
+    u= new QLabel("U :");
+    v= new QLabel("V :");
+    valeurY= new QLineEdit;
+    valeurU= new QLineEdit;
+    valeurV= new QLineEdit;
+    valeurY->setReadOnly(true);
+    valeurU->setReadOnly(true);
+    valeurV->setReadOnly(true);
+    histoY = new QLabel;
+    histoU = new QLabel;
+    histoV = new QLabel;
+
+    dockRight2GridLayout->addWidget(y,0,0);
+    dockRight2GridLayout->addWidget(u,1,0);
+    dockRight2GridLayout->addWidget(v,2,0);
+    dockRight2GridLayout->addWidget(valeurY,0,1);
+    dockRight2GridLayout->addWidget(valeurU,1,1);
+    dockRight2GridLayout->addWidget(valeurV,2,1);
+
+    dockRight2Layout->addLayout(dockRight2GridLayout);
+
+    dockRight2Layout->addWidget(histoY);
+    dockRight2Layout->addWidget(histoU);
+    dockRight2Layout->addWidget(histoV);
+
+    contenuYUV->setLayout(dockRight2Layout);
+
 
 
     /*dockLeft->setLayout();
@@ -174,6 +207,7 @@ void MainWindow::slotOuvrirImage()
         myImage->load(fichier);
         SousFenetre *sousFenetre= new SousFenetre;
         connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
+        connect(sousFenetre->getLabel(),SIGNAL(signalAfficherYUV(QRgb)),this,SLOT(slotAfficherYUV(QRgb)));
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
         connect(sousFenetre,SIGNAL(signalAfficherHistogramme(QImage*)),this,SLOT(slotAfficherHistogramme(QImage*)));
         listeSousFenetre->push_back(sousFenetre);
@@ -300,6 +334,7 @@ void MainWindow::slotRetablir(){
      SousFenetre *sousFenetre= new SousFenetre;
      connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
      connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
+     connect(sousFenetre->getLabel(),SIGNAL(signalAfficherYUV(QRgb)),this,SLOT(slotAfficherYUV(QRgb)));
      listeSousFenetre->push_back(sousFenetre);
      sousFenetre->ajouterImage(image);
      sousFenetre->chargerImage();
@@ -347,6 +382,13 @@ void MainWindow::slotRetablir(){
      valeurBleu->setText(QString::number(bleu));
  }
 
+ void MainWindow::slotAfficherYUV(QRgb point){
+     Yuv pointYuv(point);
+     valeurY->setText(QString::number(pointYuv.getY()));
+     valeurU->setText(QString::number(pointYuv.getU()));
+     valeurV->setText(QString::number(pointYuv.getV()));
+ }
+
  void MainWindow::slotAfficherHistogramme(QImage *image){
      Histo *histo=new Histo(*image);
      QImage *histogrammeRouge=Fonctions::afficheHistogramme(*histo,4);
@@ -358,4 +400,14 @@ void MainWindow::slotRetablir(){
      histoVert->show();
      histoBleu->setPixmap(QPixmap::fromImage(*histogrammeBleu));
      histoBleu->show();
+     histo=new Histo(*image,false);
+     QImage *histogrammeY=Fonctions::afficheHistogramme(*histo,4);
+     QImage *histogrammeU=Fonctions::afficheHistogramme(*histo,2);
+     QImage *histogrammeV=Fonctions::afficheHistogramme(*histo,1);
+     histoY->setPixmap(QPixmap::fromImage(*histogrammeY));
+     histoY->show();
+     histoU->setPixmap(QPixmap::fromImage(*histogrammeU));
+     histoU->show();
+     histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
+     histoV->show();
  }

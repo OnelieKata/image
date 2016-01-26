@@ -60,6 +60,9 @@ class MainWindow  : public QMainWindow
         QLineEdit *valeurY;
         QLineEdit *valeurU;
         QLineEdit *valeurV;
+        QLabel *histoY;
+        QLabel *histoU;
+        QLabel *histoV;
 
    /***********************************/
         QMenu *menuFichier;
@@ -104,6 +107,7 @@ class MainWindow  : public QMainWindow
         void slotSeamCarving();
         void slotApplicationSeamCarving();
         void slotAfficherRGB(int rouge,int vert,int bleu);
+        void slotAfficherYUV(QRgb point);
         void slotAfficherHistogramme(QImage *image);
 };
 

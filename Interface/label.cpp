@@ -34,6 +34,7 @@ void Label::mouseDoubleClickEvent(QMouseEvent *event){
     int valeurVert= qGreen(this->pixmap()->toImage().pixel(event->pos()));
     int valeurBleu= qBlue(this->pixmap()->toImage().pixel(event->pos()));
     emit signalAfficherRGB(valeurRouge,valeurVert,valeurBleu);
+    emit signalAfficherYUV(this->pixmap()->toImage().pixel(event->pos()));
 }
 
 void Label::mouseMoveEvent(QMouseEvent *event){

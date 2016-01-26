@@ -5,7 +5,7 @@ SousFenetre::SousFenetre()
     listeImage = new std::vector<QImage*>;
     indiceImageActive = -1;
     myLabel=new Label;
-    //connect(myLabel,SIGNAL(signalRedimensionnement(QImage*)),this,SLOT(slotRedimensionnementImage(QImage*)));
+    scrollArea=new QScrollArea;
 }
 
 std::vector<QImage*>* SousFenetre::getlisteImage(){
@@ -39,8 +39,9 @@ QImage* SousFenetre::imageActive(){
 void SousFenetre::chargerImage(){
     QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
-    this->resize(image->width()+1,image->height());
-    this->setWidget(myLabel);
+    this->resize(300,300);
+    scrollArea->setWidget(myLabel);
+    this->setWidget(scrollArea);
     emit signalAfficherHistogramme(image);
 
 }
@@ -50,7 +51,8 @@ void SousFenetre::annulerAction(){
         indiceImageActive--;
         chargerImage();
     }else{
-        QMessageBox::critical(this,"pb","pb");
+
+        //QMessageBox::critical(this,"pb","pb");
     }
 }
 
@@ -62,16 +64,3 @@ void SousFenetre::retablirAction(){
         QMessageBox::critical(this,"pb","pb");
     }
 }
-/*
-void SousFenetre::slotRedimensionnementImage(QImage *image){
-
-    std::cout<<"Redimensionnement";
-    ajouterImage(image);
-    chargerImage();
-    std::cout<<"Redimensionnement";
-    this->show();
-}*/
-
-/*void SousFenetre::resizeEvent(QResizeEvent *event){
-    this->getLabel()->setScaledContents(true);
-}*/

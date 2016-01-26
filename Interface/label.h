@@ -37,6 +37,7 @@ class Label : public QLabel
 
     signals:
         void signalAfficherRGB(int rouge,int vert, int bleu);
+        void signalAfficherYUV(QRgb);
       //  void signalRedimensionnement(QImage *image);
 
 };

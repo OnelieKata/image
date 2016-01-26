@@ -29,6 +29,7 @@ class SousFenetre : public QMdiSubWindow
         std::vector<QImage*> *listeImage;
         int indiceImageActive;
         Label *myLabel;
+        QScrollArea *scrollArea;
 
     public slots:
         //void slotRedimensionnementImage(QImage *image);
