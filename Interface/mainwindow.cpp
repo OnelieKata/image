@@ -39,6 +39,7 @@ MainWindow::MainWindow()
     boutonFusion = new QPushButton("Fusion");
     boutonNormaliser = new QPushButton("Normaliser");
     boutonEgaliser = new QPushButton("Egaliser");
+    boutonGradient = new QPushButton("Gradient");
 
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
@@ -51,6 +52,7 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(boutonFusion);
     dockLeftLayout->addWidget(boutonNormaliser);
     dockLeftLayout->addWidget(boutonEgaliser);
+    dockLeftLayout->addWidget(boutonGradient);
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
@@ -62,6 +64,7 @@ MainWindow::MainWindow()
     connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
     connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
     connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
+    connect(boutonGradient,SIGNAL(clicked()),this,SLOT(slotGradient()));
 
     QVBoxLayout *dockRightLayout=new QVBoxLayout;
     QWidget *contenuRGB = new QWidget;
@@ -416,6 +419,14 @@ void MainWindow::slotRetablir(){
      SousFenetre* sfActive=sousFenetreActive();
      Histo hist= Histo(*sfActive->imageActive());
      QImage *image = Fonctions::egalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotGradient(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::gradient(*sfActive->imageActive());
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();

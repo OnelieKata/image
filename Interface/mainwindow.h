@@ -45,6 +45,7 @@ class MainWindow  : public QMainWindow
         QPushButton *boutonFusion;
         QPushButton *boutonNormaliser;
         QPushButton *boutonEgaliser;
+        QPushButton *boutonGradient;
 
         QDockWidget *dockRight;
         QLabel *rouge;
@@ -113,6 +114,7 @@ class MainWindow  : public QMainWindow
         void slotFusion();
         void slotNormaliser();
         void slotEgaliser();
+        void slotGradient();
         void slotApplicationSeamCarving();
         void slotAfficherRGB(int rouge,int vert,int bleu);
         void slotAfficherYUV(QRgb point);
