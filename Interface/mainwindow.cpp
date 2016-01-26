@@ -31,6 +31,7 @@ MainWindow::MainWindow()
     QPushButton *bouton3 = new QPushButton("Filtres");
     QPushButton *bouton4 = new QPushButton("Redimensionnement");
     QPushButton *bouton5 = new QPushButton("Seam Carving");
+    QPushButton *bouton6 = new QPushButton("Création de filtre");
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
@@ -38,6 +39,7 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(bouton3);
     dockLeftLayout->addWidget(bouton4);
     dockLeftLayout->addWidget(bouton5);
+    dockLeftLayout->addWidget(bouton6);
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
@@ -45,6 +47,8 @@ MainWindow::MainWindow()
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+    connect(bouton6,SIGNAL(clicked()),this,SLOT(slotCreationFiltre()));
+
 
 
 
@@ -295,7 +299,7 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotRedimension(){
-     dialogredimension* d = new dialogredimension();
+     DialogRedimension* d = new DialogRedimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationRedimension(int,int)));
      d->exec();
  }
@@ -315,7 +319,7 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotSeamCarving(){
-     dialogredimension* d = new dialogredimension();
+     DialogRedimension* d = new DialogRedimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationSeamCarving(int,int)));
      d->exec();
  }
@@ -327,4 +331,14 @@ void MainWindow::slotRetablir(){
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
+ }
+
+ void MainWindow::slotCreationFiltre(){
+     CreationFiltre* d = new CreationFiltre;
+     connect(d,SIGNAL(signalCreationFiltre(float*)),this,SLOT(slotApplicationCreationFiltre(float*)));
+     d->exec();
+ }
+
+ void MainWindow::slotApplicationCreationFiltre(float* tab){
+     QMessageBox::information(this,"info","ça marche!! :)");
  }

@@ -14,6 +14,7 @@
 #include <label.h>
 #include <dialogfiltre.h>
 #include <dialogredimension.h>
+#include <creationfiltre.h>
 
 namespace Ui{
     class QMainWindow;
@@ -79,6 +80,8 @@ class MainWindow  : public QMainWindow
         void slotApplicationRedimension(int,int);
         void slotSeamCarving();
         void slotApplicationSeamCarving();
+        void slotCreationFiltre();
+        void slotApplicationCreationFiltre(float* tab);
 };
 
 #endif // MAINWINDOW_H
