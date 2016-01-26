@@ -435,7 +435,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationSeamCarving(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image=Fonctions::seamCarvingH(*sfActive->imageActive());
+     QImage *image=Fonctions::seamCarvingV(*sfActive->imageActive());
      //sfActive->resize(l,h);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
