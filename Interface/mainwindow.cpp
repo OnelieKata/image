@@ -32,6 +32,7 @@ MainWindow::MainWindow()
     bouton4 = new QPushButton("Redimensionnement");
     bouton5 = new QPushButton("Seam Carving");
 
+
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
     dockLeftLayout->addWidget(bouton2);

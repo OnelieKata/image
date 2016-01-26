@@ -109,8 +109,8 @@ QImage* Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur
     int xe,ye;
     float xf,yf,x1,y1;
     int rouge,vert,bleu;
-    for (int x2=0; x2<largeur2-5; x2++){
-            for (int y2=0; y2<hauteur2-5; y2++){
+    for (int x2=0; x2<largeur2; x2++){
+            for (int y2=0; y2<hauteur2; y2++){
                     x1=x2*largeur1/largeur2;
                     xe=(int)x1;
                     xf=x1-xe;

@@ -39,10 +39,11 @@ QImage* SousFenetre::imageActive(){
 void SousFenetre::chargerImage(){
     QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
-    this->resize(300,300);
-    scrollArea->setWidget(myLabel);
-    this->setWidget(scrollArea);
+    myLabel->resize(image->width(),image->height());
+    //scrollArea->setWidget(myLabel);
+    this->setWidget(myLabel);
     emit signalAfficherHistogramme(image);
+
 
 }
 
