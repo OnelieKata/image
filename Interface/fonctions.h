@@ -25,10 +25,8 @@ static QImage* prewitt(QImage const& image);
 static QImage* fusionBasic(QImage const& arrierePlan,QImage const& image);
 static bool estEnNiveauDeGris(QImage const& image);
 static QImage* normalisation(QImage const& image,Histo histo);
-static QImage* afficheHistogramme(Histo histo);
-static QImage* afficheHistogramme(Histo histo,int numComposante);
-static QImage* afficheHistogrammeCumulee(Histo histo);
-static QImage* afficheHistogrammeCumulee(Histo histo,int numComposanteCumulee);
+static QImage* afficheHistogramme(Histo histo,int ComposanteEnBinaire = 7); // exemple 111=7 affiche le rouge,vert et bleu
+static QImage* afficheHistogrammeCumulee(Histo histo,int ComposanteEnBinaire = 7); // exemple 101=5 affiche le rouge et bleu
 static QImage* egalisation(QImage const& image,Histo histo);
 static QImage* gradientH(QImage const& image);
 static QImage* gradientV(QImage const& image);

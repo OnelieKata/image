@@ -8,7 +8,7 @@ Histo::Histo() : min1(0) , max1(0),min2(0) , max2(0),min3(0) , max3(0), maxValeu
 
 }
 
-Histo::Histo(QImage const& image) : min1(-1) , max1(-1),min2(-1) , max2(-1),min3(-1) , max3(-1), maxValeur(0), nbPixel(0)
+Histo::Histo(QImage const& image,bool estEnRVB) : min1(-1) , max1(-1),min2(-1) , max2(-1),min3(-1) , max3(-1), maxValeur(0), nbPixel(0)
 {
     remplirTab();
     int largeur=image.width();
@@ -18,10 +18,16 @@ Histo::Histo(QImage const& image) : min1(-1) , max1(-1),min2(-1) , max2(-1),min3
     {
         for(int i=0;i<largeur;i++)
         {
-
-            composante1[qRed(image.pixel(i,j))]++;
-            composante2[qGreen(image.pixel(i,j))]++;
-            composante3[qBlue(image.pixel(i,j))]++;
+            if(estEnRVB){
+                composante1[qRed(image.pixel(i,j))]++;
+                composante2[qGreen(image.pixel(i,j))]++;
+                composante3[qBlue(image.pixel(i,j))]++;
+            }else{
+                Yuv yuv=Yuv(image.pixel(i,j));
+                composante1[yuv.getY()]++;
+                composante2[yuv.getU()]++;
+                composante3[yuv.getV()]++;
+            }
         }
 
     }
