@@ -3,6 +3,7 @@
 #include <QImage>
 #include <iostream>
 #include <string>
+#include <yuv.h>
 
 class Histo
 {

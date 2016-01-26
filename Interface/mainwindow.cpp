@@ -175,6 +175,7 @@ void MainWindow::slotOuvrirImage()
         SousFenetre *sousFenetre= new SousFenetre;
         connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+        connect(sousFenetre,SIGNAL(signalAfficherHistogramme(QImage*)),this,SLOT(slotAfficherHistogramme(QImage*)));
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
         sousFenetre->chargerImage();
@@ -348,9 +349,9 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotAfficherHistogramme(QImage *image){
      Histo *histo=new Histo(*image);
-     QImage *histogrammeRouge=Fonctions::afficheHistogramme(*histo,1);
+     QImage *histogrammeRouge=Fonctions::afficheHistogramme(*histo,4);
      QImage *histogrammeVert=Fonctions::afficheHistogramme(*histo,2);
-     QImage *histogrammeBleu=Fonctions::afficheHistogramme(*histo,3);
+     QImage *histogrammeBleu=Fonctions::afficheHistogramme(*histo,1);
      histoRouge->setPixmap(QPixmap::fromImage(*histogrammeRouge));
      histoRouge->show();
      histoVert->setPixmap(QPixmap::fromImage(*histogrammeVert));
