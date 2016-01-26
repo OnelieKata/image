@@ -285,8 +285,15 @@ QImage* Fonctions::normalisation(QImage const& image,Histo histo)
     return im;
 }
 
-QImage* Fonctions::afficheHistogramme(Histo histo)
+QImage* Fonctions::afficheHistogramme(Histo histo,int ComposanteEnBinaire)
 {
+    int valeur(ComposanteEnBinaire);
+    if(ComposanteEnBinaire <0 || ComposanteEnBinaire>7){
+        valeur=7;
+    }
+    bool composante1= (valeur/4)%2==1;;;
+    bool composante2= (valeur/2)%2==1;;
+    bool composante3= (valeur%2)==1;
     int largeur(256);
     int hauteur(200);
     int max=histo.getMaxValeur();
@@ -300,66 +307,30 @@ QImage* Fonctions::afficheHistogramme(Histo histo)
             image->setPixel(x,y,qRgb(0,0,0));
         }
     }
+    if(valeur!=0){
 
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
+        for(int x=0;x<largeur;x++)
         {
-            num=(histo.getComposante(x,1)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-            }
 
-            num=(histo.getComposante(x,2) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-            }
-            num=(histo.getComposante(x,3) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-            }
-
-        }
-    }
-    return image;
-}
-
-QImage* Fonctions::afficheHistogramme(Histo histo,int numComposante)
-{
-    int largeur(256);
-    int hauteur(200);
-    int max=histo.getMaxValeur();
-    int num(0);
-    QImage* image=new QImage(largeur,hauteur,QImage::Format_RGB32);
-    //remplissage de noir
-    for(int x=0;x<largeur;x++)
-    {
-        for(int y=0;y<hauteur;y++)
-        {
-            image->setPixel(x,y,qRgb(0,0,0));
-        }
-    }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
-        {
-            num=(histo.getComposante(x,numComposante)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                switch (numComposante){
-                    case 1:
+            for(int y=0;y<hauteur;y++)
+            {
+                if(composante1){
+                    num=(histo.getComposante(x,1)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 2:
+                    }
+                }
+                if(composante2){
+                    num=(histo.getComposante(x,2)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 3:
+                    }
+                }
+                if(composante3){
+                    num=(histo.getComposante(x,3)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-                        break;
-                    default : break;
-
+                    }
                 }
             }
         }
@@ -367,8 +338,18 @@ QImage* Fonctions::afficheHistogramme(Histo histo,int numComposante)
     return image;
 }
 
-QImage* Fonctions::afficheHistogrammeCumulee(Histo histo)
+
+
+QImage* Fonctions::afficheHistogrammeCumulee(Histo histo,int ComposanteEnBinaire)
 {
+    int valeur(ComposanteEnBinaire);
+    if(ComposanteEnBinaire <0 || ComposanteEnBinaire>7){
+        valeur=7;
+    }
+    bool composante1= (valeur/4)%2==1;;;
+    bool composante2= (valeur/2)%2==1;;
+    bool composante3= (valeur%2)==1;
+
     int largeur(256);
     int hauteur(200);
     int max=histo.getNbPixel();
@@ -382,66 +363,28 @@ QImage* Fonctions::afficheHistogrammeCumulee(Histo histo)
             image->setPixel(x,y,qRgb(0,0,0));
         }
     }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
+    if(valeur!=0){
+        for(int x=0;x<largeur;x++)
         {
-            num=(histo.getComposanteCumulee(x,1)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-            }
-
-            num=(histo.getComposanteCumulee(x,2) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-            }
-            num=(histo.getComposanteCumulee(x,3) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-            }
-
-        }
-    }
-    return image;
-}
-
-QImage* Fonctions::afficheHistogrammeCumulee(Histo histo,int numComposanteCumulee)
-{
-    int largeur(256);
-    int hauteur(200);
-    int max=histo.getNbPixel();
-    int num(0);
-    QImage* image=new QImage(largeur,hauteur,QImage::Format_RGB32);
-    //remplissage de noir
-    for(int x=0;x<largeur;x++)
-    {
-        for(int y=0;y<hauteur;y++)
-        {
-            image->setPixel(x,y,qRgb(0,0,0));
-        }
-    }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
-        {
-            num=(histo.getComposanteCumulee(x,numComposanteCumulee)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                switch (numComposanteCumulee){
-                    case 1:
+            for(int y=0;y<hauteur;y++)
+            {
+                if(composante1){
+                    num=(histo.getComposanteCumulee(x,1)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 2:
+                    }
+                }
+                if(composante2){
+                    num=(histo.getComposanteCumulee(x,2)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 3:
+                    }
+                }
+                if(composante3){
+                    num=(histo.getComposanteCumulee(x,3)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-                        break;
-                    default : break;
-
+                    }
                 }
             }
         }
