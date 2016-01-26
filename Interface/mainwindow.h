@@ -14,6 +14,7 @@
 #include <label.h>
 #include <dialogfiltre.h>
 #include <dialogredimension.h>
+#include <creationfiltre.h>
 
 namespace Ui{
     class QMainWindow;
@@ -116,9 +117,13 @@ class MainWindow  : public QMainWindow
         void slotEgaliser();
         void slotGradient();
         void slotApplicationSeamCarving();
+        void slotCreationFiltre();
+        void slotApplicationCreationFiltre(float* tab);
+
         void slotAfficherRGB(int rouge,int vert,int bleu);
         void slotAfficherYUV(QRgb point);
         void slotAfficherHistogramme(QImage *image);
+
 };
 
 #endif // MAINWINDOW_H

@@ -1,7 +1,6 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 #include <QtWidgets>
-#include <iostream>
 
 class DialogFiltre: public QDialog
 {

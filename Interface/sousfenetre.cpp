@@ -8,8 +8,8 @@ SousFenetre::SousFenetre()
     scrollArea=new QScrollArea;
 }
 
-std::vector<QImage*>* SousFenetre::getlisteImage(){
-    return listeImage;
+QImage* SousFenetre::getImage(){
+    return listeImage->at(indiceImageActive);
 }
 
 Label* SousFenetre::getLabel(){
@@ -38,8 +38,11 @@ QImage* SousFenetre::imageActive(){
 
 void SousFenetre::chargerImage(){
     QImage* image = imageActive();
-    myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
-   // this->resize(300,300);
+
+    myLabel->setPixmap(QPixmap::fromImage(*image));
+    //this->resize(image->width()+1,image->height());
+    this->setWidget(myLabel);
+    // this->resize(300,300);
     scrollArea->setWidget(myLabel);
     this->setWidget(scrollArea);
     emit signalAfficherHistogramme(image);
@@ -65,3 +68,4 @@ void SousFenetre::retablirAction(){
         QMessageBox::critical(this,"pb","pb");
     }
 }
+

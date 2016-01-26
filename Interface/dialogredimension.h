@@ -1,11 +1,11 @@
 #ifndef DIALOGREDIMENSION_H
 #define DIALOGREDIMENSION_H
 #include <QtWidgets>
-class dialogredimension: public QDialog
+class DialogRedimension: public QDialog
 {
     Q_OBJECT
 public:
-    dialogredimension();
+    DialogRedimension();
 
 public slots :
     void dialogFinish(int exec);

@@ -1,6 +1,6 @@
 #include "dialogredimension.h"
 
-dialogredimension::dialogredimension(){
+DialogRedimension::DialogRedimension(){
     largeur = new QSpinBox(this);
     hauteur = new QSpinBox(this);
     largeur->setMinimum(0);
@@ -28,7 +28,7 @@ dialogredimension::dialogredimension(){
     connect(this,SIGNAL(finished(int)),this,SLOT(dialogFinish(int)));
 }
 
-void dialogredimension::dialogFinish(int exec){
+void DialogRedimension::dialogFinish(int exec){
     if(exec==QDialog::Accepted){
         int l = largeur->value();
         int h = hauteur->value();

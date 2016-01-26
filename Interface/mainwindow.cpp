@@ -30,6 +30,13 @@ MainWindow::MainWindow()
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
+    QPushButton *bouton = new QPushButton("Niveau de gris");
+    QPushButton *bouton2 = new QPushButton("Crop");
+    QPushButton *bouton3 = new QPushButton("Filtres");
+    QPushButton *bouton4 = new QPushButton("Redimensionnement");
+    QPushButton *bouton5 = new QPushButton("Seam Carving");
+    QPushButton *bouton6 = new QPushButton("Création de filtre");
+
     bouton = new QPushButton("Niveau de gris");
     bouton2 = new QPushButton("Crop");
     bouton3 = new QPushButton("Filtres");
@@ -49,11 +56,14 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(bouton3);
     dockLeftLayout->addWidget(bouton4);
     dockLeftLayout->addWidget(bouton5);
+    dockLeftLayout->addWidget(bouton6);
+
     dockLeftLayout->addWidget(boutonNegatif);
     dockLeftLayout->addWidget(boutonFusion);
     dockLeftLayout->addWidget(boutonNormaliser);
     dockLeftLayout->addWidget(boutonEgaliser);
     dockLeftLayout->addWidget(boutonGradient);
+
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
@@ -61,6 +71,10 @@ MainWindow::MainWindow()
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+
+    connect(bouton6,SIGNAL(clicked()),this,SLOT(slotCreationFiltre()));
+
+
     connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
     connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
     connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
@@ -132,6 +146,7 @@ MainWindow::MainWindow()
     dockRight2Layout->addWidget(histoV);
 
     contenuYUV->setLayout(dockRight2Layout);
+
 
 
 
@@ -289,7 +304,7 @@ QImage* MainWindow::imageActive(){
             break;
         }
     }
-    return sfActive->getlisteImage()->back();
+    return sfActive->getImage();
 }
 
 SousFenetre* MainWindow::sousFenetreActive(){
@@ -328,10 +343,16 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::niveauDeGris(*imageActive());
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         image = Fonctions::niveauDeGris(*image);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
+
  }
 
  void MainWindow::slotFiltres(){
@@ -342,48 +363,64 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationFiltre(int type, int deg){
      SousFenetre* sfActive=sousFenetreActive();
-     Filtre filtre(deg,type);
-     QImage *image = Fonctions::convolution(*sfActive->imageActive(),filtre);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         Filtre filtre(deg,type);
+         image = Fonctions::convolution(*image,filtre);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
  }
 
  void MainWindow::slotCrop(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::decoupage(*sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
-     SousFenetre *sousFenetre= new SousFenetre;
-     connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
-     connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
-     connect(sousFenetre->getLabel(),SIGNAL(signalAfficherYUV(QRgb)),this,SLOT(slotAfficherYUV(QRgb)));
-     listeSousFenetre->push_back(sousFenetre);
-     sousFenetre->ajouterImage(image);
-     sousFenetre->chargerImage();
-     sfActive->getLabel()->getRubberBand()->hide();
-
-
-     zoneCentrale->addSubWindow(sousFenetre);
-
-     sousFenetre->show();
+     QImage *image = imageActive();
+     if(!image->isNull()){
+         QPoint origin = sfActive->getLabel()->getOrigin();
+         QPoint ext = sfActive->getLabel()->getPoint();
+         if(!(origin.isNull()||ext.isNull())){
+             image = Fonctions::decoupage(*image,origin,ext);
+             SousFenetre *sousFenetre= new SousFenetre;
+             connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+             listeSousFenetre->push_back(sousFenetre);
+             sousFenetre->ajouterImage(image);
+             sousFenetre->chargerImage();
+             sfActive->getLabel()->getRubberBand()->hide();
+             zoneCentrale->addSubWindow(sousFenetre);
+             sousFenetre->show();
+        }else{
+             QMessageBox::critical(this,"erreur","Veuillez sélectionner un rectangle dans l'image.");
+         }
+     }else{
+          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+     }
  }
 
  void MainWindow::slotRedimension(){
-     dialogredimension* d = new dialogredimension();
+     DialogRedimension* d = new DialogRedimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationRedimension(int,int)));
      d->exec();
  }
 
  void MainWindow::slotApplicationRedimension(int l, int h){
     SousFenetre* sfActive=sousFenetreActive();
-    QImage *image=Fonctions::redimensionner2(*sfActive->imageActive(),l,h);
-    sfActive->resize(l,h);
-    sfActive->ajouterImage(image);
-    sfActive->chargerImage();
-    sfActive->show();
+    QImage* image = imageActive();
+    if(!image->isNull()){
+        image=Fonctions::redimensionner2(*image,l,h);
+        sfActive->resize(l,h);
+        sfActive->ajouterImage(image);
+        sfActive->chargerImage();
+        sfActive->show();
+    }else{
+         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+    }
  }
 
  void MainWindow::slotSeamCarving(){
-     dialogredimension* d = new dialogredimension();
+     DialogRedimension* d = new DialogRedimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationSeamCarving(int,int)));
      d->exec();
  }
@@ -442,6 +479,16 @@ void MainWindow::slotRetablir(){
      sfActive->show();
  }
 
+
+ void MainWindow::slotCreationFiltre(){
+     CreationFiltre* d = new CreationFiltre;
+     connect(d,SIGNAL(signalCreationFiltre(float*)),this,SLOT(slotApplicationCreationFiltre(float*)));
+     d->exec();
+ }
+
+ void MainWindow::slotApplicationCreationFiltre(float* tab){
+     QMessageBox::information(this,"info","ça marche!! :)");
+}
  void MainWindow::slotAfficherRGB(int rouge,int vert,int bleu){
      valeurRouge->setText(QString::number(rouge));
      valeurVert->setText(QString::number(vert));
@@ -476,4 +523,5 @@ void MainWindow::slotRetablir(){
      histoU->show();
      histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
      histoV->show();
+
  }

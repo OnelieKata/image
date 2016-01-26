@@ -12,7 +12,10 @@ SOURCES += \
     sousfenetre.cpp \
     dialogfiltre.cpp \
     dialogredimension.cpp \
+    creationfiltre.cpp
+
     yuv.cpp
+
 
 HEADERS += \
     mainwindow.h \
@@ -24,4 +27,7 @@ HEADERS += \
     sousfenetre.h \
     dialogfiltre.h \
     dialogredimension.h \
+
+    creationfiltre.h
+
     yuv.h
