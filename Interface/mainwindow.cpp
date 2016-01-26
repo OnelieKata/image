@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 MainWindow::MainWindow()
 {
@@ -31,6 +35,12 @@ MainWindow::MainWindow()
     bouton3 = new QPushButton("Filtres");
     bouton4 = new QPushButton("Redimensionnement");
     bouton5 = new QPushButton("Seam Carving");
+    boutonNegatif = new QPushButton("Negatif");
+    boutonFusion = new QPushButton("Fusion");
+    boutonNormaliser = new QPushButton("Normaliser");
+    boutonEgaliser = new QPushButton("Egaliser");
+    boutonGradient = new QPushButton("Gradient");
+
 
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
@@ -39,6 +49,11 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(bouton3);
     dockLeftLayout->addWidget(bouton4);
     dockLeftLayout->addWidget(bouton5);
+    dockLeftLayout->addWidget(boutonNegatif);
+    dockLeftLayout->addWidget(boutonFusion);
+    dockLeftLayout->addWidget(boutonNormaliser);
+    dockLeftLayout->addWidget(boutonEgaliser);
+    dockLeftLayout->addWidget(boutonGradient);
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
@@ -46,6 +61,11 @@ MainWindow::MainWindow()
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+    connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
+    connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
+    connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
+    connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
+    connect(boutonGradient,SIGNAL(clicked()),this,SLOT(slotGradient()));
 
     QVBoxLayout *dockRightLayout=new QVBoxLayout;
     QWidget *contenuRGB = new QWidget;
@@ -308,7 +328,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::niveauDeGris(*sfActive->imageActive());
+     QImage *image = Fonctions::niveauDeGris(*imageActive());
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
@@ -366,6 +386,51 @@ void MainWindow::slotRetablir(){
      dialogredimension* d = new dialogredimension();
      connect(d,SIGNAL(signalApplicationRedimension(int,int)),this,SLOT(slotApplicationSeamCarving(int,int)));
      d->exec();
+ }
+
+ void MainWindow::slotNegatif(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::negative(*sfActive->imageActive());
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotFusion(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+         QPixmap pixmapSrc(fichier);
+         QImage image1= pixmapSrc.toImage();
+     QImage *image = Fonctions::fusionBasic(*sfActive->imageActive(),image1);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotNormaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::normalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotEgaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::egalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotGradient(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::gradient(*sfActive->imageActive());
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
  }
 
  void MainWindow::slotApplicationSeamCarving(){
