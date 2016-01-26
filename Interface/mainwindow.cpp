@@ -13,6 +13,7 @@ MainWindow::MainWindow()
 
     zoneCentrale= new QMdiArea;
     setCentralWidget(zoneCentrale);
+    connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
 
     dockLeft= new QDockWidget("Palette d'outils",this);
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
@@ -472,7 +473,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationSeamCarving(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image=Fonctions::seamCarvingH(*sfActive->imageActive());
+     QImage *image=Fonctions::seamCarvingV(*sfActive->imageActive());
      //sfActive->resize(l,h);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
@@ -523,5 +524,8 @@ void MainWindow::slotRetablir(){
      histoU->show();
      histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
      histoV->show();
+ }
 
+ void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
+     slotAfficherHistogramme(imageActive());
  }

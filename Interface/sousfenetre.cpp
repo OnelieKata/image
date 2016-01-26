@@ -37,16 +37,15 @@ QImage* SousFenetre::imageActive(){
 }
 
 void SousFenetre::chargerImage(){
- /*   QImage* image = imageActive();
 
+ /*   QImage* image = imageActive();
+    /*QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*image));
-    this->resize(image->width()+1,image->height());
+    //this->resize(image->width()+1,image->height());
     this->setWidget(myLabel);
     // this->resize(300,300);
-    //scrollArea->setWidget(myLabel);
-    this->setWidget(scrollArea);
-
-    */
+    scrollArea->setWidget(myLabel);
+    this->setWidget(scrollArea);*/
     QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
     this->resize(image->width()+1,image->height());
