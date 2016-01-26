@@ -13,7 +13,7 @@ MainWindow::MainWindow()
 
     zoneCentrale= new QMdiArea;
     setCentralWidget(zoneCentrale);
-    //connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
+    connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
 
     dockLeft= new QDockWidget("Palette d'outils",this);
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
@@ -297,7 +297,7 @@ QImage* MainWindow::imageActive(){
     QImage *img=new QImage ;
     SousFenetre* sfActive = new SousFenetre;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
-    if(swActive==NULL){
+    if(swActive==0){
         return img;
     }
     for(int i=0;i<listeSousFenetre->size();i++){
@@ -417,7 +417,9 @@ void MainWindow::slotRetablir(){
         sfActive->chargerImage();
         sfActive->show();
     }else{
-         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte!");
+
     }
  }
 
@@ -454,6 +456,7 @@ void MainWindow::slotRetablir(){
      }else{
          QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
      }
+
 
  }
 
@@ -520,7 +523,17 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotApplicationCreationFiltre(float* tab){
-     QMessageBox::information(this,"info","ça marche!! :)");
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         Filtre filtre(1,tab);
+         image = Fonctions::convolution(*image,filtre);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+          QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte!");
+     }
 }
  void MainWindow::slotAfficherRGB(int rouge,int vert,int bleu){
      valeurRouge->setText(QString::number(rouge));
@@ -557,8 +570,8 @@ void MainWindow::slotRetablir(){
      histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
      histoV->show();
  }
-/*
+
  void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
      slotAfficherHistogramme(imageActive());
  }
-*/
+

@@ -1,6 +1,7 @@
 #ifndef CREATIONFILTRE_H
 #define CREATIONFILTRE_H
 #include <QtWidgets>
+#include <iostream>
 
 class CreationFiltre : public QDialog
 {
