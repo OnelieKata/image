@@ -13,7 +13,7 @@ MainWindow::MainWindow()
 
     zoneCentrale= new QMdiArea;
     setCentralWidget(zoneCentrale);
-    connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
+    //connect(zoneCentrale,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(slotApplicationHistogramme(QMdiSubWindow*)));
 
     dockLeft= new QDockWidget("Palette d'outils",this);
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
@@ -326,7 +326,7 @@ SousFenetre* MainWindow::sousFenetreActive(){
     if(!image->isNull()){
         image->save(fichier);
     }else{
-        QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+        QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
     }
 }
 
@@ -351,7 +351,7 @@ void MainWindow::slotRetablir(){
          sfActive->chargerImage();
          sfActive->show();
      }else{
-         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
      }
 
  }
@@ -372,7 +372,7 @@ void MainWindow::slotRetablir(){
          sfActive->chargerImage();
          sfActive->show();
      }else{
-          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+          QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
      }
  }
 
@@ -393,10 +393,10 @@ void MainWindow::slotRetablir(){
              zoneCentrale->addSubWindow(sousFenetre);
              sousFenetre->show();
         }else{
-             QMessageBox::critical(this,"erreur","Veuillez sélectionner un rectangle dans l'image.");
+             QMessageBox::critical(this,"Erreur","Veuillez sélectionner un rectangle dans l'image.");
          }
      }else{
-          QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+          QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
      }
  }
 
@@ -416,7 +416,7 @@ void MainWindow::slotRetablir(){
         sfActive->chargerImage();
         sfActive->show();
     }else{
-         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
     }
  }
 
@@ -428,56 +428,87 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNegatif(){
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::negative(*sfActive->imageActive());
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage *image = imageActive();
+     if(!image->isNull()){
+         image = Fonctions::negative(*imageActive());
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
  }
 
  void MainWindow::slotFusion(){
      SousFenetre* sfActive=sousFenetreActive();
-     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+     QImage *image =imageActive();
+     if(!image->isNull()){
+         QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
          QPixmap pixmapSrc(fichier);
          QImage image1= pixmapSrc.toImage();
-     QImage *image = Fonctions::fusionBasic(*sfActive->imageActive(),image1);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+         image = Fonctions::fusionBasic(*imageActive(),image1);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
+
  }
 
  void MainWindow::slotNormaliser(){
-     SousFenetre* sfActive=sousFenetreActive();
-     Histo hist= Histo(*sfActive->imageActive());
-     QImage *image = Fonctions::normalisation(*sfActive->imageActive(),hist);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage *image = imageActive();
+     if(!image->isNull()){
+         SousFenetre* sfActive=sousFenetreActive();
+         Histo hist= Histo(*imageActive());
+         image = Fonctions::normalisation(*imageActive(),hist);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
  }
 
  void MainWindow::slotEgaliser(){
      SousFenetre* sfActive=sousFenetreActive();
-     Histo hist= Histo(*sfActive->imageActive());
-     QImage *image = Fonctions::egalisation(*sfActive->imageActive(),hist);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     QImage *image = imageActive();
+     if(!image->isNull()){
+         Histo hist= Histo(*imageActive());
+         image = Fonctions::egalisation(*imageActive(),hist);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
  }
 
  void MainWindow::slotGradient(){
+     QImage *image = imageActive();
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image = Fonctions::gradient(*sfActive->imageActive());
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     if(!image->isNull()){
+         image = Fonctions::gradient(*imageActive());
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
  }
 
  void MainWindow::slotApplicationSeamCarving(){
+     QImage *image = imageActive();
      SousFenetre* sfActive=sousFenetreActive();
-     QImage *image=Fonctions::seamCarvingV(*sfActive->imageActive());
-     //sfActive->resize(l,h);
-     sfActive->ajouterImage(image);
-     sfActive->chargerImage();
-     sfActive->show();
+     if(!image->isNull()){
+         image=Fonctions::seamCarvingV(*imageActive());
+         //sfActive->resize(l,h);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
  }
 
 
@@ -525,7 +556,8 @@ void MainWindow::slotRetablir(){
      histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
      histoV->show();
  }
-
+/*
  void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
      slotAfficherHistogramme(imageActive());
  }
+*/
