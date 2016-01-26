@@ -673,7 +673,7 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
         }
     }
 
-    return im;
+    return gradient;
 
 }
 
