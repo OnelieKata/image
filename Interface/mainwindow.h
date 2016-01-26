@@ -41,6 +41,10 @@ class MainWindow  : public QMainWindow
         QPushButton *bouton3;
         QPushButton *bouton4;
         QPushButton *bouton5;
+        QPushButton *boutonNegatif;
+        QPushButton *boutonFusion;
+        QPushButton *boutonNormaliser;
+        QPushButton *boutonEgaliser;
 
         QDockWidget *dockRight;
         QLabel *rouge;

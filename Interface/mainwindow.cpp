@@ -31,6 +31,11 @@ MainWindow::MainWindow()
     bouton3 = new QPushButton("Filtres");
     bouton4 = new QPushButton("Redimensionnement");
     bouton5 = new QPushButton("Seam Carving");
+    boutonNegatif = new QPushButton("Negatif");
+    boutonFusion = new QPushButton("Fusion");
+    boutonNormaliser = new QPushButton("Normaliser");
+    boutonEgaliser = new QPushButton("Egaliser");
+
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
@@ -38,6 +43,10 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(bouton3);
     dockLeftLayout->addWidget(bouton4);
     dockLeftLayout->addWidget(bouton5);
+    dockLeftLayout->addWidget(boutonNegatif);
+    dockLeftLayout->addWidget(boutonFusion);
+    dockLeftLayout->addWidget(boutonNormaliser);
+    dockLeftLayout->addWidget(boutonEgaliser);
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
