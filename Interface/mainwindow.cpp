@@ -389,11 +389,18 @@ void MainWindow::slotRetablir(){
      QImage *image = Fonctions::negative(*sfActive->imageActive());
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
-   //  sfActive->show();
+     sfActive->show();
  }
 
  void MainWindow::slotFusion(){
-
+     SousFenetre* sfActive=sousFenetreActive();
+     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+         QPixmap pixmapSrc(fichier);
+         QImage image1= pixmapSrc.toImage();
+     QImage *image = Fonctions::fusionBasic(*sfActive->imageActive(),image1);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
  }
 
  void MainWindow::slotNormaliser(){
