@@ -41,6 +41,7 @@ void SousFenetre::chargerImage(){
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
     this->resize(image->width()+1,image->height());
     this->setWidget(myLabel);
+    emit signalAfficherHistogramme(image);
 
 }
 

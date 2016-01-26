@@ -35,6 +35,7 @@ class SousFenetre : public QMdiSubWindow
 
     signals :
         void signalFermetureSousFenetre(SousFenetre *sousFenetre);
+        void signalAfficherHistogramme(QImage *image);
 
 };
 

@@ -14,23 +14,23 @@ MainWindow::MainWindow()
     addDockWidget(Qt::LeftDockWidgetArea,dockLeft);
     dockLeft->setMinimumWidth(200);
 
-    dockRight2= new QDockWidget("YUV",this);
-    addDockWidget(Qt::RightDockWidgetArea,dockRight2);
-    dockRight2->setMinimumWidth(200);
-
     dockRight= new QDockWidget("RGB",this);
     addDockWidget(Qt::RightDockWidgetArea,dockRight);
     dockRight->setMinimumWidth(200);
+
+    dockRight2= new QDockWidget("YUV",this);
+    addDockWidget(Qt::RightDockWidgetArea,dockRight2);
+    dockRight2->setMinimumWidth(200);
 
     tabifyDockWidget(dockRight2,dockRight);
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
-    QPushButton *bouton = new QPushButton("Niveau de gris");
-    QPushButton *bouton2 = new QPushButton("Crop");
-    QPushButton *bouton3 = new QPushButton("Filtres");
-    QPushButton *bouton4 = new QPushButton("Redimensionnement");
-    QPushButton *bouton5 = new QPushButton("Seam Carving");
+    bouton = new QPushButton("Niveau de gris");
+    bouton2 = new QPushButton("Crop");
+    bouton3 = new QPushButton("Filtres");
+    bouton4 = new QPushButton("Redimensionnement");
+    bouton5 = new QPushButton("Seam Carving");
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
@@ -46,22 +46,39 @@ MainWindow::MainWindow()
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
 
-
+    QVBoxLayout *dockRightLayout=new QVBoxLayout;
     QWidget *contenuRGB = new QWidget;
     dockRight->setWidget(contenuRGB);
     QGridLayout *dockRightGridLayout = new QGridLayout;
     QGridLayout *dockRight2GridLayout = new QGridLayout;
 
-    QPushButton *bouton6 = new QPushButton("Redimensionnement");
-    QPushButton *bouton7 = new QPushButton("Seam Carving");
-    QLineEdit *texte1=new QLineEdit;
-    texte1->setText("188");
-    texte1->setReadOnly(true);
-    dockRightGridLayout->addWidget(bouton6,0,0);
-    dockRightGridLayout->addWidget(bouton7,0,1);
-    dockRightGridLayout->addWidget(texte1,0,2);
+    rouge= new QLabel("Rouge :");
+    vert= new QLabel("Vert :");
+    bleu= new QLabel("Bleu :");
+    valeurRouge= new QLineEdit;
+    valeurVert= new QLineEdit;
+    valeurBleu= new QLineEdit;
+    valeurRouge->setReadOnly(true);
+    valeurVert->setReadOnly(true);
+    valeurBleu->setReadOnly(true);
+    histoRouge = new QLabel;
+    histoVert = new QLabel;
+    histoBleu = new QLabel;
 
-    contenuRGB->setLayout(dockRightGridLayout);
+    dockRightGridLayout->addWidget(rouge,0,0);
+    dockRightGridLayout->addWidget(vert,1,0);
+    dockRightGridLayout->addWidget(bleu,2,0);
+    dockRightGridLayout->addWidget(valeurRouge,0,1);
+    dockRightGridLayout->addWidget(valeurVert,1,1);
+    dockRightGridLayout->addWidget(valeurBleu,2,1);
+
+    dockRightLayout->addLayout(dockRightGridLayout);
+
+    dockRightLayout->addWidget(histoRouge);
+    dockRightLayout->addWidget(histoVert);
+    dockRightLayout->addWidget(histoBleu);
+
+    contenuRGB->setLayout(dockRightLayout);
 
 
     /*dockLeft->setLayout();
@@ -156,6 +173,7 @@ void MainWindow::slotOuvrirImage()
 
         myImage->load(fichier);
         SousFenetre *sousFenetre= new SousFenetre;
+        connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
@@ -280,6 +298,7 @@ void MainWindow::slotRetablir(){
      QImage *image = Fonctions::decoupage(*sfActive->imageActive(),sfActive->getLabel()->getOrigin(),sfActive->getLabel()->getPoint());
      SousFenetre *sousFenetre= new SousFenetre;
      connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+     connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
      listeSousFenetre->push_back(sousFenetre);
      sousFenetre->ajouterImage(image);
      sousFenetre->chargerImage();
@@ -319,4 +338,23 @@ void MainWindow::slotRetablir(){
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
      sfActive->show();
+ }
+
+ void MainWindow::slotAfficherRGB(int rouge,int vert,int bleu){
+     valeurRouge->setText(QString::number(rouge));
+     valeurVert->setText(QString::number(vert));
+     valeurBleu->setText(QString::number(bleu));
+ }
+
+ void MainWindow::slotAfficherHistogramme(QImage *image){
+     Histo *histo=new Histo(*image);
+     QImage *histogrammeRouge=Fonctions::afficheHistogramme(*histo,1);
+     QImage *histogrammeVert=Fonctions::afficheHistogramme(*histo,2);
+     QImage *histogrammeBleu=Fonctions::afficheHistogramme(*histo,3);
+     histoRouge->setPixmap(QPixmap::fromImage(*histogrammeRouge));
+     histoRouge->show();
+     histoVert->setPixmap(QPixmap::fromImage(*histogrammeVert));
+     histoVert->show();
+     histoBleu->setPixmap(QPixmap::fromImage(*histogrammeBleu));
+     histoBleu->show();
  }

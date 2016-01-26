@@ -34,9 +34,33 @@ class MainWindow  : public QMainWindow
         QList<SousFenetre*>* listeSousFenetre;
 
         QMdiArea *zoneCentrale;
+
         QDockWidget *dockLeft;
+        QPushButton *bouton;
+        QPushButton *bouton2;
+        QPushButton *bouton3;
+        QPushButton *bouton4;
+        QPushButton *bouton5;
+
         QDockWidget *dockRight;
+        QLabel *rouge;
+        QLabel *vert;
+        QLabel *bleu;
+        QLineEdit *valeurRouge;
+        QLineEdit *valeurVert;
+        QLineEdit *valeurBleu;
+        QLabel *histoRouge;
+        QLabel *histoVert;
+        QLabel *histoBleu;
+
         QDockWidget *dockRight2;
+        QLabel *y;
+        QLabel *u;
+        QLabel *v;
+        QLineEdit *valeurY;
+        QLineEdit *valeurU;
+        QLineEdit *valeurV;
+
    /***********************************/
         QMenu *menuFichier;
 
@@ -79,6 +103,8 @@ class MainWindow  : public QMainWindow
         void slotApplicationRedimension(int,int);
         void slotSeamCarving();
         void slotApplicationSeamCarving();
+        void slotAfficherRGB(int rouge,int vert,int bleu);
+        void slotAfficherHistogramme(QImage *image);
 };
 
 #endif // MAINWINDOW_H
