@@ -9,6 +9,7 @@
 #include <fonctions.h>
 #include <iostream>
 #include <QPixmap>
+#include <QColor>
 
 class Label : public QLabel
 {
@@ -22,6 +23,7 @@ class Label : public QLabel
 
     protected:
         void mousePressEvent(QMouseEvent *event);
+        void mouseDoubleClickEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mouseReleaseEvent(QMouseEvent *event);
         //void resizeEvent(QResizeEvent *event);
@@ -34,6 +36,8 @@ class Label : public QLabel
         QPoint point;
 
     signals:
+        void signalAfficherRGB(int rouge,int vert, int bleu);
+        void signalAfficherYUV(QRgb);
       //  void signalRedimensionnement(QImage *image);
 
 };

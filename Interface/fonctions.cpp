@@ -141,7 +141,6 @@ QImage* Fonctions::redimensionner2(QImage const& image, int largeur2,int hauteur
     {
         im->setPixel(largeur2-1,j,im->pixel(largeur2-2,j));
     }
-    std::cout<<"redimensionnement";
     return im;
 }
 
@@ -286,8 +285,15 @@ QImage* Fonctions::normalisation(QImage const& image,Histo histo)
     return im;
 }
 
-QImage* Fonctions::afficheHistogramme(Histo histo)
+QImage* Fonctions::afficheHistogramme(Histo histo,int ComposanteEnBinaire)
 {
+    int valeur(ComposanteEnBinaire);
+    if(ComposanteEnBinaire <0 || ComposanteEnBinaire>7){
+        valeur=7;
+    }
+    bool composante1= (valeur/4)%2==1;;;
+    bool composante2= (valeur/2)%2==1;;
+    bool composante3= (valeur%2)==1;
     int largeur(256);
     int hauteur(200);
     int max=histo.getMaxValeur();
@@ -301,66 +307,30 @@ QImage* Fonctions::afficheHistogramme(Histo histo)
             image->setPixel(x,y,qRgb(0,0,0));
         }
     }
+    if(valeur!=0){
 
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
+        for(int x=0;x<largeur;x++)
         {
-            num=(histo.getComposante(x,1)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-            }
 
-            num=(histo.getComposante(x,2) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-            }
-            num=(histo.getComposante(x,3) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-            }
-
-        }
-    }
-    return image;
-}
-
-QImage* Fonctions::afficheHistogramme(Histo histo,int numComposante)
-{
-    int largeur(256);
-    int hauteur(200);
-    int max=histo.getMaxValeur();
-    int num(0);
-    QImage* image=new QImage(largeur,hauteur,QImage::Format_RGB32);
-    //remplissage de noir
-    for(int x=0;x<largeur;x++)
-    {
-        for(int y=0;y<hauteur;y++)
-        {
-            image->setPixel(x,y,qRgb(0,0,0));
-        }
-    }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
-        {
-            num=(histo.getComposante(x,numComposante)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                switch (numComposante){
-                    case 1:
+            for(int y=0;y<hauteur;y++)
+            {
+                if(composante1){
+                    num=(histo.getComposante(x,1)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 2:
+                    }
+                }
+                if(composante2){
+                    num=(histo.getComposante(x,2)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 3:
+                    }
+                }
+                if(composante3){
+                    num=(histo.getComposante(x,3)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-                        break;
-                    default : break;
-
+                    }
                 }
             }
         }
@@ -368,8 +338,18 @@ QImage* Fonctions::afficheHistogramme(Histo histo,int numComposante)
     return image;
 }
 
-QImage* Fonctions::afficheHistogrammeCumulee(Histo histo)
+
+
+QImage* Fonctions::afficheHistogrammeCumulee(Histo histo,int ComposanteEnBinaire)
 {
+    int valeur(ComposanteEnBinaire);
+    if(ComposanteEnBinaire <0 || ComposanteEnBinaire>7){
+        valeur=7;
+    }
+    bool composante1= (valeur/4)%2==1;;;
+    bool composante2= (valeur/2)%2==1;;
+    bool composante3= (valeur%2)==1;
+
     int largeur(256);
     int hauteur(200);
     int max=histo.getNbPixel();
@@ -383,66 +363,28 @@ QImage* Fonctions::afficheHistogrammeCumulee(Histo histo)
             image->setPixel(x,y,qRgb(0,0,0));
         }
     }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
+    if(valeur!=0){
+        for(int x=0;x<largeur;x++)
         {
-            num=(histo.getComposanteCumulee(x,1)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-            }
-
-            num=(histo.getComposanteCumulee(x,2) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-            }
-            num=(histo.getComposanteCumulee(x,3) *hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-            }
-
-        }
-    }
-    return image;
-}
-
-QImage* Fonctions::afficheHistogrammeCumulee(Histo histo,int numComposanteCumulee)
-{
-    int largeur(256);
-    int hauteur(200);
-    int max=histo.getNbPixel();
-    int num(0);
-    QImage* image=new QImage(largeur,hauteur,QImage::Format_RGB32);
-    //remplissage de noir
-    for(int x=0;x<largeur;x++)
-    {
-        for(int y=0;y<hauteur;y++)
-        {
-            image->setPixel(x,y,qRgb(0,0,0));
-        }
-    }
-
-    for(int x=0;x<largeur;x++)
-    {
-
-        for(int y=0;y<hauteur;y++)
-        {
-            num=(histo.getComposanteCumulee(x,numComposanteCumulee)*hauteur) /max;
-            if(num>=(hauteur-1-y)){
-                switch (numComposanteCumulee){
-                    case 1:
+            for(int y=0;y<hauteur;y++)
+            {
+                if(composante1){
+                    num=(histo.getComposanteCumulee(x,1)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(255,qGreen(image->pixel(x,y)),qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 2:
+                    }
+                }
+                if(composante2){
+                    num=(histo.getComposanteCumulee(x,2)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),255,qBlue(image->pixel(x,y)) ));
-                        break;
-                    case 3:
+                    }
+                }
+                if(composante3){
+                    num=(histo.getComposanteCumulee(x,3)*hauteur) /max;
+                    if(num>=(hauteur-1-y)){
                         image->setPixel(x,y,qRgb(qRed(image->pixel(x,y)),qGreen(image->pixel(x,y)),255 ));
-                        break;
-                    default : break;
-
+                    }
                 }
             }
         }
@@ -602,38 +544,36 @@ QImage* Fonctions::seamCarvingV(QImage const& image)
 }
 
 
-
 QImage* Fonctions::seamCarvingH(QImage const& image)
 {
     int largeur = image.width();
     int hauteur = image.height();
     QImage* gradient=Fonctions::gradient(image);
-    QImage* im=new QImage(largeur,hauteur-1,image.format());
+    QImage* im=new QImage(largeur,(hauteur-1),image.format());
     int seamCarving[largeur][hauteur];
     for (int i = 0; i < hauteur; i++) {
         seamCarving[0][i] = gradient->pixel(0,i);
     }
 
-    for (int x = 0; x < largeur; x++) {
-        for (int y = 1; y < hauteur; y++) {
+    for (int x = 1; x < largeur; x++) {
+        for (int y = 0; y < hauteur; y++) {
             seamCarving[x][y] = gradient->pixel(x,y);
 
             if (y == 0) {
-                seamCarving[x][y] += min(seamCarving[x+1][y] , seamCarving[x+1][y-1]);
+                seamCarving[x][y] += min(seamCarving[x-1][y] , seamCarving[x-1][y+1]);
             } else if (y == hauteur-1) {
-                seamCarving[x][y] += min(seamCarving[x+1][y], seamCarving[x+1][y+1]);
+                seamCarving[x][y] += min(seamCarving[x-1][y], seamCarving[x-1][y-1]);
             } else {
-                seamCarving[x][y] += min(seamCarving[x+1][y-1],seamCarving[x+1][y],seamCarving[x+1][y+1]);
+                seamCarving[x][y] += min(seamCarving[x-1][y-1],seamCarving[x-1][y],seamCarving[x-1][y+1]);
             }
         }
     }
 
     //recuperation du min
-
     int cheminMin(seamCarving[largeur-1][0]);
     for (int i = 0; i < hauteur; i++) {
-        if(cheminMin>seamCarving[largeur-1][0]){
-            cheminMin=seamCarving[largeur-1][0];
+        if(cheminMin>seamCarving[largeur-1][i]){
+            cheminMin=seamCarving[largeur-1][i];
         }
     }
     //colorier en rouge le chemin
@@ -671,16 +611,14 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
                 im->setPixel(x,newY,image.pixel(x,y));
                 newY++;
             }
+            else{
+            }
         }
     }
 
     return im;
 
 }
-
-
-
-
 
 
 

@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 MainWindow::MainWindow()
 {
@@ -22,7 +26,7 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea,dockRight2);
     dockRight2->setMinimumWidth(200);
 
-    tabifyDockWidget(dockRight,dockRight2);
+    tabifyDockWidget(dockRight2,dockRight);
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
@@ -33,6 +37,19 @@ MainWindow::MainWindow()
     QPushButton *bouton5 = new QPushButton("Seam Carving");
     QPushButton *bouton6 = new QPushButton("Création de filtre");
 
+    bouton = new QPushButton("Niveau de gris");
+    bouton2 = new QPushButton("Crop");
+    bouton3 = new QPushButton("Filtres");
+    bouton4 = new QPushButton("Redimensionnement");
+    bouton5 = new QPushButton("Seam Carving");
+    boutonNegatif = new QPushButton("Negatif");
+    boutonFusion = new QPushButton("Fusion");
+    boutonNormaliser = new QPushButton("Normaliser");
+    boutonEgaliser = new QPushButton("Egaliser");
+    boutonGradient = new QPushButton("Gradient");
+
+
+
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
     dockLeftLayout->addWidget(bouton);
     dockLeftLayout->addWidget(bouton2);
@@ -40,6 +57,13 @@ MainWindow::MainWindow()
     dockLeftLayout->addWidget(bouton4);
     dockLeftLayout->addWidget(bouton5);
     dockLeftLayout->addWidget(bouton6);
+
+    dockLeftLayout->addWidget(boutonNegatif);
+    dockLeftLayout->addWidget(boutonFusion);
+    dockLeftLayout->addWidget(boutonNormaliser);
+    dockLeftLayout->addWidget(boutonEgaliser);
+    dockLeftLayout->addWidget(boutonGradient);
+
     contenuPalette->setLayout(dockLeftLayout);
 
     connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
@@ -47,7 +71,81 @@ MainWindow::MainWindow()
     connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
     connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
     connect(bouton5,SIGNAL(clicked()),this,SLOT(slotApplicationSeamCarving()));
+
     connect(bouton6,SIGNAL(clicked()),this,SLOT(slotCreationFiltre()));
+
+
+    connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
+    connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
+    connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
+    connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
+    connect(boutonGradient,SIGNAL(clicked()),this,SLOT(slotGradient()));
+
+    QVBoxLayout *dockRightLayout=new QVBoxLayout;
+    QWidget *contenuRGB = new QWidget;
+    dockRight->setWidget(contenuRGB);
+    QGridLayout *dockRightGridLayout = new QGridLayout;
+
+    rouge= new QLabel("Rouge :");
+    vert= new QLabel("Vert :");
+    bleu= new QLabel("Bleu :");
+    valeurRouge= new QLineEdit;
+    valeurVert= new QLineEdit;
+    valeurBleu= new QLineEdit;
+    valeurRouge->setReadOnly(true);
+    valeurVert->setReadOnly(true);
+    valeurBleu->setReadOnly(true);
+    histoRouge = new QLabel;
+    histoVert = new QLabel;
+    histoBleu = new QLabel;
+
+    dockRightGridLayout->addWidget(rouge,0,0);
+    dockRightGridLayout->addWidget(vert,1,0);
+    dockRightGridLayout->addWidget(bleu,2,0);
+    dockRightGridLayout->addWidget(valeurRouge,0,1);
+    dockRightGridLayout->addWidget(valeurVert,1,1);
+    dockRightGridLayout->addWidget(valeurBleu,2,1);
+
+    dockRightLayout->addLayout(dockRightGridLayout);
+
+    dockRightLayout->addWidget(histoRouge);
+    dockRightLayout->addWidget(histoVert);
+    dockRightLayout->addWidget(histoBleu);
+
+    contenuRGB->setLayout(dockRightLayout);
+
+    QVBoxLayout *dockRight2Layout=new QVBoxLayout;
+    QWidget *contenuYUV = new QWidget;
+    dockRight2->setWidget(contenuYUV);
+    QGridLayout *dockRight2GridLayout = new QGridLayout;
+
+    y= new QLabel("Y :");
+    u= new QLabel("U :");
+    v= new QLabel("V :");
+    valeurY= new QLineEdit;
+    valeurU= new QLineEdit;
+    valeurV= new QLineEdit;
+    valeurY->setReadOnly(true);
+    valeurU->setReadOnly(true);
+    valeurV->setReadOnly(true);
+    histoY = new QLabel;
+    histoU = new QLabel;
+    histoV = new QLabel;
+
+    dockRight2GridLayout->addWidget(y,0,0);
+    dockRight2GridLayout->addWidget(u,1,0);
+    dockRight2GridLayout->addWidget(v,2,0);
+    dockRight2GridLayout->addWidget(valeurY,0,1);
+    dockRight2GridLayout->addWidget(valeurU,1,1);
+    dockRight2GridLayout->addWidget(valeurV,2,1);
+
+    dockRight2Layout->addLayout(dockRight2GridLayout);
+
+    dockRight2Layout->addWidget(histoY);
+    dockRight2Layout->addWidget(histoU);
+    dockRight2Layout->addWidget(histoV);
+
+    contenuYUV->setLayout(dockRight2Layout);
 
 
 
@@ -144,7 +242,10 @@ void MainWindow::slotOuvrirImage()
 
         myImage->load(fichier);
         SousFenetre *sousFenetre= new SousFenetre;
+        connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
+        connect(sousFenetre->getLabel(),SIGNAL(signalAfficherYUV(QRgb)),this,SLOT(slotAfficherYUV(QRgb)));
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
+        connect(sousFenetre,SIGNAL(signalAfficherHistogramme(QImage*)),this,SLOT(slotAfficherHistogramme(QImage*)));
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
         sousFenetre->chargerImage();
@@ -324,6 +425,51 @@ void MainWindow::slotRetablir(){
      d->exec();
  }
 
+ void MainWindow::slotNegatif(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::negative(*sfActive->imageActive());
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotFusion(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+         QPixmap pixmapSrc(fichier);
+         QImage image1= pixmapSrc.toImage();
+     QImage *image = Fonctions::fusionBasic(*sfActive->imageActive(),image1);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotNormaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::normalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotEgaliser(){
+     SousFenetre* sfActive=sousFenetreActive();
+     Histo hist= Histo(*sfActive->imageActive());
+     QImage *image = Fonctions::egalisation(*sfActive->imageActive(),hist);
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
+ void MainWindow::slotGradient(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = Fonctions::gradient(*sfActive->imageActive());
+     sfActive->ajouterImage(image);
+     sfActive->chargerImage();
+     sfActive->show();
+ }
+
  void MainWindow::slotApplicationSeamCarving(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image=Fonctions::seamCarvingH(*sfActive->imageActive());
@@ -333,6 +479,7 @@ void MainWindow::slotRetablir(){
      sfActive->show();
  }
 
+
  void MainWindow::slotCreationFiltre(){
      CreationFiltre* d = new CreationFiltre;
      connect(d,SIGNAL(signalCreationFiltre(float*)),this,SLOT(slotApplicationCreationFiltre(float*)));
@@ -341,4 +488,40 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotApplicationCreationFiltre(float* tab){
      QMessageBox::information(this,"info","ça marche!! :)");
+}
+ void MainWindow::slotAfficherRGB(int rouge,int vert,int bleu){
+     valeurRouge->setText(QString::number(rouge));
+     valeurVert->setText(QString::number(vert));
+     valeurBleu->setText(QString::number(bleu));
+ }
+
+ void MainWindow::slotAfficherYUV(QRgb point){
+     Yuv pointYuv(point);
+     valeurY->setText(QString::number(pointYuv.getY()));
+     valeurU->setText(QString::number(pointYuv.getU()));
+     valeurV->setText(QString::number(pointYuv.getV()));
+ }
+
+ void MainWindow::slotAfficherHistogramme(QImage *image){
+     Histo *histo=new Histo(*image);
+     QImage *histogrammeRouge=Fonctions::afficheHistogramme(*histo,4);
+     QImage *histogrammeVert=Fonctions::afficheHistogramme(*histo,2);
+     QImage *histogrammeBleu=Fonctions::afficheHistogramme(*histo,1);
+     histoRouge->setPixmap(QPixmap::fromImage(*histogrammeRouge));
+     histoRouge->show();
+     histoVert->setPixmap(QPixmap::fromImage(*histogrammeVert));
+     histoVert->show();
+     histoBleu->setPixmap(QPixmap::fromImage(*histogrammeBleu));
+     histoBleu->show();
+     histo=new Histo(*image,false);
+     QImage *histogrammeY=Fonctions::afficheHistogramme(*histo,4);
+     QImage *histogrammeU=Fonctions::afficheHistogramme(*histo,2);
+     QImage *histogrammeV=Fonctions::afficheHistogramme(*histo,1);
+     histoY->setPixmap(QPixmap::fromImage(*histogrammeY));
+     histoY->show();
+     histoU->setPixmap(QPixmap::fromImage(*histogrammeU));
+     histoU->show();
+     histoV->setPixmap(QPixmap::fromImage(*histogrammeV));
+     histoV->show();
+
  }

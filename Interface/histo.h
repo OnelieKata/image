@@ -3,6 +3,7 @@
 #include <QImage>
 #include <iostream>
 #include <string>
+#include <yuv.h>
 
 class Histo
 {
@@ -10,7 +11,7 @@ class Histo
 
 public:
     Histo();
-    Histo(QImage const& image);
+    Histo(QImage const& image, bool estEnRVB=true);
     int getComposante(int indice,int numComposante = 1);
     int getComposanteCumulee(int indice,int numComposante = 1);
     int getMin(int num = 1);

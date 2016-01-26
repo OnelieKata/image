@@ -29,6 +29,14 @@ void Label::mousePressEvent(QMouseEvent *event){
     }
 }
 
+void Label::mouseDoubleClickEvent(QMouseEvent *event){
+    int valeurRouge= qRed(this->pixmap()->toImage().pixel(event->pos()));
+    int valeurVert= qGreen(this->pixmap()->toImage().pixel(event->pos()));
+    int valeurBleu= qBlue(this->pixmap()->toImage().pixel(event->pos()));
+    emit signalAfficherRGB(valeurRouge,valeurVert,valeurBleu);
+    emit signalAfficherYUV(this->pixmap()->toImage().pixel(event->pos()));
+}
+
 void Label::mouseMoveEvent(QMouseEvent *event){
     rubberBand->setGeometry(QRect(origin,event->pos()).normalized());
 }

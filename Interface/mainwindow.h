@@ -35,9 +35,41 @@ class MainWindow  : public QMainWindow
         QList<SousFenetre*>* listeSousFenetre;
 
         QMdiArea *zoneCentrale;
+
         QDockWidget *dockLeft;
+        QPushButton *bouton;
+        QPushButton *bouton2;
+        QPushButton *bouton3;
+        QPushButton *bouton4;
+        QPushButton *bouton5;
+        QPushButton *boutonNegatif;
+        QPushButton *boutonFusion;
+        QPushButton *boutonNormaliser;
+        QPushButton *boutonEgaliser;
+        QPushButton *boutonGradient;
+
         QDockWidget *dockRight;
+        QLabel *rouge;
+        QLabel *vert;
+        QLabel *bleu;
+        QLineEdit *valeurRouge;
+        QLineEdit *valeurVert;
+        QLineEdit *valeurBleu;
+        QLabel *histoRouge;
+        QLabel *histoVert;
+        QLabel *histoBleu;
+
         QDockWidget *dockRight2;
+        QLabel *y;
+        QLabel *u;
+        QLabel *v;
+        QLineEdit *valeurY;
+        QLineEdit *valeurU;
+        QLineEdit *valeurV;
+        QLabel *histoY;
+        QLabel *histoU;
+        QLabel *histoV;
+
    /***********************************/
         QMenu *menuFichier;
 
@@ -79,9 +111,19 @@ class MainWindow  : public QMainWindow
         void slotRedimension();
         void slotApplicationRedimension(int,int);
         void slotSeamCarving();
+        void slotNegatif();
+        void slotFusion();
+        void slotNormaliser();
+        void slotEgaliser();
+        void slotGradient();
         void slotApplicationSeamCarving();
         void slotCreationFiltre();
         void slotApplicationCreationFiltre(float* tab);
+
+        void slotAfficherRGB(int rouge,int vert,int bleu);
+        void slotAfficherYUV(QRgb point);
+        void slotAfficherHistogramme(QImage *image);
+
 };
 
 #endif // MAINWINDOW_H
