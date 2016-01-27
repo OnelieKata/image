@@ -620,8 +620,69 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
 
 }
 
+QImage* Fonctions::seamCarving(QImage const& image,int reducLargeur,int reducHauteur)
+{
+
+    if(reducLargeur>0){
+        QImage* im2 =Fonctions::seamCarvingV(image);
+        for(int i = 1;i<reducLargeur ; i++){
+           im2=Fonctions::seamCarvingV(*im2);
+        }
+        if(reducHauteur>0){
+            for(int i = 0;i<reducHauteur ; i++){
+               im2=Fonctions::seamCarvingH(*im2);
+            }
+        }
+        return im2;
+    }
+    else if(reducHauteur>0){
+        QImage* im2 =Fonctions::seamCarvingH(image);
+        for(int i = 0;i<reducHauteur ; i++){
+           im2=Fonctions::seamCarvingH(*im2);
+        }
+        return im2;
+    }
+    QImage* im2=new QImage(image.width(),image.height(),image.format());
+    return im2;
+
+}
 
 
+QImage* Fonctions::pivoterAGauche(QImage const& image)
+{
+    int largeur=image.height();
+    int hauteur=image.width();
+    QImage* im=NULL;
+    im=new QImage(largeur,hauteur,image.format());
+
+    for(int y=0;y<hauteur;y++)
+    {
+        for(int x=0;x<largeur;x++)
+        {
+            im->setPixel(x,y,image.pixel(hauteur-1-y,x) );
+        }
+
+    }
+    return im;
+}
+
+QImage* Fonctions::pivoterADroite(QImage const& image)
+{
+    int largeur=image.height();
+    int hauteur=image.width();
+    QImage* im=NULL;
+    im=new QImage(largeur,hauteur,image.format());
+
+    for(int y=0;y<hauteur;y++)
+    {
+        for(int x=0;x<largeur;x++)
+        {
+            im->setPixel(x,y,image.pixel(y,largeur-1-x) );
+        }
+
+    }
+    return im;
+}
 
 
 
