@@ -684,6 +684,23 @@ QImage* Fonctions::rotationDroite(QImage const& image)
     return im;
 }
 
+QImage* Fonctions::miroir(QImage const& image)
+{
+    int hauteur=image.height();
+    int largeur=image.width();
+    QImage* im=new QImage(largeur,hauteur,image.format());
+
+    for(int y=0;y<hauteur;y++)
+    {
+        for(int x=0;x<largeur;x++)
+        {
+            im->setPixel(x,y,image.pixel(largeur-1-x,hauteur-1-y) );
+        }
+
+    }
+    return im;
+}
+
 
 
 
