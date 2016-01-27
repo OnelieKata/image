@@ -263,6 +263,7 @@ void MainWindow::slotOuvrirImage()
 
         zoneCentrale->addSubWindow(sousFenetre);
         sousFenetre->show();
+
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
     }
 }
@@ -300,6 +301,7 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
+    delete sousFenetre;
 }
 
 
