@@ -38,16 +38,18 @@ class MainWindow  : public QMainWindow
         QMdiArea *zoneCentrale;
 
         QDockWidget *dockLeft;
-        QPushButton *bouton;
-        QPushButton *bouton2;
-        QPushButton *bouton3;
-        QPushButton *bouton4;
-        QPushButton *bouton5;
+        QPushButton *boutonNiveauDeGris;
+        QPushButton *boutonCrop;
+        QPushButton *boutonFiltres;
+        QPushButton *boutonRedimensionnement;
+        QPushButton *boutonSeamCarving;
+        QPushButton *boutonCreationFiltre;
         QPushButton *boutonNegatif;
         QPushButton *boutonFusion;
         QPushButton *boutonNormaliser;
         QPushButton *boutonEgaliser;
         QPushButton *boutonGradient;
+        QPushButton *boutonMiroir;
 
         QDockWidget *dockRight;
         QLabel *rouge;
@@ -129,6 +131,7 @@ class MainWindow  : public QMainWindow
         void slotApplicationHistogramme(QMdiSubWindow*);
         void slotRotationDroite();
         void slotRotationGauche();
+        void slotMiroir();
 
 };
 

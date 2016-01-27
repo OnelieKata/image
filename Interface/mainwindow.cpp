@@ -31,56 +31,47 @@ MainWindow::MainWindow()
 
     QWidget *contenuPalette=new QWidget;
     dockLeft->setWidget(contenuPalette);
-    QPushButton *bouton = new QPushButton("Niveau de gris");
-    QPushButton *bouton2 = new QPushButton("Crop");
-    QPushButton *bouton3 = new QPushButton("Filtres");
-    QPushButton *bouton4 = new QPushButton("Redimensionnement");
-    QPushButton *bouton5 = new QPushButton("Seam Carving");
-    QPushButton *bouton6 = new QPushButton("Création de filtre");
-
-    bouton = new QPushButton("Niveau de gris");
-    bouton2 = new QPushButton("Crop");
-    bouton3 = new QPushButton("Filtres");
-    bouton4 = new QPushButton("Redimensionnement");
-    bouton5 = new QPushButton("Seam Carving");
+    boutonCrop = new QPushButton("Crop");
+    boutonFiltres = new QPushButton("Filtres");
+    boutonCreationFiltre = new QPushButton("Création de filtre");
+    boutonRedimensionnement = new QPushButton("Redimensionnement");
+    boutonGradient = new QPushButton("Gradient");
+    boutonSeamCarving = new QPushButton("Seam Carving");
+    boutonNiveauDeGris = new QPushButton("Niveau de gris");
     boutonNegatif = new QPushButton("Negatif");
+    boutonMiroir = new QPushButton("Effet Mirroir");
     boutonFusion = new QPushButton("Fusion");
     boutonNormaliser = new QPushButton("Normaliser");
     boutonEgaliser = new QPushButton("Egaliser");
-    boutonGradient = new QPushButton("Gradient");
-
 
 
     QVBoxLayout *dockLeftLayout= new QVBoxLayout;
-    dockLeftLayout->addWidget(bouton);
-    dockLeftLayout->addWidget(bouton2);
-    dockLeftLayout->addWidget(bouton3);
-    dockLeftLayout->addWidget(bouton4);
-    dockLeftLayout->addWidget(bouton5);
-    dockLeftLayout->addWidget(bouton6);
-
+    dockLeftLayout->addWidget(boutonCrop);
+    dockLeftLayout->addWidget(boutonFiltres);
+    dockLeftLayout->addWidget(boutonCreationFiltre);
+    dockLeftLayout->addWidget(boutonRedimensionnement);
+    dockLeftLayout->addWidget(boutonGradient);
+    dockLeftLayout->addWidget(boutonSeamCarving);
+    dockLeftLayout->addWidget(boutonNiveauDeGris);
     dockLeftLayout->addWidget(boutonNegatif);
+    dockLeftLayout->addWidget(boutonMiroir);
     dockLeftLayout->addWidget(boutonFusion);
     dockLeftLayout->addWidget(boutonNormaliser);
     dockLeftLayout->addWidget(boutonEgaliser);
-    dockLeftLayout->addWidget(boutonGradient);
 
     contenuPalette->setLayout(dockLeftLayout);
 
-    connect(bouton,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
-    connect(bouton2,SIGNAL(clicked()),this,SLOT(slotCrop()));
-    connect(bouton3,SIGNAL(clicked()),this,SLOT(slotFiltres()));
-    connect(bouton4,SIGNAL(clicked()),this,SLOT(slotRedimension()));
-    connect(bouton5,SIGNAL(clicked()),this,SLOT(slotSeamCarving()));
-
-    connect(bouton6,SIGNAL(clicked()),this,SLOT(slotCreationFiltre()));
-
-
+    connect(boutonCrop,SIGNAL(clicked()),this,SLOT(slotCrop()));
+    connect(boutonFiltres,SIGNAL(clicked()),this,SLOT(slotFiltres()));
+    connect(boutonCreationFiltre,SIGNAL(clicked()),this,SLOT(slotCreationFiltre()));
+    connect(boutonRedimensionnement,SIGNAL(clicked()),this,SLOT(slotRedimension()));
+    connect(boutonGradient,SIGNAL(clicked()),this,SLOT(slotGradient()));
+    connect(boutonSeamCarving,SIGNAL(clicked()),this,SLOT(slotSeamCarving()));
+    connect(boutonNiveauDeGris,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
     connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
     connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
     connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
     connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
-    connect(boutonGradient,SIGNAL(clicked()),this,SLOT(slotGradient()));
 
     QVBoxLayout *dockRightLayout=new QVBoxLayout;
     QWidget *contenuRGB = new QWidget;
@@ -619,3 +610,15 @@ void MainWindow::slotRetablir(){
      }
  }
 
+ void MainWindow::slotMiroir(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = imageActive();
+     if(image!=NULL){
+         image = Fonctions::miroir(*imageActive());
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
+ }
