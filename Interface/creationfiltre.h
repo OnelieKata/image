@@ -16,14 +16,6 @@ signals :
     void signalCreationFiltre(float* tab);
 
 private:
-    QDoubleSpinBox *b1;
-    QDoubleSpinBox *b2;
-    QDoubleSpinBox *b3;
-    QDoubleSpinBox *b4;
-    QDoubleSpinBox *b5;
-    QDoubleSpinBox *b6;
-    QDoubleSpinBox *b7;
-    QDoubleSpinBox *b8;
-    QDoubleSpinBox *b9;
+    QList<QList<QDoubleSpinBox *> > monTableauStab;
 };
 #endif // CREATIONFILTRE_H
