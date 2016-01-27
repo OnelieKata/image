@@ -9,31 +9,21 @@ CreationFiltre::CreationFiltre()
     layout2->addWidget(bouton1);
     layout2->addWidget(bouton2);
 
-    QGridLayout *layout = new QGridLayout;
-    b1 = new QDoubleSpinBox(this);
-    b2 = new QDoubleSpinBox;
-    b3 = new QDoubleSpinBox;
-    b4 = new QDoubleSpinBox;
-    b5 = new QDoubleSpinBox;
-    b6 = new QDoubleSpinBox;
-    b7 = new QDoubleSpinBox;
-    b8 = new QDoubleSpinBox;
-    b9 = new QDoubleSpinBox;
-/*
-    QList<*QDoubleSpinBox> *matrice = new QList<*QDoubleSpinBox>;
-    for(int i=0;i<9;i++){
-        matrice->push_back(QDoubleSpinBox(this));
+    for(int i=0;i<3;i++){
+        monTableauStab << QList<QDoubleSpinBox *>();
+        for(int j=0;j<3;j++){
+          monTableauStab[i] << new QDoubleSpinBox(this);
+        }
     }
-*/
-    layout->addWidget(b1,0,0);
-    layout->addWidget(b2,0,1);
-    layout->addWidget(b3,0,2);
-    layout->addWidget(b4,1,0);
-    layout->addWidget(b5,1,1);
-    layout->addWidget(b6,1,2);
-    layout->addWidget(b7,2,0);
-    layout->addWidget(b8,2,1);
-    layout->addWidget(b9,2,2);
+
+    QGridLayout *layout = new QGridLayout;
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            layout->addWidget(monTableauStab[i][j],i,j);
+            monTableauStab[i][j]->setSingleStep(0.1);
+            monTableauStab[i][j]->setRange(std::numeric_limits<int>::min(),std::numeric_limits<int>::max());
+        }
+    }
 
 
 
@@ -51,16 +41,13 @@ void CreationFiltre::dialogFinish(int exec){
     if(exec==QDialog::Accepted){
 
         float* tab = new float[9];
-
-        tab[0] = (float)b1->value();
-        tab[1] = (float)b2->value();
-        tab[2] = (float)b3->value();
-        tab[3] = (float)b4->value();
-        tab[4] = (float)b5->value();
-        tab[5] = (float)b6->value();
-        tab[6] = (float)b7->value();
-        tab[7] = (float)b8->value();
-        tab[8] = (float)b9->value();
+        int h = 0;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                tab[h] = (float)(monTableauStab[i][j]->value());
+                h++;
+            }
+        }
         emit signalCreationFiltre(tab);
 
     }

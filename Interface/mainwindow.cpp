@@ -222,6 +222,7 @@ MainWindow::MainWindow()
     actionAfficherVoletInformationsYUV->setChecked(true);
     connect(actionAfficherVoletInformationsYUV, SIGNAL(triggered()),this,SLOT(slotAfficherVoletInformationsYUV()));
 
+
     /*******************************************************************************************************
     *******************************************************************************************************/
 
@@ -245,7 +246,6 @@ void MainWindow::slotOuvrirImage()
         SousFenetre *sousFenetre= new SousFenetre;
         connect(sousFenetre->getLabel(),SIGNAL(signalAfficherRGB(int,int,int)),this,SLOT(slotAfficherRGB(int,int,int)));
         connect(sousFenetre->getLabel(),SIGNAL(signalAfficherYUV(QRgb)),this,SLOT(slotAfficherYUV(QRgb)));
-        connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
         connect(sousFenetre,SIGNAL(signalAfficherHistogramme(QImage*)),this,SLOT(slotAfficherHistogramme(QImage*)));
         listeSousFenetre->push_back(sousFenetre);
         sousFenetre->ajouterImage(myImage);
@@ -253,6 +253,7 @@ void MainWindow::slotOuvrirImage()
 
         zoneCentrale->addSubWindow(sousFenetre);
         sousFenetre->show();
+        connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
     }
 }
 
@@ -289,8 +290,7 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
-    delete sousFenetre;
-    std::cout<<listeSousFenetre->size();
+    //delete sousFenetre;
 }
 
 
@@ -299,6 +299,7 @@ QImage* MainWindow::imageActive(){
     SousFenetre* sfActive = new SousFenetre;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
     if(swActive==0){
+        img = NULL;
         return img;
     }
     for(int i=0;i<listeSousFenetre->size();i++){
@@ -573,6 +574,6 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
-     slotAfficherHistogramme(imageActive());
+     //slotAfficherHistogramme(imageActive());
  }
 

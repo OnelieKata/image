@@ -17,11 +17,12 @@ Label* SousFenetre::getLabel(){
 }
 
 void SousFenetre::ajouterImage(QImage *image){
+
     if(indiceImageActive<listeImage->size()-1){
         for(int i=indiceImageActive;i<listeImage->size()-1;i++){
-            std::cout<<indiceImageActive<<" "<<listeImage->size();
             listeImage->pop_back();
         }
+        indiceImageActive = listeImage->size()-1;
     }
     listeImage->push_back(image);
     indiceImageActive++;
@@ -40,7 +41,7 @@ QImage* SousFenetre::imageActive(){
 void SousFenetre::chargerImage(){
 
     QImage* image = imageActive();
-    myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
+    myLabel->setPixmap(QPixmap::fromImage(*image));
     this->resize(image->width()+1,image->height());
     this->setWidget(myLabel);
     emit signalAfficherHistogramme(image);
