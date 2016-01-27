@@ -694,9 +694,8 @@ QImage* Fonctions::miroir(QImage const& image)
     {
         for(int x=0;x<largeur;x++)
         {
-            im->setPixel(x,y,image.pixel(largeur-1-x,y) );
+            im->setPixel(x,y,image.pixel(largeur-1-x,y));
         }
-
     }
     return im;
 }

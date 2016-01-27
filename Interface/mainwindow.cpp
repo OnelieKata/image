@@ -69,6 +69,7 @@ MainWindow::MainWindow()
     connect(boutonSeamCarving,SIGNAL(clicked()),this,SLOT(slotSeamCarving()));
     connect(boutonNiveauDeGris,SIGNAL(clicked()),this,SLOT(slotNiveauDeGris()));
     connect(boutonNegatif,SIGNAL(clicked()),this,SLOT(slotNegatif()));
+    connect(boutonMiroir,SIGNAL(clicked()),this,SLOT(slotMiroir()));
     connect(boutonFusion,SIGNAL(clicked()),this,SLOT(slotFusion()));
     connect(boutonNormaliser,SIGNAL(clicked()),this,SLOT(slotNormaliser()));
     connect(boutonEgaliser,SIGNAL(clicked()),this,SLOT(slotEgaliser()));
