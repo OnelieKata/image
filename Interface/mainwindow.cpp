@@ -199,6 +199,16 @@ MainWindow::MainWindow()
 
     menuAffichage =menuBar()->addMenu("&Affichage");
 
+    actionRotationDroite = new QAction("&Rotation à droite de 90°",this);
+    menuAffichage->addAction(actionRotationDroite);
+    actionRotationDroite->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Plus));
+    connect(actionRotationDroite, SIGNAL(triggered()),this,SLOT(slotRetablir()));
+
+    actionRotationGauche = new QAction("&Rotation à gauche de 90°",this);
+    menuAffichage->addAction(actionRotationGauche);
+    actionRotationGauche->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Minus));
+    connect(actionRotationGauche, SIGNAL(triggered()),this,SLOT(slotRetablir()));
+
     /*******************************************************************************************************
     *******************************************************************************************************/
 
@@ -289,7 +299,7 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
-   // delete sousFenetre;
+    //delete sousFenetre;
 }
 
 

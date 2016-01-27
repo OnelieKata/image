@@ -84,6 +84,9 @@ class MainWindow  : public QMainWindow
 
    /***********************************/
         QMenu *menuAffichage;
+
+        QAction *actionRotationDroite;
+        QAction *actionRotationGauche;
    /***********************************/
         QMenu *menuOutils;
 
