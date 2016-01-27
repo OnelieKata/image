@@ -36,6 +36,7 @@ static QImage* seamCarvingH(QImage const& image);
 static QImage* seamCarving(QImage const& image,int reducLargeur,int reducHauteur);
 static QImage* rotationGauche(QImage const& image);
 static QImage* rotationDroite(QImage const& image);
+static QImage* miroir(QImage const& image);
 
 };
 

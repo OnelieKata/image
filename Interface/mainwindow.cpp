@@ -262,6 +262,7 @@ void MainWindow::slotOuvrirImage()
         sousFenetre->chargerImage();
         zoneCentrale->addSubWindow(sousFenetre);
         sousFenetre->show();
+
         connect(sousFenetre,SIGNAL(signalFermetureSousFenetre(SousFenetre*)),this,SLOT(slotFermetureSousFenetre(SousFenetre*)));
     }
 }
