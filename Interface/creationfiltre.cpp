@@ -10,15 +10,15 @@ CreationFiltre::CreationFiltre()
     layout2->addWidget(bouton2);
 
     QGridLayout *layout = new QGridLayout;
-    QDoubleSpinBox *b1 = new QDoubleSpinBox;
-    QDoubleSpinBox *b2 = new QDoubleSpinBox;
-    QDoubleSpinBox *b3 = new QDoubleSpinBox;
-    QDoubleSpinBox *b4 = new QDoubleSpinBox;
-    QDoubleSpinBox *b5 = new QDoubleSpinBox;
-    QDoubleSpinBox *b6 = new QDoubleSpinBox;
-    QDoubleSpinBox *b7 = new QDoubleSpinBox;
-    QDoubleSpinBox *b8 = new QDoubleSpinBox;
-    QDoubleSpinBox *b9 = new QDoubleSpinBox;
+    b1 = new QDoubleSpinBox(this);
+    b2 = new QDoubleSpinBox;
+    b3 = new QDoubleSpinBox;
+    b4 = new QDoubleSpinBox;
+    b5 = new QDoubleSpinBox;
+    b6 = new QDoubleSpinBox;
+    b7 = new QDoubleSpinBox;
+    b8 = new QDoubleSpinBox;
+    b9 = new QDoubleSpinBox;
 /*
     QList<*QDoubleSpinBox> *matrice = new QList<*QDoubleSpinBox>;
     for(int i=0;i<9;i++){
@@ -50,20 +50,18 @@ CreationFiltre::CreationFiltre()
 void CreationFiltre::dialogFinish(int exec){
     if(exec==QDialog::Accepted){
 
-        double* tab = new double[9];
+        float* tab = new float[9];
 
-
-        double b = b1->value();
-        QMessageBox::information(this,"info","ça marche!! :)");
-
-        tab[1] = (float)(b2->value());
+        tab[0] = (float)b1->value();
+        tab[1] = (float)b2->value();
         tab[2] = (float)b3->value();
         tab[3] = (float)b4->value();
         tab[4] = (float)b5->value();
-        tab[5] = b6->value();
-        tab[6] = b7->value();
-        tab[7] = b8->value();
-        tab[8] = b9->value();
-        emit signalCreationFiltre((float*)tab);
+        tab[5] = (float)b6->value();
+        tab[6] = (float)b7->value();
+        tab[7] = (float)b8->value();
+        tab[8] = (float)b9->value();
+        emit signalCreationFiltre(tab);
+
     }
 }

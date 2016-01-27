@@ -296,7 +296,7 @@ QImage* MainWindow::imageActive(){
     QImage *img=new QImage ;
     SousFenetre* sfActive = new SousFenetre;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
-    if(swActive==NULL){
+    if(swActive==0){
         return img;
     }
     for(int i=0;i<listeSousFenetre->size();i++){
@@ -416,7 +416,7 @@ void MainWindow::slotRetablir(){
         sfActive->chargerImage();
         sfActive->show();
     }else{
-         QMessageBox::critical(this,"erreur","Il n'y a aucune image ouverte");
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte!");
     }
  }
 
@@ -437,8 +437,8 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotFusion(){
      SousFenetre* sfActive=sousFenetreActive();
      QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-         QPixmap pixmapSrc(fichier);
-         QImage image1= pixmapSrc.toImage();
+     QPixmap pixmapSrc(fichier);
+     QImage image1= pixmapSrc.toImage();
      QImage *image = Fonctions::fusionBasic(*sfActive->imageActive(),image1);
      sfActive->ajouterImage(image);
      sfActive->chargerImage();
@@ -488,7 +488,17 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotApplicationCreationFiltre(float* tab){
-     QMessageBox::information(this,"info","ça marche!! :)");
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage* image = imageActive();
+     if(!image->isNull()){
+         Filtre filtre(1,tab);
+         image = Fonctions::convolution(*image,filtre);
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+          QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte!");
+     }
 }
  void MainWindow::slotAfficherRGB(int rouge,int vert,int bleu){
      valeurRouge->setText(QString::number(rouge));
