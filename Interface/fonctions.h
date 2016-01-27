@@ -33,6 +33,8 @@ static QImage* gradientV(QImage const& image);
 static QImage* gradient(QImage const& image);
 static QImage* seamCarvingV(QImage const& image);
 static QImage* seamCarvingH(QImage const& image);
+static QImage* pivoterAGauche(QImage const& image);
+static QImage* pivoterADroite(QImage const& image);
 
 };
 

@@ -621,7 +621,41 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
 }
 
 
+QImage* Fonctions::pivoterAGauche(QImage const& image)
+{
+    int largeur=image.height();
+    int hauteur=image.width();
+    QImage* im=NULL;
+    im=new QImage(largeur,hauteur,image.format());
 
+    for(int y=0;y<hauteur;y++)
+    {
+        for(int x=0;x<largeur;x++)
+        {
+            im->setPixel(x,y,image.pixel(hauteur-1-y,x) );
+        }
+
+    }
+    return im;
+}
+
+QImage* Fonctions::pivoterADroite(QImage const& image)
+{
+    int largeur=image.height();
+    int hauteur=image.width();
+    QImage* im=NULL;
+    im=new QImage(largeur,hauteur,image.format());
+
+    for(int y=0;y<hauteur;y++)
+    {
+        for(int x=0;x<largeur;x++)
+        {
+            im->setPixel(x,y,image.pixel(y,largeur-1-x) );
+        }
+
+    }
+    return im;
+}
 
 
 
