@@ -13,7 +13,8 @@ SOURCES += \
     dialogfiltre.cpp \
     dialogredimension.cpp \
     creationfiltre.cpp \
-    yuv.cpp
+    yuv.cpp \
+    dialogseamcarving.cpp
 
     yuv.cpp
 
@@ -29,7 +30,8 @@ HEADERS += \
     dialogfiltre.h \
     dialogredimension.h \
     yuv.h \
-    creationfiltre.h
+    creationfiltre.h \
+    dialogseamcarving.h
 
     creationfiltre.h
 
