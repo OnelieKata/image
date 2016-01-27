@@ -5,7 +5,6 @@
 using namespace std;
 
 
-// creer un filtre moyenne de taille n
 void Filtre::filtre_moyenne()
 {
     int p=0;
@@ -17,7 +16,6 @@ void Filtre::filtre_moyenne()
     }
 }
 
-// creer un filtre chapeau de taille n
 void Filtre::filtre_chapeau()
 {
     int p=0;
@@ -29,7 +27,6 @@ void Filtre::filtre_chapeau()
     }
 }
 
-// creer un filtre gaussien de taille n
 void Filtre::filtre_gaussien()
 {
     int p=0;
@@ -49,13 +46,9 @@ void Filtre::filtre_gaussien()
     }
 }
 
-// creer un filtre sobel etape1 de taille 1
+
 void Filtre::filtre_sobel1()
 {
-/*    float tab[] =
-        {  1,0,-1,
-           2,0,-2,
-           1,0,-1};*/
 
     float tab[] =
         {  1./4.,0,-1./4.,
@@ -69,13 +62,9 @@ void Filtre::filtre_sobel1()
     }
 }
 
-// creer un filtre sobel etape2 de taille 1
 void Filtre::filtre_sobel2()
 {
-/*    float tab[] =
-        {  1,2,1,
-           0,0,0,
-           -1,-2,-1};*/
+
     float tab[] =
         {  1./4.,2./4.,1./4.,
            0,0,0,
@@ -179,7 +168,6 @@ void Filtre::filtre_prewitt2()
 
 
 
-// crée un filtre de taille 0
 Filtre::Filtre()
 {
     n = 0;
@@ -187,7 +175,6 @@ Filtre::Filtre()
     T[0] = 1.0;
 }
 
-// crée un filtre de taille n0 suivant le type t (par défaut Moyenne)
 Filtre::Filtre(int n0, int type_filtre)
 {
     if (n0<0) n0=-n0;
@@ -223,7 +210,6 @@ Filtre::Filtre(int n0,float const* tableau)
 }
 
 
-// constructeur par copie
 Filtre::Filtre(Filtre &K)
 {
     n = K.n;
@@ -233,7 +219,6 @@ Filtre::Filtre(Filtre &K)
         T[i] = K.T[i];
 }
 
-// affectation
 Filtre& Filtre::operator=(const Filtre &K)
 {
     if (this != &K)
@@ -248,26 +233,24 @@ Filtre& Filtre::operator=(const Filtre &K)
     return *this;
 }
 
-// destructeur
 Filtre::~Filtre()
 {
     delete[] T;
 }
 
-// acces à la valeur d'indice (i,j), -n <= i,j <= n
 float Filtre::operator()(int i, int j)
 {
     if (-i>n || -j>n || i>n || j>n) return 0.0;
     return T[(i+n)+(2*n+1)*(j+n)];
 }
 
-// renvoie la taille du filtre
+
 int Filtre::taille() { return n; }
 
-// renvoie la dimension du filtre
+
 int Filtre::dimension() { return 2*n+1; }
 
-// ecrire le filtre à l'ecran
+
 void Filtre::print()
 {
     int p=0;
@@ -282,7 +265,6 @@ void Filtre::print()
     }
 }
 
-// somme des éleménts du filtre
 float Filtre::somme()
 {
     int surface = (2*n+1)*(2*n+1);
