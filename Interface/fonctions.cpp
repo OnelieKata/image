@@ -620,6 +620,33 @@ QImage* Fonctions::seamCarvingH(QImage const& image)
 
 }
 
+QImage* Fonctions::seamCarving(QImage const& image,int reducLargeur,int reducHauteur)
+{
+
+    if(reducLargeur>0){
+        QImage* im2 =Fonctions::seamCarvingV(image);
+        for(int i = 1;i<reducLargeur ; i++){
+           im2=Fonctions::seamCarvingV(*im2);
+        }
+        if(reducHauteur>0){
+            for(int i = 0;i<reducHauteur ; i++){
+               im2=Fonctions::seamCarvingH(*im2);
+            }
+        }
+        return im2;
+    }
+    else if(reducHauteur>0){
+        QImage* im2 =Fonctions::seamCarvingH(image);
+        for(int i = 0;i<reducHauteur ; i++){
+           im2=Fonctions::seamCarvingH(*im2);
+        }
+        return im2;
+    }
+    QImage* im2=new QImage(image.width(),image.height(),image.format());
+    return im2;
+
+}
+
 
 QImage* Fonctions::pivoterAGauche(QImage const& image)
 {
