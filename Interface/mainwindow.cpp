@@ -289,13 +289,13 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
-    delete sousFenetre;
+   // delete sousFenetre;
 }
 
 
 QImage* MainWindow::imageActive(){
     QImage *img=new QImage ;
-    SousFenetre* sfActive = new SousFenetre;
+    SousFenetre* sfActive = NULL;
     QMdiSubWindow* swActive = zoneCentrale->currentSubWindow();
     if(swActive==0){
         return img;
@@ -305,6 +305,9 @@ QImage* MainWindow::imageActive(){
             sfActive = listeSousFenetre->at(i);
             break;
         }
+    }
+    if (sfActive==NULL){
+        return NULL;
     }
     return sfActive->getImage();
 }
@@ -324,7 +327,7 @@ SousFenetre* MainWindow::sousFenetreActive(){
  void MainWindow::slotEnregistrerSous(){
     QImage *image = imageActive();
     QString fichier = QFileDialog::getSaveFileName(this, "EnregistrerSous un fichier", QString("/home/tiretfa/Images/sans_titre.png"), "Images (*.png *.gif *.jpg *.jpeg)");
-    if(!image->isNull()){
+    if(image!=NULL){
         image->save(fichier);
     }else{
         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
@@ -346,7 +349,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotNiveauDeGris(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage* image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          image = Fonctions::niveauDeGris(*image);
          sfActive->ajouterImage(image);
          sfActive->chargerImage();
@@ -366,7 +369,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotApplicationFiltre(int type, int deg){
      SousFenetre* sfActive=sousFenetreActive();
      QImage* image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          Filtre filtre(deg,type);
          image = Fonctions::convolution(*image,filtre);
          sfActive->ajouterImage(image);
@@ -380,7 +383,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotCrop(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          QPoint origin = sfActive->getLabel()->getOrigin();
          QPoint ext = sfActive->getLabel()->getPoint();
          if(!(origin.isNull()||ext.isNull())){
@@ -410,7 +413,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotApplicationRedimension(int l, int h){
     SousFenetre* sfActive=sousFenetreActive();
     QImage* image = imageActive();
-    if(!image->isNull()){
+    if(image!=NULL){
         image=Fonctions::redimensionner2(*image,l,h);
         sfActive->resize(l,h);
         sfActive->ajouterImage(image);
@@ -432,7 +435,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotNegatif(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          image = Fonctions::negative(*imageActive());
          sfActive->ajouterImage(image);
          sfActive->chargerImage();
@@ -445,7 +448,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotFusion(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image =imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
          QPixmap pixmapSrc(fichier);
          QImage image1= pixmapSrc.toImage();
@@ -462,7 +465,7 @@ void MainWindow::slotRetablir(){
 
  void MainWindow::slotNormaliser(){
      QImage *image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          SousFenetre* sfActive=sousFenetreActive();
          Histo hist= Histo(*imageActive());
          image = Fonctions::normalisation(*imageActive(),hist);
@@ -477,7 +480,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotEgaliser(){
      SousFenetre* sfActive=sousFenetreActive();
      QImage *image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          Histo hist= Histo(*imageActive());
          image = Fonctions::egalisation(*imageActive(),hist);
          sfActive->ajouterImage(image);
@@ -491,7 +494,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotGradient(){
      QImage *image = imageActive();
      SousFenetre* sfActive=sousFenetreActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          image = Fonctions::gradient(*imageActive());
          sfActive->ajouterImage(image);
          sfActive->chargerImage();
@@ -504,7 +507,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotApplicationSeamCarving(){
      QImage *image = imageActive();
      SousFenetre* sfActive=sousFenetreActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          image=Fonctions::seamCarvingV(*imageActive());
          //sfActive->resize(l,h);
          sfActive->ajouterImage(image);
@@ -525,7 +528,7 @@ void MainWindow::slotRetablir(){
  void MainWindow::slotApplicationCreationFiltre(float* tab){
      SousFenetre* sfActive=sousFenetreActive();
      QImage* image = imageActive();
-     if(!image->isNull()){
+     if(image!=NULL){
          Filtre filtre(1,tab);
          image = Fonctions::convolution(*image,filtre);
          sfActive->ajouterImage(image);
@@ -572,6 +575,8 @@ void MainWindow::slotRetablir(){
  }
 
  void MainWindow::slotApplicationHistogramme(QMdiSubWindow *){
-     slotAfficherHistogramme(imageActive());
+     QImage *image=imageActive();
+     if(image!=NULL){
+        slotAfficherHistogramme(image);}
  }
 

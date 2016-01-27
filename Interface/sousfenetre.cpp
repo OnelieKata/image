@@ -9,7 +9,11 @@ SousFenetre::SousFenetre()
 }
 
 QImage* SousFenetre::getImage(){
-    return listeImage->at(indiceImageActive);
+    if(listeImage->size()>0){
+        return listeImage->at(indiceImageActive);
+    }else{
+        return NULL;
+    }
 }
 
 Label* SousFenetre::getLabel(){
@@ -22,6 +26,7 @@ void SousFenetre::ajouterImage(QImage *image){
             std::cout<<indiceImageActive<<" "<<listeImage->size();
             listeImage->pop_back();
         }
+        indiceImageActive = listeImage->size()-1;
     }
     listeImage->push_back(image);
     indiceImageActive++;
@@ -41,7 +46,10 @@ void SousFenetre::chargerImage(){
 
     QImage* image = imageActive();
     myLabel->setPixmap(QPixmap::fromImage(*listeImage->at(indiceImageActive)));
-    this->resize(image->width()+1,image->height());
+    //myLabel->setFixedSize(image->size());
+    myLabel->resize(image->width()+1,image->height());
+    //this->resize(image->width()+1,image->height());
+    this->setFixedSize(myLabel->size());
     this->setWidget(myLabel);
     emit signalAfficherHistogramme(image);
 }
