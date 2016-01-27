@@ -648,7 +648,7 @@ QImage* Fonctions::seamCarving(QImage const& image,int reducLargeur,int reducHau
 }
 
 
-QImage* Fonctions::pivoterAGauche(QImage const& image)
+QImage* Fonctions::rotationGauche(QImage const& image)
 {
     int largeur=image.height();
     int hauteur=image.width();
@@ -666,7 +666,7 @@ QImage* Fonctions::pivoterAGauche(QImage const& image)
     return im;
 }
 
-QImage* Fonctions::pivoterADroite(QImage const& image)
+QImage* Fonctions::rotationDroite(QImage const& image)
 {
     int largeur=image.height();
     int hauteur=image.width();

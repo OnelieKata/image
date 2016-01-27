@@ -34,8 +34,8 @@ static QImage* gradient(QImage const& image);
 static QImage* seamCarvingV(QImage const& image);
 static QImage* seamCarvingH(QImage const& image);
 static QImage* seamCarving(QImage const& image,int reducLargeur,int reducHauteur);
-static QImage* pivoterAGauche(QImage const& image);
-static QImage* pivoterADroite(QImage const& image);
+static QImage* rotationGauche(QImage const& image);
+static QImage* rotationDroite(QImage const& image);
 
 };
 
