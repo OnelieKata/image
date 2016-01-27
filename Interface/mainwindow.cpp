@@ -202,12 +202,12 @@ MainWindow::MainWindow()
     actionRotationDroite = new QAction("&Rotation à droite de 90°",this);
     menuAffichage->addAction(actionRotationDroite);
     actionRotationDroite->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Plus));
-    connect(actionRotationDroite, SIGNAL(triggered()),this,SLOT(slotRetablir()));
+    connect(actionRotationDroite, SIGNAL(triggered()),this,SLOT(slotRotationDroite()));
 
     actionRotationGauche = new QAction("&Rotation à gauche de 90°",this);
     menuAffichage->addAction(actionRotationGauche);
     actionRotationGauche->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Minus));
-    connect(actionRotationGauche, SIGNAL(triggered()),this,SLOT(slotRetablir()));
+    connect(actionRotationGauche, SIGNAL(triggered()),this,SLOT(slotRotationGauche()));
 
     /*******************************************************************************************************
     *******************************************************************************************************/
@@ -301,10 +301,6 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
     //delete sousFenetre;
-<<<<<<< HEAD
-=======
-
->>>>>>> 7fe5a5a3dabb92941327aa67164dad29e65a5450
 }
 
 
@@ -594,6 +590,32 @@ void MainWindow::slotRetablir(){
      QImage *image=imageActive();
      if(image!=NULL){
         slotAfficherHistogramme(image);
+     }
+ }
+
+ void MainWindow::slotRotationDroite(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = imageActive();
+     if(image!=NULL){
+         image = Fonctions::rotationDroite(*imageActive());
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
+     }
+ }
+
+ void MainWindow::slotRotationGauche(){
+     SousFenetre* sfActive=sousFenetreActive();
+     QImage *image = imageActive();
+     if(image!=NULL){
+         image = Fonctions::rotationGauche(*imageActive());
+         sfActive->ajouterImage(image);
+         sfActive->chargerImage();
+         sfActive->show();
+     }else{
+         QMessageBox::critical(this,"Erreur","Il n'y a aucune image ouverte !");
      }
  }
 

@@ -122,11 +122,12 @@ class MainWindow  : public QMainWindow
         void slotApplicationSeamCarving();
         void slotCreationFiltre();
         void slotApplicationCreationFiltre(float* tab);
-
         void slotAfficherRGB(int rouge,int vert,int bleu);
         void slotAfficherYUV(QRgb point);
         void slotAfficherHistogramme(QImage *image);
         void slotApplicationHistogramme(QMdiSubWindow*);
+        void slotRotationDroite();
+        void slotRotationGauche();
 
 };
 
