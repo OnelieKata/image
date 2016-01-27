@@ -9,7 +9,11 @@ SousFenetre::SousFenetre()
 }
 
 QImage* SousFenetre::getImage(){
-    return listeImage->at(indiceImageActive);
+    if(listeImage->size()>0){
+        return listeImage->at(indiceImageActive);
+    }else{
+        return NULL;
+    }
 }
 
 Label* SousFenetre::getLabel(){
