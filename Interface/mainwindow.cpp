@@ -301,10 +301,7 @@ void MainWindow::slotAfficherVoletInformationsYUV()
 void MainWindow::slotFermetureSousFenetre(SousFenetre *sousFenetre){
     listeSousFenetre->removeOne(sousFenetre);
     //delete sousFenetre;
-<<<<<<< HEAD
-=======
 
->>>>>>> 7fe5a5a3dabb92941327aa67164dad29e65a5450
 }
 
 
